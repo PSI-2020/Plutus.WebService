@@ -22,15 +22,9 @@ namespace Plutus.WebService.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Payment> GetExpenses()
+        public IEnumerable<Payment> Get()
         {
-            return fileManager.ReadPayments("Expense");
-        }
-
-        [HttpGet]
-        public IEnumerable<Payment> GetIncome()
-        {
-            return fileManager.ReadPayments("Income");
+            return payments();
         }
     }
 }
