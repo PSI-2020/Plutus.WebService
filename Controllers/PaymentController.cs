@@ -14,17 +14,11 @@ namespace Plutus.WebService.Controllers
     {
         readonly FileManager fileManager = new FileManager();
 
-        private List<Payment> payments()
-        {
-            var list = fileManager.ReadPayments("Expense");
-            list.AddRange(fileManager.ReadPayments("Income"));
-            return list;
-        }
-
+        //https://localhost:44334/Payment?type=Expense
         [HttpGet]
-        public IEnumerable<Payment> Get()
+        public IEnumerable<Payment> Get(string type)
         {
-            return payments();
+            return fileManager.ReadPayments(type);
         }
     }
 }

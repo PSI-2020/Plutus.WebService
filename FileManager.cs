@@ -13,19 +13,15 @@ namespace Plutus
         private static readonly string _directoryPath = Directory.GetCurrentDirectory();
         private readonly string _income = _directoryPath + "/db/income.xml";
         private readonly string _expenses = _directoryPath + "/db/expenses.xml";
-        private readonly string _monthlyIncome = _directoryPath + "/db/monthlyIncome.xml";
-        private readonly string _monthlyExpenses = _directoryPath + "/db/monthylExpenses.xml";
         public readonly string fontPathMaconodo = _directoryPath + "/True GUI/GUI resources/Macondo.ttf";
         public readonly string fontPathLilita = _directoryPath + "/True GUI/GUI resources/LilitaOne.ttf";
 
         public string GetFilePath(string type)
         {
-            return type switch
+            return type.ToLower() switch
             {
-                "Income" => _income,
-                "Expense" => _expenses,
-                "MonthlyIncome" => _monthlyIncome,
-                "MonthlyExpenses" => _monthlyExpenses,
+                "income" => _income,
+                "expense" => _expenses,
                 _ => null,
             };
         }
@@ -33,6 +29,12 @@ namespace Plutus
         public List<Payment> ReadPayments(string type)
         {
             var serializer = new XmlSerializer(typeof(List<Payment>));
+            if(type == "all")
+            {
+                var list = ReadPayments("Expense");
+                list.AddRange(ReadPayments("Income"));
+                return list;
+            }
 
             try
             {
