@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<ArrayOfPayment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Payment>
+		<Date>1601059572</Date>
+		<Name>asdas</Name>
+		<Amount>50</Amount>
+		<Category>Clothes</Category>
+	</Payment>
+</ArrayOfPayment>

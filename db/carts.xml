@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<carts>
+  <Cart0>
+    <CartName>First Cart</CartName>
+    <Expenses>
+      <Expense>
+        <Name>1</Name>
+        <Amount>1</Amount>
+        <Category>Groceries</Category>
+        <Activity>true</Activity>
+      </Expense>
+      <Expense>
+        <Name>2</Name>
+        <Amount>2</Amount>
+        <Category>Restaurant</Category>
+        <Activity>true</Activity>
+      </Expense>
+    </Expenses>
+  </Cart0>
+  <Cart1>
+    <CartName>Merlin</CartName>
+    <Expenses>
+      <Expense>
+        <Name>Magic</Name>
+        <Amount>5</Amount>
+        <Category>Bills</Category>
+        <Activity>true</Activity>
+      </Expense>
+      <Expense>
+        <Name>Robe</Name>
+        <Amount>12</Amount>
+        <Category>Clothes</Category>
+        <Activity>true</Activity>
+      </Expense>
+    </Expenses>
+  </Cart1>
+</carts>

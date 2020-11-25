@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plutus.WebService", "Plutus.WebService.csproj", "{75AC68E0-C95D-46E3-A501-B67CCFF6A019}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{75AC68E0-C95D-46E3-A501-B67CCFF6A019}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75AC68E0-C95D-46E3-A501-B67CCFF6A019}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75AC68E0-C95D-46E3-A501-B67CCFF6A019}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75AC68E0-C95D-46E3-A501-B67CCFF6A019}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7615CA9D-AE13-4E34-8620-8D486773FEE5}
+	EndGlobalSection
+EndGlobal
