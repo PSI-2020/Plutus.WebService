@@ -14,7 +14,7 @@ namespace Plutus.WebService.Controllers
     {
         readonly FileManager fileManager = new FileManager();
 
-        private List<Payment> payments()
+        private List<Payment> Payments()
         {
             var list = fileManager.ReadPayments("Expense");
             list.AddRange(fileManager.ReadPayments("Income"));
@@ -24,7 +24,7 @@ namespace Plutus.WebService.Controllers
         [HttpGet]
         public IEnumerable<Payment> Get()
         {
-            return payments();
+            return Payments();
         }
     }
 }
