@@ -12,6 +12,7 @@ namespace Plutus
 
     public class FileManager
     {
+
         private static readonly string _directoryPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
         private readonly string _income = _directoryPath + "/WebService/Storage/income.xml";
         private readonly string _expenses = _directoryPath + "/WebService/Storage/expenses.xml";
@@ -38,6 +39,7 @@ namespace Plutus
         public List<Payment> ReadPayments(string type)
         {
             var serializer = new XmlSerializer(typeof(List<Payment>));
+
             if (type.ToLower() == "all")
             {
                 var list = ReadPayments("Expense");
