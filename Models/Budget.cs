@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 
 namespace Plutus
-{
+{ 
     public class Budget : ISerializable
     {
         public string Name { get; set; }

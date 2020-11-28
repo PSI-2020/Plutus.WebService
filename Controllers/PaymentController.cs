@@ -1,30 +1,29 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using Plutus;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Plutus.WebService.Controllers
+namespace Plutus.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
     public class PaymentController : ControllerBase
     {
-        readonly FileManager fileManager = new FileManager();
+        private readonly FileManager _fileManager = new FileManager();
 
-        private List<Payment> Payments()
+        [HttpGet]
+        public ActionResult<List<Payment>> Get()
         {
-            var list = fileManager.ReadPayments("Expense");
-            list.AddRange(fileManager.ReadPayments("Income"));
+            var list = _fileManager.ReadPayments("Expense");
+            list.AddRange(_fileManager.ReadPayments("Income"));
             return list;
         }
 
-        [HttpGet]
-        public IEnumerable<Payment> Get()
-        {
-            return Payments();
-        }
+        [HttpGet("{type}")]
+        public ActionResult<List<Payment>> Get(string type) =>
+            //Program.MainForm.Invoke(new Action(() =>
+            //{
+            //    Program.MainForm.expenseTextLabel.Text = id;
+            //}));
+            _fileManager.ReadPayments(type);
     }
 }

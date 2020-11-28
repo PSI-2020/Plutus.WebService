@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<ArrayOfScheduledPayment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ScheduledPayment>
+    <Date>1607654239</Date>
+    <Name>banana</Name>
+    <Amount>20</Amount>
+    <Category>Groceries</Category>
+    <Id>monthlyexpenses0</Id>
+    <Frequency>Monthly</Frequency>
+    <Active>true</Active>
+  </ScheduledPayment>
+</ArrayOfScheduledPayment>

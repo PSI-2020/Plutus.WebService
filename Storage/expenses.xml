@@ -348,4 +348,40 @@
     <Amount>100</Amount>
     <Category>Restaurant</Category>
   </Payment>
+  <Payment>
+    <Date>1606350396</Date>
+    <Name>banana</Name>
+    <Amount>20</Amount>
+    <Category>Groceries</Category>
+  </Payment>
+  <Payment>
+    <Date>1605033439</Date>
+    <Name>banana</Name>
+    <Amount>20</Amount>
+    <Category>Groceries</Category>
+  </Payment>
+  <Payment>
+    <Date>1605040639</Date>
+    <Name>banana</Name>
+    <Amount>20</Amount>
+    <Category>Groceries</Category>
+  </Payment>
+  <Payment>
+    <Date>1605047839</Date>
+    <Name>banana</Name>
+    <Amount>20</Amount>
+    <Category>Groceries</Category>
+  </Payment>
+  <Payment>
+    <Date>1606349054</Date>
+    <Name>eafaf</Name>
+    <Amount>50</Amount>
+    <Category>Restaurant</Category>
+  </Payment>
+  <Payment>
+    <Date>1605055039</Date>
+    <Name>banana</Name>
+    <Amount>20</Amount>
+    <Category>Groceries</Category>
+  </Payment>
 </ArrayOfPayment>

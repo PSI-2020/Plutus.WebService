@@ -1,40 +1,40 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace Plutus.WebService.Controllers
+namespace Plutus.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class BudgetsController : ControllerBase
     {
-        readonly FileManager _fileManager = new FileManager();
-        private List<Budget> ReadBudgets()
-        {
-            var list = _fileManager.LoadBudget();
-            return list;
-        }
+        private readonly FileManager _fileManager = new FileManager();
+        private readonly BudgetService _budgetService = new BudgetService();
+        private List<Budget> ReadBudgets() => _fileManager.LoadBudget();
         // GET: api/<ValuesController>
         [HttpGet]
-        public IEnumerable<Budget> Get()
+        public ActionResult<string> Get()
         {
-            return ReadBudgets();
+            var result = "";
+            var list = ReadBudgets();
+            if (!list.Any()) return "";
+            for (var x = 0; x < list.Count; x++)
+            {
+                result = result + _budgetService.GenerateBudget(x) + "\r\n" + "\r\n";
+            }
+            return result;
         }
 
         // GET api/<ValuesController>/5
-        /*[HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }*/
+        [HttpGet("{id}")]
+        public string Get(int id) => _budgetService.GenerateBudget(id);
+
+        [HttpGet("{id}/stats")]
+        public object GetStats(int id) => _budgetService.ShowStats(id);
 
         // POST api/<ValuesController>
         [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+        public void Post([FromBody] Budget budget) => _fileManager.AddBudget(budget);
 
         // PUT api/<ValuesController>/5
         [HttpPut("{id}")]
@@ -44,8 +44,6 @@ namespace Plutus.WebService.Controllers
 
         // DELETE api/<ValuesController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        public void Delete(int id) => _budgetService.DeleteBudget(id);
     }
 }
