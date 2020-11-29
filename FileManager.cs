@@ -9,20 +9,16 @@ using System.Xml.Serialization;
 namespace Plutus
 {
 
-
     public class FileManager
     {
 
-        private static readonly string _directoryPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
-        private readonly string _income = _directoryPath + "/WebService/Storage/income.xml";
-        private readonly string _expenses = _directoryPath + "/WebService/Storage/expenses.xml";
-        private readonly string _monthlyIncome = _directoryPath + "/WebService/Storage/monthlyIncome.xml";
-        private readonly string _monthlyExpenses = _directoryPath + "/WebService/Storage/monthylExpenses.xml";
-        private readonly string _goals = _directoryPath + "/WebService/Storage/goals.xml";
-        private readonly string _budgets = _directoryPath + "/WebService/Storage/budgets.xml";
-        private readonly string _carts = _directoryPath + "/WebService/Storage/carts.xml";
-        public readonly string fontPathMaconodo = _directoryPath + "/True GUI/GUI resources/Macondo.ttf";
-        public readonly string fontPathLilita = _directoryPath + "/True GUI/GUI resources/LilitaOne.ttf";
+        private readonly string _income = "Storage/income.xml";
+        private readonly string _expenses = "Storage/expenses.xml";
+        private readonly string _monthlyIncome = "Storage/monthlyIncome.xml";
+        private readonly string _monthlyExpenses = "Storage/monthylExpenses.xml";
+        private readonly string _goals = "Storage/goals.xml";
+        private readonly string _budgets = "Storage/budgets.xml";
+        private readonly string _carts = "Storage/carts.xml";
 
         public string GetFilePath(string type)
         {
