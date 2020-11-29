@@ -32,6 +32,14 @@ namespace Plutus.Controllers
                 Category = "Other"
             });
 
+            list.Add(new Payment
+            {
+                Date = DateTime.UtcNow.ConvertToInt(),
+                Name = "Test3",
+                Amount = 100,
+                Category = "Salary"
+            });
+
             return list;
         }
 
