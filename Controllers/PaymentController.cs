@@ -15,15 +15,28 @@ namespace Plutus.Controllers
         {
             var list = _fileManager.ReadPayments("Expense");
             list.AddRange(_fileManager.ReadPayments("Income"));
+
+            list.Add(new Payment
+            {
+                Date = DateTime.UtcNow.ConvertToInt(),
+                Name = "Test",
+                Amount = 69,
+                Category = "Other"
+            });
+
+            list.Add(new Payment
+            {
+                Date = DateTime.UtcNow.ConvertToInt(),
+                Name = "Test2",
+                Amount = 420,
+                Category = "Other"
+            });
+
             return list;
         }
 
         [HttpGet("{type}")]
         public ActionResult<List<Payment>> Get(string type) =>
-            //Program.MainForm.Invoke(new Action(() =>
-            //{
-            //    Program.MainForm.expenseTextLabel.Text = id;
-            //}));
             _fileManager.ReadPayments(type);
     }
 }
