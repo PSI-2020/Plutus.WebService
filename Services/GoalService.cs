@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Plutus.Services
+namespace Plutus
 {
     public class GoalService
     {
@@ -46,7 +46,7 @@ namespace Plutus.Services
 
             var monthly = (income - expenses - goal.Amount + todaySpent) / (months + 1);
 
-            return dailyOrMonthly switch
+            return dailyOrMonthly.ToLower() switch
             {
                 "monthly" => monthly.ToString("C2"),
                 "daily" => ((monthly / DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month)) - todaySpent).ToString("C2"),
