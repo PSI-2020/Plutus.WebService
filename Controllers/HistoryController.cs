@@ -19,10 +19,5 @@ namespace Plutus.WebService
         public ActionResult<List<All>> Get(int index) =>
             _historyService.LoadDataGrid(index);
 
-        //[HttpPost]
-        //public ActionResult<Payment> Post(Payment payment)
-        //{
-        //    return payment;
-        //}
     }
 }
