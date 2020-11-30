@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Plutus.Controllers
+namespace Plutus.WebService
 {
     [Route("api/[controller]")]
     [ApiController]

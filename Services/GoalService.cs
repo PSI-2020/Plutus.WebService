@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Plutus
+namespace Plutus.WebService
 {
     public class GoalService
     {

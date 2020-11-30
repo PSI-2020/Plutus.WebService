@@ -1,5 +1,5 @@
 ﻿
-namespace Plutus
+namespace Plutus.WebService
 {
     public class CartExpense
     {

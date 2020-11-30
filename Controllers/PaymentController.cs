@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Plutus.Controllers
+namespace Plutus.WebService
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -13,8 +12,8 @@ namespace Plutus.Controllers
         [HttpGet]
         public ActionResult<List<Payment>> Get()
         {
-            var list = _fileManager.ReadPayments("Expense");
-            list.AddRange(_fileManager.ReadPayments("Income"));
+            var list = _fileManager.ReadPayments(DataType.Expense);
+            list.AddRange(_fileManager.ReadPayments(DataType.Income));
 
             return list;
         }

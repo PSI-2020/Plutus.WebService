@@ -1,9 +1,8 @@
-﻿using Plutus.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Plutus
+namespace Plutus.WebService
 {
     class ShoppingService
     {

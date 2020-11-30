@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Plutus
+namespace Plutus.WebService
 {
     public class BudgetService
     {

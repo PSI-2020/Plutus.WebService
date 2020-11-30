@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Plutus.Controllers
+namespace Plutus.WebService
 {
     [Route("api/[controller]")]
     [ApiController]

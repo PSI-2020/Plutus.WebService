@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Plutus
+namespace Plutus.WebService
 {
     public class Payment : ISerializable, IEquatable<Payment>
     {

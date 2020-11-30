@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Plutus
+namespace Plutus.WebService
 {
    public static class CapitalizationExtension
     {

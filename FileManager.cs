@@ -1,17 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
-namespace Plutus
+namespace Plutus.WebService
 {
+    public enum DataType
+    {
+        [Description("Storage/income.xml")]
+        Income,
+        [Description("Storage/expenses.xml")]
+        Expense
+    }
 
     public class FileManager
     {
-
         private readonly string _income = "Storage/income.xml";
         private readonly string _expenses = "Storage/expenses.xml";
         private readonly string _monthlyIncome = "Storage/monthlyIncome.xml";
@@ -32,16 +39,40 @@ namespace Plutus
             };
         }
 
+        public List<Payment> ReadPayments(DataType type)
+        {
+            var serializer = new XmlSerializer(typeof(List<Payment>));
+
+            //if (type.ToLower() == "all")
+            //{
+            //    var list = ReadPayments("Expense");
+            //    list.AddRange(ReadPayments("Income"));
+            //    return list;
+            //}
+
+            try
+            {
+                using (var stream = File.OpenRead(type.ToDescriptionString()))
+                {
+                    return serializer.Deserialize(stream) as List<Payment>;
+                }
+            }
+            catch
+            {
+                return new List<Payment>();
+            }
+        }
+
         public List<Payment> ReadPayments(string type)
         {
             var serializer = new XmlSerializer(typeof(List<Payment>));
 
-            if (type.ToLower() == "all")
-            {
-                var list = ReadPayments("Expense");
-                list.AddRange(ReadPayments("Income"));
-                return list;
-            }
+            //if (type.ToLower() == "all")
+            //{
+            //    var list = ReadPayments("Expense");
+            //    list.AddRange(ReadPayments("Income"));
+            //    return list;
+            //}
 
             try
             {

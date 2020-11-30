@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Plutus
+namespace Plutus.WebService
 {
    public static class DateConversionExtension
     {

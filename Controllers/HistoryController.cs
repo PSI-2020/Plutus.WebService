@@ -4,7 +4,7 @@ using System.Data;
 using Microsoft.AspNetCore.Mvc;
 using Plutus.Services;
 
-namespace Plutus.Controllers
+namespace Plutus.WebService
 {
     [Route("api/[controller]")]
     [ApiController]

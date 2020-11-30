@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Plutus.Services
+namespace Plutus.WebService
 {
     class PaymentService
     {

@@ -2,7 +2,7 @@
 using System.Data;
 using System.Linq;
 
-namespace Plutus.Services
+namespace Plutus.WebService
 {
     public class HistoryService
     {
