@@ -13,44 +13,20 @@ namespace Plutus.Controllers
         [HttpGet]
         public ActionResult<List<Payment>> Get()
         {
-            //var list = _fileManager.ReadPayments("Expense");
-            //list.AddRange(_fileManager.ReadPayments("Income"));
+            var list = _fileManager.ReadPayments("Expense");
+            list.AddRange(_fileManager.ReadPayments("Income"));
 
-            //list.Add(new Payment
-            //{
-            //    Date = DateTime.UtcNow.ConvertToInt(),
-            //    Name = "Test",
-            //    Amount = 69,
-            //    Category = "Other"
-            //});
-
-            //list.Add(new Payment
-            //{
-            //    Date = DateTime.UtcNow.ConvertToInt(),
-            //    Name = "Test2",
-            //    Amount = 420,
-            //    Category = "Other"
-            //});
-
-            //list.Add(new Payment
-            //{
-            //    Date = DateTime.UtcNow.ConvertToInt(),
-            //    Name = "Test3",
-            //    Amount = 100,
-            //    Category = "Salary"
-            //});
-
-            return _fileManager.ReadPayments("Expense");
+            return list;
         }
 
         [HttpGet("{type}")]
         public ActionResult<List<Payment>> Get(string type) =>
             _fileManager.ReadPayments(type);
 
-        [HttpPost]
-        public ActionResult<Payment> Post(Payment payment)
-        {
-            return payment;
-        }
+        //[HttpPost]
+        //public ActionResult<Payment> Post(Payment payment)
+        //{
+        //    return payment;
+        //}
     }
 }
