@@ -10,13 +10,13 @@ namespace Plutus.WebService
         private readonly HistoryService _historyService = new HistoryService();
 
         [HttpGet]
-        public ActionResult<object> Get()
+        public ActionResult<List<All>> Get()
         {
             return _historyService.LoadDataGrid(0);
         }
 
         [HttpGet("{index}")]
-        public ActionResult<object> Get(int index) =>
+        public ActionResult<List<All>> Get(int index) =>
             _historyService.LoadDataGrid(index);
 
         //[HttpPost]

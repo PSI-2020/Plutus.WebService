@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
 
 namespace Plutus.WebService
 {
@@ -11,32 +8,30 @@ namespace Plutus.WebService
     {
         private readonly FileManager _fileManager = new FileManager();
 
-        public object LoadDataGrid(int index)
+        public List<All> LoadDataGrid(int index)
         {
             switch (index)
             {
                 case 0:
                 { 
-                    var list = _fileManager.ReadPayments(DataType.Expense).Select(x => new { Date = x.Date.ConvertToDate(), x.Name, x.Amount, x.Category, Type = "Exp." }).ToList();
-                    var incomeList = _fileManager.ReadPayments(DataType.Income).Select(x => new { Date = x.Date.ConvertToDate(), x.Name, x.Amount, x.Category, Type = "Inc." }).ToList();
+                    var list =  _fileManager.ReadPayments(DataType.Expense).Select(x => new All { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = "Exp." }).ToList();
+                    var incomeList = _fileManager.ReadPayments(DataType.Income).Select(x => new All { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = "Inc." }).ToList();
 
                     list.AddRange(incomeList);
 
-                    return !list.Any() ? null : (object)list.OrderByDescending(x => x.Date).ToList();
+                    return !list.Any() ? null : list.OrderByDescending(x => x.Date).ToList();
                 }
                 case 1:
                 {
-                    var list = _fileManager.ReadPayments(DataType.Expense).Select(x => new { DATE = x.Date.ConvertToDate(), NAME = x.Name, AMOUNT = x.Amount, CATEGORY = x.Category })
-                    .OrderByDescending(x => x.DATE).ToList();
+                    var list = _fileManager.ReadPayments(DataType.Expense).Select(x => new All { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = "Exp." }).ToList();
 
-                    return !list.Any() ? null : (object)list;
+                        return !list.Any() ? null : list;
                 }
                 case 2:
                 {
-                    var list = _fileManager.ReadPayments(DataType.Income).Select(x => new { DATE = x.Date.ConvertToDate(), NAME = x.Name, AMOUNT = x.Amount, CATEGORY = x.Category })
-                    .OrderByDescending(x => x.DATE).ToList();
+                    var list = _fileManager.ReadPayments(DataType.Income).Select(x => new All { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = "Inc." }).ToList();
 
-                    return !list.Any() ? null : (object)list;
+                        return !list.Any() ? null : list;
                 }
                 default: return null;
             }
