@@ -14,31 +14,21 @@ namespace Plutus.WebService
         [Description("Storage/income.xml")]
         Income,
         [Description("Storage/expenses.xml")]
-        Expense
+        Expense,
+        [Description("Storage/monthlyIncome.xml")]
+        MonthlyIncome,
+        [Description("Storage/monthylExpenses.xml")]
+        MonthlyExpenses,
+        [Description("Storage/goals.xml")]
+        Goals,
+        [Description("Storage/budgets.xml")]
+        Budgets,
+        [Description("Storage/carts.xml")]
+        Carts
     }
 
     public class FileManager
     {
-        private readonly string _income = "Storage/income.xml";
-        private readonly string _expenses = "Storage/expenses.xml";
-        private readonly string _monthlyIncome = "Storage/monthlyIncome.xml";
-        private readonly string _monthlyExpenses = "Storage/monthylExpenses.xml";
-        private readonly string _goals = "Storage/goals.xml";
-        private readonly string _budgets = "Storage/budgets.xml";
-        private readonly string _carts = "Storage/carts.xml";
-
-        public string GetFilePath(string type)
-        {
-            return type.ToLower() switch
-            {
-                "income" => _income,
-                "expense" => _expenses,
-                "monthlyincome" => _monthlyIncome,
-                "monthlyexpenses" => _monthlyExpenses,
-                _ => null,
-            };
-        }
-
         public List<Payment> ReadPayments(DataType type)
         {
             var serializer = new XmlSerializer(typeof(List<Payment>));
@@ -63,52 +53,27 @@ namespace Plutus.WebService
             }
         }
 
-        public List<Payment> ReadPayments(string type)
-        {
-            var serializer = new XmlSerializer(typeof(List<Payment>));
-
-            //if (type.ToLower() == "all")
-            //{
-            //    var list = ReadPayments("Expense");
-            //    list.AddRange(ReadPayments("Income"));
-            //    return list;
-            //}
-
-            try
-            {
-                using (var stream = File.OpenRead(GetFilePath(type)))
-                {
-                    return serializer.Deserialize(stream) as List<Payment>;
-                }
-            }
-            catch
-            {
-                return new List<Payment>();
-            }
-        }
-        public void EditPayment(Payment payment, Payment newPayment, string type)
+        public void EditPayment(Payment payment, Payment newPayment, DataType type)
         {
             var serializer = new XmlSerializer(typeof(List<Payment>));
             var list = ReadPayments(type);
             list[list.IndexOf(payment)] = newPayment;
-            type = GetFilePath(type);
 
-            File.WriteAllText(type, "");
-            using (var stream = File.OpenWrite(type))
+            File.WriteAllText(type.ToDescriptionString(), "");
+            using (var stream = File.OpenWrite(type.ToDescriptionString()))
             {
                 serializer.Serialize(stream, list);
             }
         }
 
-        public void AddPayment(Payment payment, string type)
+        public void AddPayment(Payment payment, DataType type)
         {
             var serializer = new XmlSerializer(typeof(List<Payment>));
             var list = ReadPayments(type);
             CheckDuplicates(list, payment);
-            type = GetFilePath(type);
 
             list.Add(payment);
-            using (var stream = File.OpenWrite(type))
+            using (var stream = File.OpenWrite(type.ToDescriptionString()))
             {
                 serializer.Serialize(stream, list);
             }
@@ -126,7 +91,7 @@ namespace Plutus.WebService
 
             try
             {
-                using (var stream = File.OpenRead(_goals))
+                using (var stream = File.OpenRead(DataType.Goals.ToDescriptionString()))
                 {
                     return serializer.Deserialize(stream) as List<Goal>;
                 }
@@ -147,7 +112,7 @@ namespace Plutus.WebService
             var goal = new Goal(name, newAmount, dueDate);
 
             list.Add(goal);
-            using (var stream = File.OpenWrite(_goals))
+            using (var stream = File.OpenWrite(DataType.Goals.ToDescriptionString()))
             {
                 serializer.Serialize(stream, list);
             }
@@ -156,8 +121,8 @@ namespace Plutus.WebService
         public void UpdateGoals(List<Goal> list)
         {
             var serializer = new XmlSerializer(typeof(List<Goal>));
-            File.WriteAllText(_goals, "");
-            using (var stream = File.OpenWrite(_goals))
+            File.WriteAllText(DataType.Goals.ToDescriptionString(), "");
+            using (var stream = File.OpenWrite(DataType.Goals.ToDescriptionString()))
             {
                 serializer.Serialize(stream, list);
             }
@@ -169,7 +134,7 @@ namespace Plutus.WebService
             var list = LoadBudget();
 
             list.Add(budget);
-            using (var stream = File.OpenWrite(_budgets))
+            using (var stream = File.OpenWrite(DataType.Budgets.ToDescriptionString()))
             {
                 serializer.Serialize(stream, list);
             }
@@ -182,7 +147,7 @@ namespace Plutus.WebService
 
             try
             {
-                using (var stream = File.OpenRead(_budgets))
+                using (var stream = File.OpenRead(DataType.Budgets.ToDescriptionString()))
                 {
                     return serializer.Deserialize(stream) as List<Budget>;
                 }
@@ -196,33 +161,33 @@ namespace Plutus.WebService
         public void UpdateBudgets(List<Budget> list)
         {
             var serializer = new XmlSerializer(typeof(List<Budget>));
-            File.WriteAllText(_budgets, "");
-            using (var stream = File.OpenWrite(_budgets))
+            File.WriteAllText(DataType.Budgets.ToDescriptionString(), "");
+            using (var stream = File.OpenWrite(DataType.Budgets.ToDescriptionString()))
             {
                 serializer.Serialize(stream, list);
             }
         }
 
-        public void AddScheduledPayment(ScheduledPayment payment, string type)
+        public void AddScheduledPayment(ScheduledPayment payment, DataType type)
         {
             var serializer = new XmlSerializer(typeof(List<ScheduledPayment>));
             var list = LoadScheduledPayments(type);
 
             list.Add(payment);
-            using (var stream = File.OpenWrite(GetFilePath(type)))
+            using (var stream = File.OpenWrite(type.ToDescriptionString()))
             {
                 serializer.Serialize(stream, list);
             }
 
         }
 
-        public List<ScheduledPayment> LoadScheduledPayments(string type)
+        public List<ScheduledPayment> LoadScheduledPayments(DataType type)
         {
             var serializer = new XmlSerializer(typeof(List<ScheduledPayment>));
 
             try
             {
-                using (var stream = File.OpenRead(GetFilePath(type)))
+                using (var stream = File.OpenRead(type.ToDescriptionString()))
                 {
                     return serializer.Deserialize(stream) as List<ScheduledPayment>;
                 }
@@ -233,24 +198,24 @@ namespace Plutus.WebService
             }
         }
 
-        public void UpdateScheduledPayments(List<ScheduledPayment> list, string type)
+        public void UpdateScheduledPayments(List<ScheduledPayment> list, DataType type)
         {
             var serializer = new XmlSerializer(typeof(List<ScheduledPayment>));
-            File.WriteAllText(GetFilePath(type), "");
-            using (var stream = File.OpenWrite(GetFilePath(type)))
+            File.WriteAllText(type.ToDescriptionString(), "");
+            using (var stream = File.OpenWrite(type.ToDescriptionString()))
             {
                 serializer.Serialize(stream, list);
             }
         }
 
-        public void SaveCarts(XElement carts) => carts.Save(_carts);
+        public void SaveCarts(XElement carts) => carts.Save(DataType.Carts.ToDescriptionString());
 
         public XElement LoadCarts()
         {
-            if (!File.Exists(_carts)) return null;
+            if (!File.Exists(DataType.Carts.ToDescriptionString())) return null;
             try
             {
-                var carts = XElement.Load(_carts);
+                var carts = XElement.Load(DataType.Carts.ToDescriptionString());
                 return carts;
             }
             catch

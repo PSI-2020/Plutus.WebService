@@ -31,7 +31,7 @@ namespace Plutus.WebService
                 Amount = amount,
                 Category = category
             };
-            _fm.AddPayment(payment, "Expense");
+            _fm.AddPayment(payment, DataType.Expense);
         }
     }
 }

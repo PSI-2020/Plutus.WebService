@@ -19,7 +19,7 @@ namespace Plutus.WebService
         }
 
         [HttpGet("{type}")]
-        public ActionResult<List<Payment>> Get(string type) =>
+        public ActionResult<List<Payment>> Get(DataType type) =>
             _fileManager.ReadPayments(type);
 
         //[HttpPost]

@@ -29,7 +29,7 @@ namespace Plutus.WebService
             var to = list[index].To.ConvertToDate();
 
 
-            var expenses = _fileManager.ReadPayments("Expense");
+            var expenses = _fileManager.ReadPayments(DataType.Expense);
             if (!expenses.Any()) return "";
 
 
@@ -50,7 +50,7 @@ namespace Plutus.WebService
         public object ShowStats(int index)
         {
             var budgets = _fileManager.LoadBudget();
-            var expenses = _fileManager.ReadPayments("Expense");
+            var expenses = _fileManager.ReadPayments(DataType.Expense);
 
             var resQuery =
                 (from exp in expenses

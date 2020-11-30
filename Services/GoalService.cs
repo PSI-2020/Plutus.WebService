@@ -33,10 +33,10 @@ namespace Plutus.WebService
 
         public string Insights(Goal goal, string dailyOrMonthly)
         {
-            var monthlyIncome = _fileManager.ReadPayments("MonthlyIncome");
-            var monthlyExpenses = _fileManager.ReadPayments("MonthlyExpenses");
-            var allIncome = _fileManager.ReadPayments("Income");
-            var allExpenses = _fileManager.ReadPayments("Expense");
+            var monthlyIncome = _fileManager.ReadPayments(DataType.MonthlyIncome);
+            var monthlyExpenses = _fileManager.ReadPayments(DataType.MonthlyExpenses);
+            var allIncome = _fileManager.ReadPayments(DataType.Income);
+            var allExpenses = _fileManager.ReadPayments(DataType.Expense);
 
             var months = goal.DueDate.Month - DateTime.Now.Month + (12 * (goal.DueDate.Year - DateTime.Now.Year));
             var income = monthlyIncome.Sum(x => x.Amount * months) + allIncome.Sum(x => x.Amount);
