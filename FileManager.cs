@@ -20,6 +20,22 @@ namespace Plutus
         private readonly string _budgets = "Storage/budgets.xml";
         private readonly string _carts = "Storage/carts.xml";
 
+        public List<Payment> ReadPayments()
+        {
+            var serializer = new XmlSerializer(typeof(List<Payment>));
+            try
+            {
+                using (var stream = File.OpenRead(@"expenses.xml"))
+                {
+                    return serializer.Deserialize(stream) as List<Payment>;
+                }
+            }
+            catch
+            {
+                return new List<Payment>();
+            }
+        }
+
         public string GetFilePath(string type)
         {
             return type.ToLower() switch
