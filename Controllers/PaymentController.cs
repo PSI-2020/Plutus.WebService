@@ -40,7 +40,7 @@ namespace Plutus.Controllers
             //    Category = "Salary"
             //});
 
-            return _fileManager.ReadPayments();
+            return _fileManager.ReadPayments("Expense");
         }
 
         [HttpGet("{type}")]
