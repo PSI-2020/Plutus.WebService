@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<ArrayOfBudget xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Budget>
+    <Name>budget0</Name>
+    <Category>Clothes</Category>
+    <Sum>200</Sum>
+    <From>1598954884</From>
+    <To>1604052484</To>
+  </Budget>
+  <Budget>
+    <Name>budget1</Name>
+    <Category>Groceries</Category>
+    <Sum>234</Sum>
+    <From>1604674387</From>
+    <To>1605279187</To>
+  </Budget>
+  <Budget>
+    <Name>budget2</Name>
+    <Category>Other</Category>
+    <Sum>5000</Sum>
+    <From>1604674387</From>
+    <To>1605279187</To>
+  </Budget>
+</ArrayOfBudget>
