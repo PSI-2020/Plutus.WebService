@@ -25,7 +25,7 @@ namespace Plutus
             var serializer = new XmlSerializer(typeof(List<Payment>));
             try
             {
-                using (var stream = File.OpenRead(@"expenses.xml"))
+                using (var stream = File.OpenRead("expenses.xml"))
                 {
                     return serializer.Deserialize(stream) as List<Payment>;
                 }
