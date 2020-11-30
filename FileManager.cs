@@ -33,13 +33,6 @@ namespace Plutus.WebService
         {
             var serializer = new XmlSerializer(typeof(List<Payment>));
 
-            //if (type.ToLower() == "all")
-            //{
-            //    var list = ReadPayments("Expense");
-            //    list.AddRange(ReadPayments("Income"));
-            //    return list;
-            //}
-
             try
             {
                 using (var stream = File.OpenRead(type.ToDescriptionString()))

@@ -22,10 +22,11 @@ namespace Plutus.WebService
         public ActionResult<List<Payment>> Get(DataType type) =>
             _fileManager.ReadPayments(type);
 
-        //[HttpPost]
-        //public ActionResult<Payment> Post(Payment payment)
-        //{
-        //    return payment;
-        //}
+        [HttpPost("{type}")]
+        public ActionResult<Payment> Post(Payment payment, DataType type)
+        {
+            _fileManager.AddPayment(payment, type);
+            return payment;
+        }
     }
 }
