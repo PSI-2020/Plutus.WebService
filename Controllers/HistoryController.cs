@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using Microsoft.AspNetCore.Mvc;
-using Plutus.Services;
 
 namespace Plutus.WebService
 {
