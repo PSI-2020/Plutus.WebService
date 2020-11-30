@@ -14,7 +14,7 @@ namespace Plutus.WebService
         public ActionResult<List<Payment>> Get()
         {
             var list = _fileManager.ReadPayments(DataType.Expense);
-            //list.AddRange(_fileManager.ReadPayments(DataType.Income));
+            list.AddRange(_fileManager.ReadPayments(DataType.Income));
 
             return list;
         }
