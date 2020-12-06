@@ -12,13 +12,20 @@ namespace Plutus.WebService
         {
             var list = _fileManager.LoadBudget();
             list.Remove(list[index]);
-            _fileManager.UpdateBudgets(RenameBudgets(list));
+            Func<List<Budget>, List<Budget>> Rename = delegate (List<Budget> list) { list.ForEach(x => x.Name = "budget" + list.IndexOf(x)); return list; };
+
+            /*Func<List<Budget>, List<Budget>> Rename2;
+            Rename2 = list => { list.ForEach(x => x.Name = "budget" + list.IndexOf(x)); return list; };
+
+            List<Budget> Rename3(List<Budget> list) { list.ForEach(x => x.Name = "budget" + list.IndexOf(x)); return list; }*/
+
+            _fileManager.UpdateBudgets(Rename(list));
         }
-        public List<Budget> RenameBudgets(List<Budget> list)
+        /*public List<Budget> RenameBudgets(List<Budget> list)
         {
             list.ForEach(x => x.Name = "budget" + list.IndexOf(x));
             return list;
-        }
+        }*/
 
         public string GenerateBudget(int index)
         {
