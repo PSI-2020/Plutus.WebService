@@ -9,7 +9,8 @@ namespace Plutus.WebService
         public void EditGoal(Goal goal, string newName, string newAmount, DateTime newDueDate)
         {
             var amount = double.Parse(newAmount);
-            var list = _fileManager.ReadGoals();
+            //var list = _fileManager.ReadGoals();
+            var list = _fileManager.ReadFromFile<Goal>(DataType.Goals);
             var index = list.IndexOf(list.First(i => goal.Name == i.Name && goal.Amount == i.Amount && goal.DueDate == i.DueDate));
             list[index] = new Goal(newName, amount, newDueDate);
             _fileManager.UpdateGoals(list);
@@ -18,7 +19,8 @@ namespace Plutus.WebService
 
         public void DeleteGoal(Goal goal)
         {
-            var list = _fileManager.ReadGoals();
+            // var list = _fileManager.ReadGoals();
+            var list = _fileManager.ReadFromFile<Goal>(DataType.Goals);
             list.Remove(list.First(i => goal.Name == i.Name && goal.Amount == i.Amount && goal.DueDate == i.DueDate));
             _fileManager.UpdateGoals(list);
         }
@@ -26,17 +28,23 @@ namespace Plutus.WebService
         public void SetMainGoal(Goal goal)
         {
             DeleteGoal(goal);
-            var list = _fileManager.ReadGoals();
+            // var list = _fileManager.ReadGoals();
+            var list = _fileManager.ReadFromFile<Goal>(DataType.Goals);
             list.Insert(0, goal);
             _fileManager.UpdateGoals(list);
         }
 
         public string Insights(Goal goal, string dailyOrMonthly)
         {
-            var scheduledIncome = _fileManager.LoadScheduledPayments(DataType.MonthlyIncome);
-            var scheduledExpenses = _fileManager.LoadScheduledPayments(DataType.MonthlyExpenses);
-            var allIncome = _fileManager.ReadPayments(DataType.Income);
-            var allExpenses = _fileManager.ReadPayments(DataType.Expense);
+            //var scheduledIncome = _fileManager.LoadScheduledPayments(DataType.MonthlyIncome);
+            //var scheduledExpenses = _fileManager.LoadScheduledPayments(DataType.MonthlyExpenses);
+            //var allIncome = _fileManager.ReadPayments(DataType.Income);
+            //var allExpenses = _fileManager.ReadPayments(DataType.Expense);
+
+            var scheduledIncome = _fileManager.ReadFromFile<ScheduledPayment>(DataType.MonthlyIncome);
+            var scheduledExpenses = _fileManager.ReadFromFile<ScheduledPayment>(DataType.MonthlyExpenses);
+            var allIncome = _fileManager.ReadFromFile<Payment>(DataType.Income);
+            var allExpenses = _fileManager.ReadFromFile<Payment>(DataType.Expense);
 
             var months = goal.DueDate.Month - DateTime.Now.Month + (12 * (goal.DueDate.Year - DateTime.Now.Year));
             var weeks = (int)(goal.DueDate - DateTime.Now).TotalDays / 7;

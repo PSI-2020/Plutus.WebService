@@ -10,7 +10,8 @@ namespace Plutus.WebService
 
         public void DeleteBudget(int index)
         {
-            var list = _fileManager.LoadBudget();
+            //var list = _fileManager.LoadBudget();
+            var list = _fileManager.ReadFromFile<Budget>(DataType.Budgets);
             list.Remove(list[index]);
             _fileManager.UpdateBudgets(RenameBudgets(list));
         }
@@ -23,13 +24,15 @@ namespace Plutus.WebService
         public string GenerateBudget(int index)
         {
             var data = "";
-            var list = _fileManager.LoadBudget();
+            //var list = _fileManager.LoadBudget();
+            var list = _fileManager.ReadFromFile<Budget>(DataType.Budgets);
 
             var from = list[index].From.ConvertToDate();
             var to = list[index].To.ConvertToDate();
 
 
-            var expenses = _fileManager.ReadPayments(DataType.Expense);
+            // var expenses = _fileManager.ReadPayments(DataType.Expense);
+            var expenses = _fileManager.ReadFromFile<Payment>(DataType.Expense);
             if (!expenses.Any()) return "";
 
 
@@ -49,8 +52,10 @@ namespace Plutus.WebService
         }
         public object ShowStats(int index)
         {
-            var budgets = _fileManager.LoadBudget();
-            var expenses = _fileManager.ReadPayments(DataType.Expense);
+            //var budgets = _fileManager.LoadBudget();
+            // var expenses = _fileManager.ReadPayments(DataType.Expense);
+            var budgets = _fileManager.ReadFromFile<Budget>(DataType.Budgets);
+            var expenses = _fileManager.ReadFromFile<Payment>(DataType.Expense);
 
             var resQuery =
                 (from exp in expenses
