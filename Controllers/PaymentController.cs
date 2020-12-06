@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Plutus.WebService
@@ -25,8 +26,12 @@ namespace Plutus.WebService
         [HttpPost("{type}")]
         public ActionResult<Payment> Post(Payment payment, DataType type)
         {
-            _fileManager.AddPayment(payment, type);
-            return payment;
+            if (Enum.IsDefined(type))
+            {
+                _fileManager.AddPayment(payment, type);
+                return payment;
+            }
+            else return null;
         }
     }
 }
