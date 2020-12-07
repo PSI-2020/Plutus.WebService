@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace Plutus.WebService
 {
@@ -20,9 +21,20 @@ namespace Plutus.WebService
 
             services.AddControllers();
         }
+        private void OutputDataDeletion(object o, string name)
+        {
+            Console.WriteLine(name + " was deleted");
+        }
+        private void OutputDataPaymentAdded(Payment payment)
+        {
+            Console.WriteLine(payment.Name + " was added");
+        }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            GoalsController.GoalDeletedEvent += OutputDataDeletion;
+            PaymentController.PaymentAdded += OutputDataPaymentAdded;
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -8,13 +8,18 @@ using System.Threading.Tasks;
 
 namespace Plutus.WebService
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class GoalsController : ControllerBase
     {
         private readonly FileManager _fileManager = new FileManager();
         private readonly GoalService _goalService = new GoalService();
-        private List<Goal> ReadGoals() => _fileManager.ReadGoals();
+        public static event EventHandler<string> GoalDeletedEvent;
+
+       // private List<Goal> ReadGoals() => _fileManager.ReadGoals();
+        private List<Goal> ReadGoals() => _fileManager.ReadFromFile<Goal>(DataType.Goals);
+
         // GET: api/<GoalsController>
         [HttpGet]
         public IEnumerable<Goal> Get() => ReadGoals();
@@ -45,6 +50,7 @@ namespace Plutus.WebService
         {
             var list = ReadGoals();
             _goalService.DeleteGoal(list[id]);
+            GoalDeletedEvent?.Invoke(this, list[id].Name);
         }
     }
 }

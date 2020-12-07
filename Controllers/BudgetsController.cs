@@ -10,7 +10,10 @@ namespace Plutus.WebService
     {
         private readonly FileManager _fileManager = new FileManager();
         private readonly BudgetService _budgetService = new BudgetService();
-        private List<Budget> ReadBudgets() => _fileManager.LoadBudget();
+       
+        // private List<Budget> ReadBudgets() => _fileManager.LoadBudget();
+        private List<Budget> ReadBudgets() => _fileManager.ReadFromFile<Budget>(DataType.Budgets);
+
         // GET: api/<ValuesController>
         [HttpGet]
         public ActionResult<string> Get()
