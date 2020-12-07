@@ -29,6 +29,7 @@ namespace Plutus.WebService
 
     public class FileManager
     {
+        ILoggerService logger = new ILoggerService();
         public List<T> ReadFromFile<T>(DataType type) where T : class
         {
             var serializer = new XmlSerializer(typeof(List<T>));
@@ -40,8 +41,19 @@ namespace Plutus.WebService
                     return serializer.Deserialize(stream) as List<T>;
                 }
             }
-            catch
+            catch(DirectoryNotFoundException e)
             {
+                logger.Log(e.ToString());
+                return new List<T>();
+            }
+            catch(FileNotFoundException e)
+            {
+                logger.Log(e.ToString());
+                return new List<T>();
+            }
+            catch(IOException e)
+            {
+                logger.Log(e.ToString());
                 return new List<T>();
             }
         }
