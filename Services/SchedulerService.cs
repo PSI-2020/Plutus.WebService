@@ -16,18 +16,27 @@ namespace Plutus.WebService
             for(var x = 0; x < incomesList.Count; x++)
             {
                 var date = incomesList[x].Date.ConvertToDate();
-                if (DateTime.Now >= date && incomesList[x].Active == true)
+                if (DateTime.Now.ConvertToInt() >= incomesList[x].Date && incomesList[x].Active == true)
                 {
-                    _fileManager.AddPayment(new Payment(incomesList[x].Date, incomesList[x].Name, incomesList[x].Amount, incomesList[x].Category), DataType.Income);
                     if(incomesList[x].Frequency == "Monthly")
                     {
-                        var newDate = date.AddMonths(1);
-                        incomesList[x].Date = (int)newDate.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+                        var months = (int)Math.Ceiling((DateTime.Now.ConvertToInt() - incomesList[x].Date) / (30.44 * 24 * 60 * 60));
+                        for (var i = 0; i < months; i++)
+                        {
+                            _fileManager.AddPayment(new Payment(incomesList[x].Date, incomesList[x].Name, incomesList[x].Amount, incomesList[x].Category), DataType.Income);
+                        }
+                        var newDate = date.AddMonths(months);
+                        incomesList[x].Date = newDate.ConvertToInt();
                     }
                     else if(incomesList[x].Frequency == "Weekly")
                     {
-                        var newDate = date.AddDays(7);
-                        incomesList[x].Date = (int)newDate.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+                        var weeks = (int)Math.Floor(((double)DateTime.Now.ConvertToInt() - incomesList[x].Date) / (7 * 24 * 60 * 60));
+                        for (var i = 0; i < weeks; i++)
+                        {
+                            _fileManager.AddPayment(new Payment(incomesList[x].Date, incomesList[x].Name, incomesList[x].Amount, incomesList[x].Category), DataType.Income);
+                        }
+                        var newDate = date.AddDays(weeks * 7);
+                        incomesList[x].Date = newDate.ConvertToInt();
                     }
                 }
             }
@@ -37,16 +46,25 @@ namespace Plutus.WebService
                 var date = expensesList[x].Date.ConvertToDate();
                 if (DateTime.Now >= date && expensesList[x].Active == true)
                 {
-                    _fileManager.AddPayment(new Payment(expensesList[x].Date, expensesList[x].Name, expensesList[x].Amount, expensesList[x].Category), DataType.Expense);
                     if (expensesList[x].Frequency == "Monthly")
                     {
-                        var newDate = date.AddMonths(1);
-                        expensesList[x].Date = (int)newDate.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+                        var months = (int)Math.Ceiling((DateTime.Now.ConvertToInt() - expensesList[x].Date) / (30.44 * 24 * 60 * 60));
+                        for (var i = 0; i < months; i++)
+                        {
+                            _fileManager.AddPayment(new Payment(expensesList[x].Date, expensesList[x].Name, expensesList[x].Amount, expensesList[x].Category), DataType.Expense);
+                        }
+                        var newDate = date.AddMonths(months);
+                        expensesList[x].Date = newDate.ConvertToInt();
                     }
                     else if (expensesList[x].Frequency == "Weekly")
                     {
-                        var newDate = date.AddDays(7);
-                        expensesList[x].Date = (int)newDate.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+                        var weeks = (int)Math.Ceiling(((double)DateTime.Now.ConvertToInt() - expensesList[x].Date) / (7 * 24 * 60 * 60));
+                        for (var i = 0; i < weeks; i++)
+                        {
+                            _fileManager.AddPayment(new Payment(expensesList[x].Date, expensesList[x].Name, expensesList[x].Amount, expensesList[x].Category), DataType.Expense);
+                        }
+                        var newDate = date.AddDays(weeks * 7);
+                        expensesList[x].Date = newDate.ConvertToInt();
                     }
                 }
             }
@@ -72,12 +90,17 @@ namespace Plutus.WebService
         {
             var list = _fileManager.LoadScheduledPayments(type);
             list.Remove(list[index]);
-            _fileManager.UpdateScheduledPayments(ReIDPayments(list, type), type);
+            Func<List<ScheduledPayment>, List<ScheduledPayment>> ReID = delegate (List<ScheduledPayment> list)
+            {
+                list.ForEach(x => x.Id = type.ToString() + list.IndexOf(x));
+                return list;
+            };
+            _fileManager.UpdateScheduledPayments(ReID(list), type);
         }
-        public List<ScheduledPayment> ReIDPayments(List<ScheduledPayment> list, DataType type)
+        /*public List<ScheduledPayment> ReIDPayments(List<ScheduledPayment> list, DataType type)
         {
             list.ForEach(x => x.Id = type.ToString() + list.IndexOf(x));
             return list;
-        }
+        }*/
     }
 }
