@@ -14,9 +14,6 @@ namespace Plutus.WebService
             {
                 case 0:
                 {
-                        //var list =  _fileManager.ReadPayments(DataType.Expense).Select(x => new All { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = "Exp." }).ToList();
-                        //var incomeList = _fileManager.ReadPayments(DataType.Income).Select(x => new All { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = "Inc." }).ToList();
-
                         var list = _fileManager.ReadFromFile<Payment>(DataType.Expense).Select(x => new All { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = "Exp." }).ToList();
                         var incomeList = _fileManager.ReadFromFile<Payment>(DataType.Income).Select(x => new All { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = "Inc." }).ToList();
 
@@ -26,14 +23,12 @@ namespace Plutus.WebService
                 }
                 case 1:
                 {
-                        //var list = _fileManager.ReadPayments(DataType.Expense).Select(x => new All { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = "Exp." }).OrderByDescending(x => x.Date).ToList();
                         var list = _fileManager.ReadFromFile<Payment>(DataType.Expense).Select(x => new All { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = "Exp." }).OrderByDescending(x => x.Date).ToList();
 
                         return !list.Any() ? null : list;
                 }
                 case 2:
                 {
-                    // var list = _fileManager.ReadPayments(DataType.Income).Select(x => new All { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = "Inc." }).OrderByDescending(x => x.Date).ToList();
                         var list = _fileManager.ReadFromFile<Payment>(DataType.Income).Select(x => new All { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = "Inc." }).OrderByDescending(x => x.Date).ToList();
 
                         return !list.Any() ? null : list;

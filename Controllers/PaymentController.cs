@@ -15,9 +15,6 @@ namespace Plutus.WebService
         [HttpGet]
         public ActionResult<List<Payment>> Get()
         {
-            //var list = _fileManager.ReadPayments(DataType.Expense);
-            //list.AddRange(_fileManager.ReadPayments(DataType.Income));
-
             var list = _fileManager.ReadFromFile<Payment>(DataType.Expense);
             list.AddRange(_fileManager.ReadFromFile<Payment>(DataType.Income));
 
@@ -27,9 +24,6 @@ namespace Plutus.WebService
         public ActionResult<List<Payment>> Get(DataType type) =>
             _fileManager.ReadFromFile<Payment>(type);
 
-       /* [HttpGet("{type}")]
-        public ActionResult<List<Payment>> Get(DataType type) =>
-            _fileManager.ReadPayments(type);*/
 
         [HttpPost("{type}")]
         public ActionResult<Payment> Post(Payment payment, DataType type)

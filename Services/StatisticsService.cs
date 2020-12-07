@@ -31,7 +31,6 @@ namespace Plutus.WebService
     {
         public string GenerateExpenseStatistics(FileManager manager)
         {
-            // var list = manager.ReadPayments(DataType.Expense);
             var list = manager.ReadFromFile<Payment>(DataType.Expense);
             if (!list.Any()) return "No expense data found!";
 
@@ -56,7 +55,6 @@ namespace Plutus.WebService
 
         public string GenerateIncomeStatistics(FileManager manager)
         {
-           // var list = manager.ReadPayments(DataType.Income);
             var list = manager.ReadFromFile<Payment>(DataType.Income);
             if (!list.Any()) return "No income data found!";
 

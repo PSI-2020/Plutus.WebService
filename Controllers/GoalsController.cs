@@ -17,7 +17,6 @@ namespace Plutus.WebService
         private readonly GoalService _goalService = new GoalService();
         public static event EventHandler<string> GoalDeletedEvent;
 
-       // private List<Goal> ReadGoals() => _fileManager.ReadGoals();
         private List<Goal> ReadGoals() => _fileManager.ReadFromFile<Goal>(DataType.Goals);
 
         // GET: api/<GoalsController>

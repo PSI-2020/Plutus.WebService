@@ -45,27 +45,10 @@ namespace Plutus.WebService
                 return new List<T>();
             }
         }
-      /*  public List<Payment> ReadPayments(DataType type)
-        {
-            var serializer = new XmlSerializer(typeof(List<Payment>));
-
-            try
-            {
-                using (var stream = File.OpenRead(type.ToDescriptionString()))
-                {
-                    return serializer.Deserialize(stream) as List<Payment>;
-                }
-            }
-            catch
-            {
-                return new List<Payment>();
-            }
-        }*/
 
         public void EditPayment(Payment payment, Payment newPayment, DataType type)
         {
             var serializer = new XmlSerializer(typeof(List<Payment>));
-            //var list = ReadPayments(type);
             var list = ReadFromFile<Payment>(type);
             list[list.IndexOf(payment)] = newPayment;
 
@@ -79,7 +62,6 @@ namespace Plutus.WebService
         public void AddPayment(Payment payment, DataType type)
         {
             var serializer = new XmlSerializer(typeof(List<Payment>));
-           // var list = ReadPayments(type);
             var list = ReadFromFile<Payment>(type);
             CheckDuplicates(list, payment);
 
@@ -96,31 +78,13 @@ namespace Plutus.WebService
             if(duplicates.Any()) Debug.Print("Found " + duplicates.Count() + " duplicate payments.");
         }
 
-       /* public List<Goal> ReadGoals()
-        {
-            var serializer = new XmlSerializer(typeof(List<Goal>));
-
-            try
-            {
-                using (var stream = File.OpenRead(DataType.Goals.ToDescriptionString()))
-                {
-                    return serializer.Deserialize(stream) as List<Goal>;
-                }
-            }
-            catch
-            {
-                return new List<Goal>();
-            }
-
-        }*/
 
         public void AddGoal(Goal goal)
         {
             var serializer = new XmlSerializer(typeof(List<Goal>));
-            //var list = ReadGoals();
             var list = ReadFromFile<Goal>(DataType.Goals);
-
             list.Add(goal);
+
             using (var stream = File.OpenWrite(DataType.Goals.ToDescriptionString()))
             {
                 serializer.Serialize(stream, list);
@@ -140,33 +104,15 @@ namespace Plutus.WebService
         public void AddBudget(Budget budget)
         {
             var serializer = new XmlSerializer(typeof(List<Budget>));
-            //var list = LoadBudget();
             var list = ReadFromFile<Budget>(DataType.Budgets);
-
             list.Add(budget);
+
             using (var stream = File.OpenWrite(DataType.Budgets.ToDescriptionString()))
             {
                 serializer.Serialize(stream, list);
             }
 
         }
-
-       /* public List<Budget> LoadBudget()
-        {
-            var serializer = new XmlSerializer(typeof(List<Budget>));
-
-            try
-            {
-                using (var stream = File.OpenRead(DataType.Budgets.ToDescriptionString()))
-                {
-                    return serializer.Deserialize(stream) as List<Budget>;
-                }
-            }
-            catch
-            {
-                return new List<Budget>();
-            }
-        }*/
 
         public void UpdateBudgets(List<Budget> list)
         {
@@ -181,7 +127,6 @@ namespace Plutus.WebService
         public void AddScheduledPayment(ScheduledPayment payment, DataType type)
         {
             var serializer = new XmlSerializer(typeof(List<ScheduledPayment>));
-            //var list = LoadScheduledPayments(type);
             var list = ReadFromFile<ScheduledPayment>(type);
 
             list.Add(payment);
@@ -190,23 +135,6 @@ namespace Plutus.WebService
                 serializer.Serialize(stream, list);
             }
 
-        }
-
-        public List<ScheduledPayment> LoadScheduledPayments(DataType type)
-        {
-            var serializer = new XmlSerializer(typeof(List<ScheduledPayment>));
-
-            try
-            {
-                using (var stream = File.OpenRead(type.ToDescriptionString()))
-                {
-                    return serializer.Deserialize(stream) as List<ScheduledPayment>;
-                }
-            }
-            catch
-            {
-                return new List<ScheduledPayment>();
-            }
         }
 
         public void UpdateScheduledPayments(List<ScheduledPayment> list, DataType type)

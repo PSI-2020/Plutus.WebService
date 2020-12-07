@@ -10,8 +10,8 @@ namespace Plutus.WebService
         private readonly FileManager _fileManager = new FileManager();
         public void CheckPayments()
         {
-            var incomesList = _fileManager.LoadScheduledPayments(DataType.MonthlyIncome);
-            var expensesList = _fileManager.LoadScheduledPayments(DataType.MonthlyExpenses);
+            var incomesList = _fileManager.ReadFromFile<ScheduledPayment>(DataType.MonthlyIncome);
+            var expensesList = _fileManager.ReadFromFile<ScheduledPayment>(DataType.MonthlyExpenses);
 
             for(var x = 0; x < incomesList.Count; x++)
             {
@@ -72,7 +72,7 @@ namespace Plutus.WebService
         }
         public string ShowPayment(int index, DataType type)
         {
-            var list = _fileManager.LoadScheduledPayments(type);
+            var list = _fileManager.ReadFromFile<ScheduledPayment>(type);
             if (!list.Any()) return "";
 
             var date = list[index].Date.ConvertToDate();
@@ -82,13 +82,13 @@ namespace Plutus.WebService
         }
         public void ChangeStatus(int index, DataType type, bool status)
         {
-            var list = _fileManager.LoadScheduledPayments(type);
+            var list = _fileManager.ReadFromFile<ScheduledPayment>(type);
             list[index].Active = status;
             _fileManager.UpdateScheduledPayments(list, type);
         }
         public void DeletePayment(int index, DataType type)
         {
-            var list = _fileManager.LoadScheduledPayments(type);
+            var list = _fileManager.ReadFromFile<ScheduledPayment>(type);
             list.Remove(list[index]);
             Func<List<ScheduledPayment>, List<ScheduledPayment>> ReID = delegate (List<ScheduledPayment> list)
             {

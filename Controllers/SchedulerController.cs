@@ -10,8 +10,8 @@ namespace Plutus.WebService
     {
         private readonly FileManager _fileManager = new FileManager();
         private readonly SchedulerService _schedulerService = new SchedulerService();
-        private List<ScheduledPayment> ReadExpenses() => _fileManager.LoadScheduledPayments(DataType.MonthlyExpenses);
-        private List<ScheduledPayment> ReadIncomes() => _fileManager.LoadScheduledPayments(DataType.MonthlyIncome);
+        private List<ScheduledPayment> ReadExpenses() => _fileManager.ReadFromFile<ScheduledPayment>(DataType.MonthlyExpenses);
+        private List<ScheduledPayment> ReadIncomes() => _fileManager.ReadFromFile<ScheduledPayment>(DataType.MonthlyIncome);
         // GET: api/<ValuesController>
         [HttpGet]
         public ActionResult<string> Get()
