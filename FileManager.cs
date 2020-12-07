@@ -114,14 +114,11 @@ namespace Plutus.WebService
 
         }*/
 
-        public void AddGoal(string name, string amount, DateTime dueDate)
+        public void AddGoal(Goal goal)
         {
             var serializer = new XmlSerializer(typeof(List<Goal>));
             //var list = ReadGoals();
             var list = ReadFromFile<Goal>(DataType.Goals);
-
-            var newAmount = double.Parse(amount);
-            var goal = new Goal(name, newAmount, dueDate);
 
             list.Add(goal);
             using (var stream = File.OpenWrite(DataType.Goals.ToDescriptionString()))

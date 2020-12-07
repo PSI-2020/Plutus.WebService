@@ -35,9 +35,9 @@ namespace Plutus.WebService
 
         // POST api/<GoalsController>
         [HttpPost]
-        public void Post([FromBody] string name, string amount, DateTime date)
+        public void Post([FromBody] Goal goal)
         {
-            _fileManager.AddGoal(name, amount, date);
+            _fileManager.AddGoal(goal);
         }
 
         // PUT api/<GoalsController>/
