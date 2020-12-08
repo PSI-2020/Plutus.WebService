@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -7,16 +8,10 @@ namespace Plutus.WebService
     class CartService
     {
         private Cart _currentCart;
-        private readonly List<Cart> _carts;
-        private readonly FileManager _fm;
+        private Lazy<List<Cart>> _carts => new Lazy<List<Cart>>(() => LoadCarts());
+        private readonly FileManager _fm = new FileManager();
         private string _cartLoadMessage;
 
-        public CartService(FileManager fm)
-        {
-            _carts = new List<Cart>();
-            _fm = fm;
-            _cartLoadMessage = LoadCarts();
-        }
         public string GiveLoadMessage()
         {
             var message = _cartLoadMessage;
@@ -40,33 +35,34 @@ namespace Plutus.WebService
         public void SetCurrentName(string name) => _currentCart.ChangeName(name);
         public void AddCurrentCart()
         {
-            _carts.Add(_currentCart);
+            _carts.Value.Add(_currentCart);
             SaveCarts();
         }
 
         public string GiveCurrentName() => _currentCart.GiveName();
-        public int GiveCartCount() => _carts.Count;
+        public int GiveCartCount() => _carts.Value.Count;
 
-        public string VerifyName(string name, string prevname) => _carts.Where(x => ((x.GiveName() == name) && (x.GiveName() != prevname))).Any() ? "Cart name already taken" : "";
+        public string VerifyName(string name, string prevname) => _carts.Value.Where(x => ((x.GiveName() == name) && (x.GiveName() != prevname))).Any() ? "Cart name already taken" : "";
 
-        public string GiveCartNameAt(int i) => _carts[i].GiveName();
+        public string GiveCartNameAt(int i) => _carts.Value[i].GiveName();
 
-        public void CurrentCartSet(int i) => _currentCart = _carts[i];
+        public void CurrentCartSet(int i) => _currentCart = _carts.Value[i];
 
         public void SaveCartChanges(int i)
         {
-            _carts[i] = _currentCart;
+            _carts.Value[i] = _currentCart;
             SaveCarts();
         }
 
         public void DeleteCurrent()
         {
-            _ = _carts.Remove(_currentCart);
+            _ = _carts.Value.Remove(_currentCart);
             SaveCarts();
         }
 
-        public void ChargeCart(PaymentService ps)
+        public void ChargeCart()
         {
+            var ps = new PaymentService(_fm);
             for (var i = 0; i < _currentCart.GiveElementC(); i++)
             {
                 var expense = _currentCart.GiveExpense(i);
@@ -77,7 +73,7 @@ namespace Plutus.WebService
         {
             var cartsXml = new List<XElement>();
             var index = 0;
-            foreach (var cart in _carts)
+            foreach (var cart in _carts.Value)
             {
                 var expenseXml = new List<XElement>();
                 for (var i = 0; i < cart.GiveElementC(); i++)
@@ -101,11 +97,15 @@ namespace Plutus.WebService
             _fm.SaveCarts(cartsStored);
         }
 
-        private string LoadCarts()
+        private List<Cart> LoadCarts()
         {
+            var cartsList = new List<Cart>();
             var cartsStored = _fm.LoadCarts();
-            if (cartsStored == null) return "";
-            if (cartsStored.Element("Corrupted") != null) return "Carts Could not be Loaded";
+            if (cartsStored == null)
+            {
+                _cartLoadMessage = "";
+                return cartsList;
+            }
             var cartsXml = cartsStored.Elements();
             foreach (var cart in cartsXml)
             {
@@ -123,9 +123,10 @@ namespace Plutus.WebService
                         );
                      specificCart.AddExpense(cartExpense);
                 }
-                _carts.Add(specificCart);
+                cartsList.Add(specificCart);
             }
-            return "Carts Loaded";
+            _cartLoadMessage = "Carts Loaded";
+            return cartsList;
             
         }
 
