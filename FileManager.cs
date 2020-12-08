@@ -29,7 +29,7 @@ namespace Plutus.WebService
 
     public class FileManager
     {
-        ILoggerService logger = new ILoggerService();
+        private readonly ILoggerService logger = new ILoggerService();
         public List<T> ReadFromFile<T>(DataType type) where T : class
         {
             var serializer = new XmlSerializer(typeof(List<T>));

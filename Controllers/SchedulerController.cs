@@ -40,21 +40,13 @@ namespace Plutus.WebService
         [HttpGet("{id}/{type}")]
         public string Get(int id, DataType type) => _schedulerService.ShowPayment(id, type);
 
-        /*[HttpGet("{id}")]
-        public object GetStats(int id)
-        {
-            return _budgetService.ShowStats(id);
-        }*/
-
         // POST api/<ValuesController>
         [HttpPost("{type}")]
         public void Post([FromBody] ScheduledPayment payment, DataType type) => _fileManager.AddScheduledPayment(payment, type);
 
         // PUT api/<ValuesController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        [HttpPut("{id}/{type}/{status}")]
+        public void Put(int id, DataType type, bool status) => _schedulerService.ChangeStatus(id, type, status);
 
         // DELETE api/<ValuesController>/5
         [HttpDelete("{id}/{type}")]
