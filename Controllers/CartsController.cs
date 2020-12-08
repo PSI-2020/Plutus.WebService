@@ -9,10 +9,10 @@ namespace Plutus.WebService.Controllers
     {
         private FileManager _fm = new FileManager();
 
-        [HttpGet("LoadCarts")]
+        [HttpGet]
         public XElement LoadCarts() => _fm.LoadCarts();
 
-        [HttpPost("SaveCarts")]
+        [HttpPost]
         public void SaveCarts(XElement carts) => _fm.SaveCarts(carts);
 
     }
