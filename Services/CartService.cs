@@ -5,12 +5,14 @@ using System.Xml.Linq;
 
 namespace Plutus.WebService
 {
-    class CartService
+    public class CartService
     {
         private Cart _currentCart;
-        private Lazy<List<Cart>> _carts => new Lazy<List<Cart>>(() => LoadCarts());
+        private List<Cart> _carts;
         private readonly FileManager _fm = new FileManager();
         private string _cartLoadMessage;
+
+        public CartService() => _carts = LoadCarts();
 
         public string GiveLoadMessage()
         {
@@ -35,28 +37,28 @@ namespace Plutus.WebService
         public void SetCurrentName(string name) => _currentCart.ChangeName(name);
         public void AddCurrentCart()
         {
-            _carts.Value.Add(_currentCart);
+            _carts.Add(_currentCart);
             SaveCarts();
         }
 
         public string GiveCurrentName() => _currentCart.GiveName();
-        public int GiveCartCount() => _carts.Value.Count;
+        public int GiveCartCount() => _carts.Count;
 
-        public string VerifyName(string name, string prevname) => _carts.Value.Where(x => ((x.GiveName() == name) && (x.GiveName() != prevname))).Any() ? "Cart name already taken" : "";
+        public string VerifyName(string name, string prevname) => _carts.Where(x => ((x.GiveName() == name) && (x.GiveName() != prevname))).Any() ? "Cart name already taken" : "";
 
-        public string GiveCartNameAt(int i) => _carts.Value[i].GiveName();
+        public string GiveCartNameAt(int i) => _carts[i].GiveName();
 
-        public void CurrentCartSet(int i) => _currentCart = _carts.Value[i];
+        public void CurrentCartSet(int i) => _currentCart = _carts[i];
 
         public void SaveCartChanges(int i)
         {
-            _carts.Value[i] = _currentCart;
+            _carts[i] = _currentCart;
             SaveCarts();
         }
 
         public void DeleteCurrent()
         {
-            _ = _carts.Value.Remove(_currentCart);
+            _ = _carts.Remove(_currentCart);
             SaveCarts();
         }
 
@@ -73,7 +75,7 @@ namespace Plutus.WebService
         {
             var cartsXml = new List<XElement>();
             var index = 0;
-            foreach (var cart in _carts.Value)
+            foreach (var cart in _carts)
             {
                 var expenseXml = new List<XElement>();
                 for (var i = 0; i < cart.GiveElementC(); i++)
