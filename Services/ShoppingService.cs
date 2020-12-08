@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Plutus.WebService
 {
-    class ShoppingService
+    public class ShoppingService
     {
         private List<ShoppingExpense> _shoppingBag;
         
@@ -23,8 +23,9 @@ namespace Plutus.WebService
             else _shoppingBag[index].State = 0;
         }
 
-        public void ChargeShopping(PaymentService ps)
+        public void ChargeShopping()
         {
+            var ps = new PaymentService(new FileManager());
             for (var i = 0; i < _shoppingBag.Count; i++)
             {
                 if (_shoppingBag[i].State == 1)

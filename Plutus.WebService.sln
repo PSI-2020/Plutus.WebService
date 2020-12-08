@@ -5,16 +5,43 @@ VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plutus.WebService", "Plutus.WebService.csproj", "{75AC68E0-C95D-46E3-A501-B67CCFF6A019}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plutus", "..\Plutus\Plutus.csproj", "{02329E29-1569-48C9-90A6-163FF810E672}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plutus.BackEnd", "..\Plutus.BackEnd\Plutus.BackEnd.csproj", "{71AFC4A5-3786-47D4-82E7-5DDB6A8417BB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plutus.WinForms", "..\..\..\Desktop\Plutus.WinForms\Plutus.WinForms.csproj", "{1B4AE11B-88CE-48D5-9CD3-0DD51CD99B26}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		appConfig|Any CPU = appConfig|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{75AC68E0-C95D-46E3-A501-B67CCFF6A019}.appConfig|Any CPU.ActiveCfg = Release|Any CPU
+		{75AC68E0-C95D-46E3-A501-B67CCFF6A019}.appConfig|Any CPU.Build.0 = Release|Any CPU
 		{75AC68E0-C95D-46E3-A501-B67CCFF6A019}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{75AC68E0-C95D-46E3-A501-B67CCFF6A019}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75AC68E0-C95D-46E3-A501-B67CCFF6A019}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75AC68E0-C95D-46E3-A501-B67CCFF6A019}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02329E29-1569-48C9-90A6-163FF810E672}.appConfig|Any CPU.ActiveCfg = appConfig|Any CPU
+		{02329E29-1569-48C9-90A6-163FF810E672}.appConfig|Any CPU.Build.0 = appConfig|Any CPU
+		{02329E29-1569-48C9-90A6-163FF810E672}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02329E29-1569-48C9-90A6-163FF810E672}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02329E29-1569-48C9-90A6-163FF810E672}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02329E29-1569-48C9-90A6-163FF810E672}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71AFC4A5-3786-47D4-82E7-5DDB6A8417BB}.appConfig|Any CPU.ActiveCfg = Debug|Any CPU
+		{71AFC4A5-3786-47D4-82E7-5DDB6A8417BB}.appConfig|Any CPU.Build.0 = Debug|Any CPU
+		{71AFC4A5-3786-47D4-82E7-5DDB6A8417BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71AFC4A5-3786-47D4-82E7-5DDB6A8417BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71AFC4A5-3786-47D4-82E7-5DDB6A8417BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71AFC4A5-3786-47D4-82E7-5DDB6A8417BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B4AE11B-88CE-48D5-9CD3-0DD51CD99B26}.appConfig|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B4AE11B-88CE-48D5-9CD3-0DD51CD99B26}.appConfig|Any CPU.Build.0 = Debug|Any CPU
+		{1B4AE11B-88CE-48D5-9CD3-0DD51CD99B26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B4AE11B-88CE-48D5-9CD3-0DD51CD99B26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B4AE11B-88CE-48D5-9CD3-0DD51CD99B26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B4AE11B-88CE-48D5-9CD3-0DD51CD99B26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

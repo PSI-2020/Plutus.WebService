@@ -1,22 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
 namespace Plutus.WebService
 {
-    class CartService
+    public class CartService
     {
         private Cart _currentCart;
-        private readonly List<Cart> _carts;
-        private readonly FileManager _fm;
+        private List<Cart> _carts;
+        private readonly FileManager _fm = new FileManager();
         private string _cartLoadMessage;
 
-        public CartService(FileManager fm)
-        {
-            _carts = new List<Cart>();
-            _fm = fm;
-            _cartLoadMessage = LoadCarts();
-        }
+        public CartService() => _carts = LoadCarts();
+
         public string GiveLoadMessage()
         {
             var message = _cartLoadMessage;
@@ -65,8 +62,9 @@ namespace Plutus.WebService
             SaveCarts();
         }
 
-        public void ChargeCart(PaymentService ps)
+        public void ChargeCart()
         {
+            var ps = new PaymentService(_fm);
             for (var i = 0; i < _currentCart.GiveElementC(); i++)
             {
                 var expense = _currentCart.GiveExpense(i);
@@ -101,11 +99,15 @@ namespace Plutus.WebService
             _fm.SaveCarts(cartsStored);
         }
 
-        private string LoadCarts()
+        private List<Cart> LoadCarts()
         {
+            var cartsList = new List<Cart>();
             var cartsStored = _fm.LoadCarts();
-            if (cartsStored == null) return "";
-            if (cartsStored.Element("Corrupted") != null) return "Carts Could not be Loaded";
+            if (cartsStored == null)
+            {
+                _cartLoadMessage = "";
+                return cartsList;
+            }
             var cartsXml = cartsStored.Elements();
             foreach (var cart in cartsXml)
             {
@@ -123,9 +125,10 @@ namespace Plutus.WebService
                         );
                      specificCart.AddExpense(cartExpense);
                 }
-                _carts.Add(specificCart);
+                cartsList.Add(specificCart);
             }
-            return "Carts Loaded";
+            _cartLoadMessage = "Carts Loaded";
+            return cartsList;
             
         }
 

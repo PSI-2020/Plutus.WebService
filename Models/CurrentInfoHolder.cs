@@ -1,7 +1,7 @@
 ﻿
 namespace Plutus.WebService
 {
-    class CurrentInfoHolder
+    public class CurrentInfoHolder
     {
         public DataType CurrentType { get; set; }
         public string CurrentCategory { get; set; }
