@@ -37,7 +37,7 @@ namespace Plutus.WebService
         public string Get(int id) => _budgetService.GenerateBudget(id);
 
         [HttpGet("{id}/stats")]
-        public object GetStats(int id) => _budgetService.ShowStats(id);
+        public List<Payment> GetStats(int id) => _budgetService.ShowStats(id);
 
         // POST api/<ValuesController>
         [HttpPost]
