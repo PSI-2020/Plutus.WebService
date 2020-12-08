@@ -14,18 +14,9 @@ namespace Plutus.WebService
             list.Remove(list[index]);
             Func<List<Budget>, List<Budget>> Rename = delegate (List<Budget> list) { list.ForEach(x => x.Name = "budget" + list.IndexOf(x)); return list; };
 
-            /*Func<List<Budget>, List<Budget>> Rename2;
-            Rename2 = list => { list.ForEach(x => x.Name = "budget" + list.IndexOf(x)); return list; };
-
-            List<Budget> Rename3(List<Budget> list) { list.ForEach(x => x.Name = "budget" + list.IndexOf(x)); return list; }*/
-
             _fileManager.UpdateBudgets(Rename(list));
         }
-        /*public List<Budget> RenameBudgets(List<Budget> list)
-        {
-            list.ForEach(x => x.Name = "budget" + list.IndexOf(x));
-            return list;
-        }*/
+
 
         public string GenerateBudget(int index)
         {
@@ -53,21 +44,18 @@ namespace Plutus.WebService
 
             return data;
         }
-        public object ShowStats(int index)
+        public List<Payment> ShowStats(int index)
         {
             var budgets = _fileManager.ReadFromFile<Budget>(DataType.Budgets);
             var expenses = _fileManager.ReadFromFile<Payment>(DataType.Expense);
 
-            var resQuery =
+            var list =
                 (from exp in expenses
                  where exp.Category == budgets[index].Category
                  where exp.Date >= budgets[index].From
                  where exp.Date <= budgets[index].To
                  select exp).ToList();
-            var list = resQuery
-                .Select(x => new { DATE = x.Date.ConvertToDate(), NAME = x.Name, AMOUNT = x.Amount, CATEGORY = x.Category })
-                .OrderByDescending(x => x.DATE).ToList();
-            return !list.Any() ? null : (object)list;
+            return !list.Any() ? null : list;
         }
 
     }
