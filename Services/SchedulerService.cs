@@ -40,6 +40,7 @@ namespace Plutus.WebService
                     }
                 }
             }
+            _fileManager.UpdateScheduledPayments(incomesList, DataType.MonthlyIncome);
 
             for (var x = 0; x < expensesList.Count; x++)
             {
