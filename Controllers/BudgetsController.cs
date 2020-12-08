@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Plutus.WebService.IRepos;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,7 +10,13 @@ namespace Plutus.WebService
     public class BudgetsController : ControllerBase
     {
         private readonly FileManager _fileManager = new FileManager();
-        private readonly BudgetService _budgetService = new BudgetService();
+        private readonly IBudgetRepository _budgetRepository;
+
+        // Inject IEmployeeRepository using Constructor Injection
+        public BudgetsController(IBudgetRepository budgetRepository)
+        {
+            _budgetRepository = budgetRepository;
+        }
 
         private List<Budget> ReadBudgets() => _fileManager.ReadFromFile<Budget>(DataType.Budgets);
 
@@ -21,7 +28,7 @@ namespace Plutus.WebService
             if (!list.Any()) return "";
             for (var x = 0; x < list.Count; x++)
             {
-                result = result + _budgetService.GenerateBudget(x) + "\r\n" + "\r\n";
+                result = result + _budgetRepository.GenerateBudget(x) + "\r\n" + "\r\n";
             }
             return result;
         }
@@ -32,15 +39,15 @@ namespace Plutus.WebService
         }
 
         [HttpGet("{id}")]
-        public string Get(int id) => _budgetService.GenerateBudget(id);
+        public string Get(int id) => _budgetRepository.GenerateBudget(id);
 
         [HttpGet("{id}/stats")]
-        public List<Payment> GetStats(int id) => _budgetService.ShowStats(id);
+        public List<Payment> GetStats(int id) => _budgetRepository.ShowStats(id);
 
         [HttpPost]
         public void Post([FromBody] Budget budget) => _fileManager.AddBudget(budget);
 
         [HttpDelete("{id}")]
-        public void Delete(int id) => _budgetService.DeleteBudget(id);
+        public void Delete(int id) => _budgetRepository.DeleteBudget(id);
     }
 }

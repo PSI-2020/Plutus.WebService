@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Plutus.WebService.IRepos;
 using System;
 
 namespace Plutus.WebService
@@ -18,8 +19,8 @@ namespace Plutus.WebService
 
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
+            services.AddScoped<IBudgetRepository, BudgetRepository>();
         }
         private void OutputDataDeletion(object o, string name)
         {
