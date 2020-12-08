@@ -12,6 +12,8 @@ namespace Plutus.WebService.Controllers
 
         [HttpGet]
         public List<string> LoadCarts() => _cartService.GiveCarts();
+        [HttpGet("Payments/{index}")]
+        public List<CartExpense> CallCarts(int index) => _cartService.GiveExpenses(index);
 
 
         [HttpPost]
