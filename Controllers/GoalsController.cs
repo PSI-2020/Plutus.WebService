@@ -19,11 +19,9 @@ namespace Plutus.WebService
 
         private List<Goal> ReadGoals() => _fileManager.ReadFromFile<Goal>(DataType.Goals);
 
-        // GET: api/<GoalsController>
         [HttpGet]
         public IEnumerable<Goal> Get() => ReadGoals();
 
-        // GET api/<GoalsController>/5
         [HttpGet("{id}/{dailyOrMonthly}")]
         public string GetInsights(int id, string dailyOrMonthly)
         {
@@ -31,18 +29,15 @@ namespace Plutus.WebService
             return _goalService.Insights(list[id], dailyOrMonthly);
         }
 
-        // POST api/<GoalsController>
         [HttpPost]
         public void Post([FromBody] Goal goal)
         {
             _fileManager.AddGoal(goal);
         }
 
-        // PUT api/<GoalsController>/
         [HttpPut]
         public void Put([FromBody] Goal goal) => _goalService.SetMainGoal(goal);
 
-        // DELETE api/<GoalsController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

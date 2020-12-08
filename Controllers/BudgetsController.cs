@@ -13,7 +13,6 @@ namespace Plutus.WebService
 
         private List<Budget> ReadBudgets() => _fileManager.ReadFromFile<Budget>(DataType.Budgets);
 
-        // GET: api/<ValuesController>
         [HttpGet]
         public ActionResult<string> Get()
         {
@@ -32,18 +31,15 @@ namespace Plutus.WebService
             return ReadBudgets();
         }
 
-        // GET api/<ValuesController>/5
         [HttpGet("{id}")]
         public string Get(int id) => _budgetService.GenerateBudget(id);
 
         [HttpGet("{id}/stats")]
         public List<Payment> GetStats(int id) => _budgetService.ShowStats(id);
 
-        // POST api/<ValuesController>
         [HttpPost]
         public void Post([FromBody] Budget budget) => _fileManager.AddBudget(budget);
 
-        // DELETE api/<ValuesController>/5
         [HttpDelete("{id}")]
         public void Delete(int id) => _budgetService.DeleteBudget(id);
     }
