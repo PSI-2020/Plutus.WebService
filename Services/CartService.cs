@@ -14,6 +14,16 @@ namespace Plutus.WebService
 
         public CartService() => _carts = LoadCarts();
 
+        public List<String> GiveCarts()
+        {
+            var names = new List<String>();
+            foreach(Cart cart in _carts)
+            {
+                names.Add(cart.GiveName());
+            }
+            return names;
+        }
+
         public string GiveLoadMessage()
         {
             var message = _cartLoadMessage;
@@ -97,6 +107,11 @@ namespace Plutus.WebService
             }
             var cartsStored = new XElement("carts", cartsXml);
             _fm.SaveCarts(cartsStored);
+        }
+        public void SaveCarts(List<Cart> carts)
+        {
+            _carts = carts;
+            SaveCarts();
         }
 
         private List<Cart> LoadCarts()
