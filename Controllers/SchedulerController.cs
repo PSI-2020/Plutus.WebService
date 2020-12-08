@@ -67,5 +67,8 @@ namespace Plutus.WebService
         // DELETE api/<ValuesController>/5
         [HttpDelete("{id}/{type}")]
         public void Delete(int id, DataType type) => _schedulerService.DeletePayment(id, type);
+
+        [HttpPatch]
+        public void CheckPayments() => _schedulerService.CheckPayments();
     }
 }

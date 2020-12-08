@@ -24,12 +24,11 @@ namespace Plutus.WebService
         public IEnumerable<Goal> Get() => ReadGoals();
 
         // GET api/<GoalsController>/5
-        [HttpGet("{name}/{dailyOrMonthly}")]
-        public string GetInsights(string name, string dailyOrMonthly)
+        [HttpGet("{id}/{dailyOrMonthly}")]
+        public string GetInsights(int id, string dailyOrMonthly)
         {
             var list = ReadGoals();
-            var item = list.Where(x => x.Name == name).ToList();
-            return _goalService.Insights(item[0], dailyOrMonthly);
+            return _goalService.Insights(list[id], dailyOrMonthly);
         }
 
         // POST api/<GoalsController>

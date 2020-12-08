@@ -40,6 +40,7 @@ namespace Plutus.WebService
                     }
                 }
             }
+            _fileManager.UpdateScheduledPayments(incomesList, DataType.MonthlyIncome);
 
             for (var x = 0; x < expensesList.Count; x++)
             {
@@ -78,7 +79,7 @@ namespace Plutus.WebService
             var date = list[index].Date.ConvertToDate();
             return list[index].Active == false
                 ? list[index].Name + " in " + list[index].Category + "\r\n" + "Inactive"
-                : list[index].Name + " in " + list[index].Category + "\r\n" + "Next payment: " + date.ToString();
+                : list[index].Name + " in " + list[index].Category + "\r\n" + "Next payment: " + date.ToString("yyyy/MM/dd");
         }
         public void ChangeStatus(int index, DataType type, bool status)
         {
