@@ -14,7 +14,7 @@ namespace Plutus.WebService
         private List<ScheduledPayment> ReadIncomes() => _fileManager.ReadFromFile<ScheduledPayment>(DataType.MonthlyIncome);
         // GET: api/<ValuesController>
         [HttpGet]
-        public ActionResult<string> Get()
+        public string Get()
         {
             var result = "";
             var expenses = ReadExpenses();
@@ -35,6 +35,19 @@ namespace Plutus.WebService
             }
             return result;
         }
+        [HttpGet("{type}")]
+        public List<ScheduledPayment> Get(DataType type)
+        { 
+            if(type == DataType.MonthlyExpenses)
+            {
+                return ReadExpenses();
+            }
+            if(type == DataType.MonthlyIncome)
+            {
+                return ReadIncomes();
+            }
+            return null;
+        }
 
         // GET api/<ValuesController>/5
         [HttpGet("{id}/{type}")]
@@ -46,7 +59,10 @@ namespace Plutus.WebService
 
         // PUT api/<ValuesController>/5
         [HttpPut("{id}/{type}/{status}")]
-        public void Put(int id, DataType type, bool status) => _schedulerService.ChangeStatus(id, type, status);
+        public void Put(int id, DataType type, bool status)
+        { 
+            _schedulerService.ChangeStatus(id, type, status); 
+        }
 
         // DELETE api/<ValuesController>/5
         [HttpDelete("{id}/{type}")]
