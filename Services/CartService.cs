@@ -129,7 +129,15 @@ namespace Plutus.WebService
             {
                 newCart.AddExpense(cartExpenses[i]);
             }
-            _carts[index] = newCart;
+            if (index <= _carts.Count)
+            {
+                _carts[index] = newCart;
+            }
+            else
+            {
+                _carts.Add(newCart);
+            }
+
             SaveCarts();
         }
 
