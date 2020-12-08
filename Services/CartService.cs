@@ -24,6 +24,17 @@ namespace Plutus.WebService
             return names;
         }
 
+        public List<CartExpense> GiveExpenses(int index)
+        {
+            var expenses = new List<CartExpense>();
+            var count = _carts[index].GiveElementC();
+            for(var i = 0; i < count; i++)
+            {
+                expenses.Add(_carts[index].GiveExpense(i));
+            }
+            return expenses;
+        }
+
         public string GiveLoadMessage()
         {
             var message = _cartLoadMessage;
