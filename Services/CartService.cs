@@ -14,7 +14,15 @@ namespace Plutus.WebService
 
         public CartService() => _carts = LoadCarts();
 
-        public List<Cart> GiveCarts() => _carts;
+        public List<String> GiveCarts()
+        {
+            var names = new List<String>();
+            foreach(Cart cart in _carts)
+            {
+                names.Add(cart.GiveName());
+            }
+            return names;
+        }
 
         public string GiveLoadMessage()
         {

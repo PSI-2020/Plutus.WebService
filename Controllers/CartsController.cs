@@ -11,7 +11,8 @@ namespace Plutus.WebService.Controllers
         private CartService _cartService = new CartService();
 
         [HttpGet]
-        public List<Cart> LoadCarts() => _cartService.GiveCarts();
+        public List<string> LoadCarts() => _cartService.GiveCarts();
+
 
         [HttpPost]
         public void SaveCarts(List<Cart> carts) => _cartService.SaveCarts(carts);
