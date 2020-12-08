@@ -17,7 +17,7 @@ namespace Plutus.WebService
 
         public ScheduledPayment(DateTime date, string name, double amount, string category, string id, string frequency, bool status)
         {
-            Date = (int)date.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+            Date = date.ConvertToInt();
             Name = name;
             Amount = amount;
             Category = category;
