@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Xml.Linq;
 
 namespace Plutus.WebService.Controllers
@@ -7,13 +8,13 @@ namespace Plutus.WebService.Controllers
     [ApiController]
     public class CartsController : ControllerBase
     {
-        private FileManager _fm = new FileManager();
+        private CartService _cartService = new CartService();
 
         [HttpGet]
-        public XElement LoadCarts() => _fm.LoadCarts();
+        public List<Cart> LoadCarts() => _cartService.GiveCarts();
 
         [HttpPost]
-        public void SaveCarts(XElement carts) => _fm.SaveCarts(carts);
+        public void SaveCarts(List<Cart> carts) => _cartService.SaveCarts(carts);
 
     }
 }
