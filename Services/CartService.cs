@@ -119,9 +119,14 @@ namespace Plutus.WebService
             var cartsStored = new XElement("carts", cartsXml);
             _fm.SaveCarts(cartsStored);
         }
-        public void SaveCarts(List<Cart> carts)
+        public void SaveCarts(int index, string name, List<CartExpense> cartExpenses)
         {
-            _carts = carts;
+            var cart = new Cart();
+            for(var i = 0; i < cartExpenses.Count; i++)
+            {
+                cart.AddExpense(cartExpenses[i]);
+            }
+            _carts[index] = cart;
             SaveCarts();
         }
 

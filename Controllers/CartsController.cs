@@ -16,8 +16,8 @@ namespace Plutus.WebService.Controllers
         public List<CartExpense> CallCarts(int index) => _cartService.GiveExpenses(index);
 
 
-        [HttpPost]
-        public void SaveCarts(List<Cart> carts) => _cartService.SaveCarts(carts);
+        [HttpPost("{index}/{name}")]
+        public void SaveCarts(int index, string name, List<CartExpense> cartExpenses) => _cartService.SaveCarts(index, name, cartExpenses);
 
     }
 }
