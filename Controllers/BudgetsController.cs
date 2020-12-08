@@ -26,6 +26,11 @@ namespace Plutus.WebService
             }
             return result;
         }
+        [HttpGet("list")]
+        public List<Budget> GetList()
+        {
+            return ReadBudgets();
+        }
 
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
