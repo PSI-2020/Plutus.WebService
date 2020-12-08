@@ -78,7 +78,7 @@ namespace Plutus.WebService
             var date = list[index].Date.ConvertToDate();
             return list[index].Active == false
                 ? list[index].Name + " in " + list[index].Category + "\r\n" + "Inactive"
-                : list[index].Name + " in " + list[index].Category + "\r\n" + "Next payment: " + date.ToString("yyyy/MM/dd");
+                : list[index].Name + " in " + list[index].Category + "\r\n" + "Next payment: " + date.ToString();
         }
         public void ChangeStatus(int index, DataType type, bool status)
         {
