@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Xml.Linq;
 
 namespace Plutus.WebService
 {
-    public class CartService
+    public class CartBackendService
     {
-        private Cart _currentCart;
-        private List<Cart> _carts;
+        private readonly List<Cart> _carts;
         private readonly FileManager _fm = new FileManager();
-        private string _cartLoadMessage;
 
-        public CartService() => _carts = LoadCarts();
+        public CartBackendService() => _carts = LoadCarts(); 
 
-        public List<String> GiveCarts()
+        public List<string> GiveCartNames()
         {
-            var names = new List<String>();
-            foreach(Cart cart in _carts)
+            var names = new List<string>();
+            foreach (var cart in _carts)
             {
                 names.Add(cart.GiveName());
             }
@@ -35,61 +31,23 @@ namespace Plutus.WebService
             return expenses;
         }
 
-        public string GiveLoadMessage()
+        public void DeleteCart(int index)
         {
-            var message = _cartLoadMessage;
-            _cartLoadMessage = "";
-            return message;
-        }
-
-        public void NewCart() => _currentCart = new Cart();
-        public void AddExpenseToCart(CurrentInfoHolder cih)
-        {
-            var expense = new CartExpense(cih.CurrentName, double.Parse(cih.CurrentAmout), cih.CurrentCategory);
-            _currentCart.AddExpense(expense);
-        }
-
-        public int GiveCurrentCartElemCount() => _currentCart.GiveElementC();
-
-        public CartExpense GiveCurrentElemAt(int i) => _currentCart.GiveExpense(i);
-
-        public void RemoveExpenseCurrentAt(int i) => _currentCart.RemoveExpense(i);
-
-        public void SetCurrentName(string name) => _currentCart.ChangeName(name);
-        public void AddCurrentCart()
-        {
-            _carts.Add(_currentCart);
+            _carts.RemoveAt(index);
             SaveCarts();
         }
 
-        public string GiveCurrentName() => _currentCart.GiveName();
-        public int GiveCartCount() => _carts.Count;
-
-        public string VerifyName(string name, string prevname) => _carts.Where(x => ((x.GiveName() == name) && (x.GiveName() != prevname))).Any() ? "Cart name already taken" : "";
-
-        public string GiveCartNameAt(int i) => _carts[i].GiveName();
-
-        public void CurrentCartSet(int i) => _currentCart = _carts[i];
-
-        public void SaveCartChanges(int i)
-        {
-            _carts[i] = _currentCart;
-            SaveCarts();
-        }
-
-        public void DeleteCurrent()
-        {
-            _ = _carts.Remove(_currentCart);
-            SaveCarts();
-        }
-
-        public void ChargeCart()
+        public void ChargeCart(int index)
         {
             var ps = new PaymentService(_fm);
-            for (var i = 0; i < _currentCart.GiveElementC(); i++)
+            for (var i = 0; i < _carts[index].GiveElementC(); i++)
             {
-                var expense = _currentCart.GiveExpense(i);
-                ps.AddCartPayment(expense.Name, expense.Price, expense.Category);
+                if (_carts[index].GiveExpense(i).Active)
+                {
+                    var expense = _carts[index].GiveExpense(i);
+                    ps.AddCartPayment(expense.Name, expense.Price, expense.Category);
+                }
+
             }
         }
         private void SaveCarts()
@@ -127,7 +85,7 @@ namespace Plutus.WebService
             {
                 newCart.AddExpense(cartExpenses[i]);
             }
-            if (index <= _carts.Count)
+            if (index < _carts.Count)
             {
                 _carts[index] = newCart;
             }
@@ -145,7 +103,6 @@ namespace Plutus.WebService
             var cartsStored = _fm.LoadCarts();
             if (cartsStored == null)
             {
-                _cartLoadMessage = "";
                 return cartsList;
             }
             var cartsXml = cartsStored.Elements();
@@ -167,12 +124,8 @@ namespace Plutus.WebService
                 }
                 cartsList.Add(specificCart);
             }
-            _cartLoadMessage = "Carts Loaded";
             return cartsList;
-            
         }
-
-        public Cart StartShopping() => _currentCart;
 
     }
 }
