@@ -9,13 +9,14 @@ namespace Plutus.WebService
     [ApiController]
     public class BudgetsController : ControllerBase
     {
-        private readonly FileManager _fileManager = new FileManager();
+        private readonly IFileManagerRepository _fileManager;
         private readonly IBudgetRepository _budgetRepository;
 
         // Inject IEmployeeRepository using Constructor Injection
-        public BudgetsController(IBudgetRepository budgetRepository)
+        public BudgetsController(IBudgetRepository budgetRepository, IFileManagerRepository fileManagerRepository)
         {
             _budgetRepository = budgetRepository;
+            _fileManager = fileManagerRepository;
         }
 
         private List<Budget> ReadBudgets() => _fileManager.ReadFromFile<Budget>(DataType.Budgets);

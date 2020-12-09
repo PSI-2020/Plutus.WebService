@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Plutus.WebService.IRepos;
+using System;
 
 namespace Plutus.WebService
 {
-    class PaymentService
+    class PaymentRepository : IPaymentRepository
     {
-        private readonly FileManager _fm;
-
-        public PaymentService(FileManager fm) => _fm = fm;
+        private readonly IFileManagerRepository _fileManager;
+        public PaymentRepository(IFileManagerRepository fileManagerRepository) => _fileManager = fileManagerRepository;
         public void AddPayment(CurrentInfoHolder chi)
         {
             var date = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
@@ -18,7 +18,7 @@ namespace Plutus.WebService
                 Amount = double.Parse(chi.CurrentAmout),
                 Category = chi.CurrentCategory
             };
-            _fm.AddPayment(payment, chi.CurrentType);
+            _fileManager.AddPayment(payment, chi.CurrentType);
         }
 
         public void AddCartPayment(string name, double amount, string category)
@@ -31,7 +31,7 @@ namespace Plutus.WebService
                 Amount = amount,
                 Category = category
             };
-            _fm.AddPayment(payment, DataType.Expense);
+            _fileManager.AddPayment(payment, DataType.Expense);
         }
     }
 }

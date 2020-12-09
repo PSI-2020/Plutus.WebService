@@ -1,12 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using Plutus.WebService.IRepos;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
 namespace Plutus.WebService
 {
-    public class HistoryService
+    public class HistoryRepository : IHistoryRepository
     {
-        private readonly FileManager _fileManager = new FileManager();
+        private readonly IFileManagerRepository _fileManager;
+        public HistoryRepository(IFileManagerRepository fileManagerRepository)
+        {
+            _fileManager = fileManagerRepository;
+        }
 
         public List<All> LoadDataGrid(int index)
         {

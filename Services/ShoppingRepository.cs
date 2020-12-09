@@ -1,12 +1,18 @@
-﻿using System;
+﻿using Plutus.WebService.IRepos;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Plutus.WebService
 {
-    public class ShoppingService
+    public class ShoppingRepository : IShoppingRepository
     {
         private List<ShoppingExpense> _shoppingBag;
+        private readonly IFileManagerRepository _fileManager;
+        public ShoppingRepository(IFileManagerRepository fileManagerRepository)
+        {
+            _fileManager = fileManagerRepository;
+        }
         
         public void InitializeShoppingService(Cart cart)
         {
@@ -25,7 +31,7 @@ namespace Plutus.WebService
 
         public void ChargeShopping()
         {
-            var ps = new PaymentService(new FileManager());
+            var ps = new PaymentRepository(_fileManager);
             for (var i = 0; i < _shoppingBag.Count; i++)
             {
                 if (_shoppingBag[i].State == 1)
@@ -35,9 +41,9 @@ namespace Plutus.WebService
             }
         }
 
-        public List<String> GiveExpenses(int state)
+        public List<string> GiveExpenses(int state)
         {
-            var list = new List<String>();
+            var list = new List<string>();
             for(var i = 0; i < _shoppingBag.Count; i++)
             {
                 if (_shoppingBag[i].State == state) list.Add(_shoppingBag[i].Name + '|' + i);

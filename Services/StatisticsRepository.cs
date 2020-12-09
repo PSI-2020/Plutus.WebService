@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Plutus.WebService.IRepos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -27,9 +28,9 @@ namespace Plutus.WebService
         Other
     }
 
-    public class StatisticsService
+    public class StatisticsRepository : IStatisticsRepository
     {
-        public string GenerateExpenseStatistics(FileManager manager)
+        public string GenerateExpenseStatistics(IFileManagerRepository manager)
         {
             var list = manager.ReadFromFile<Payment>(DataType.Expense);
             if (!list.Any()) return "No expense data found!";
@@ -53,7 +54,7 @@ namespace Plutus.WebService
             return data;
         }
 
-        public string GenerateIncomeStatistics(FileManager manager)
+        public string GenerateIncomeStatistics(IFileManagerRepository manager)
         {
             var list = manager.ReadFromFile<Payment>(DataType.Income);
             if (!list.Any()) return "No income data found!";

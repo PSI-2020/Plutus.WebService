@@ -1,22 +1,27 @@
-﻿using System;
+﻿using Plutus.WebService.IRepos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 
 namespace Plutus.WebService
 {
-    public class CartService
+    public class CartRepository : ICartRepository
     {
         private Cart _currentCart;
         private List<Cart> _carts;
-        private readonly FileManager _fm = new FileManager();
+        private readonly IFileManagerRepository _fileManager;
         private string _cartLoadMessage;
 
-        public CartService() => _carts = LoadCarts();
-
-        public List<String> GiveCarts()
+        public CartRepository(IFileManagerRepository fileManagerRepository)
         {
-            var names = new List<String>();
+            _fileManager = fileManagerRepository;
+        }
+        public CartRepository() => _carts = LoadCarts();
+
+        public List<string> GiveCarts()
+        {
+            var names = new List<string>();
             foreach(Cart cart in _carts)
             {
                 names.Add(cart.GiveName());
@@ -85,14 +90,14 @@ namespace Plutus.WebService
 
         public void ChargeCart()
         {
-            var ps = new PaymentService(_fm);
+            var ps = new PaymentRepository(_fileManager);
             for (var i = 0; i < _currentCart.GiveElementC(); i++)
             {
                 var expense = _currentCart.GiveExpense(i);
                 ps.AddCartPayment(expense.Name, expense.Price, expense.Category);
             }
         }
-        private void SaveCarts()
+        public void SaveCarts()
         {
             var cartsXml = new List<XElement>();
             var index = 0;
@@ -117,7 +122,7 @@ namespace Plutus.WebService
                 index++;
             }
             var cartsStored = new XElement("carts", cartsXml);
-            _fm.SaveCarts(cartsStored);
+            _fileManager.SaveCarts(cartsStored);
         }
         public void SaveCarts(int index, string name, List<CartExpense> cartExpenses)
         {
@@ -139,10 +144,10 @@ namespace Plutus.WebService
             SaveCarts();
         }
 
-        private List<Cart> LoadCarts()
+        public List<Cart> LoadCarts()
         {
             var cartsList = new List<Cart>();
-            var cartsStored = _fm.LoadCarts();
+            var cartsStored = _fileManager.LoadCarts();
             if (cartsStored == null)
             {
                 _cartLoadMessage = "";

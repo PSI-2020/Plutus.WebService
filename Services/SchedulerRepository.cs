@@ -1,13 +1,17 @@
-﻿using System;
+﻿using Plutus.WebService.IRepos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Plutus.WebService
 {
-    class SchedulerService
+    class SchedulerRepository : ISchedulerRepository
     {
-        private readonly FileManager _fileManager = new FileManager();
+        private readonly IFileManagerRepository _fileManager;
+        public SchedulerRepository(IFileManagerRepository fileManagerRepository)
+        {
+            _fileManager = fileManagerRepository;
+        }
         public void CheckPayments()
         {
             var incomesList = _fileManager.ReadFromFile<ScheduledPayment>(DataType.MonthlyIncome);
@@ -98,10 +102,5 @@ namespace Plutus.WebService
             };
             _fileManager.UpdateScheduledPayments(ReID(list), type);
         }
-        /*public List<ScheduledPayment> ReIDPayments(List<ScheduledPayment> list, DataType type)
-        {
-            list.ForEach(x => x.Id = type.ToString() + list.IndexOf(x));
-            return list;
-        }*/
     }
 }
