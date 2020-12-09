@@ -49,8 +49,8 @@ namespace Plutus.WebService
             GoalDeletedEvent?.Invoke(this, list[id].Name);
         }
 
-        [HttpPut ("edit/{id}")]
-        public void EditGoal(int id, Goal newGoal)
+        [HttpPut("edit/{id}")]
+        public void EditGoal(int id, [FromBody] Goal newGoal)
         {
             _goalsRepository.EditGoal(id, newGoal);
         }
