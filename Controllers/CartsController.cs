@@ -8,6 +8,7 @@ namespace Plutus.WebService.Controllers
     [ApiController]
     public class CartsController : ControllerBase
     {
+
         private readonly ICartRepository _cartRepository;
         public CartsController(ICartRepository cartRepository)
         {
@@ -16,12 +17,17 @@ namespace Plutus.WebService.Controllers
 
         [HttpGet]
         public List<string> LoadCarts() => _cartRepository.GiveCarts();
+
         [HttpGet("Payments/{index}")]
         public List<CartExpense> CallCarts(int index) => _cartRepository.GiveExpenses(index);
 
-
         [HttpPost("{index}/{name}")]
         public void SaveCarts(int index, string name, List<CartExpense> cart) => _cartRepository.SaveCarts(index, name, cart);
+       
+        [HttpPost("Charge/{index}")]
+        public void ChargeCart(int index) => _cartRepository.ChargeCart(index);
 
+        [HttpDelete("{index}")]
+        public void DeleteCart(int index) => _cartRepository.DeleteCart(index);
     }
 }

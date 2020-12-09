@@ -1,14 +1,27 @@
 ﻿
 namespace Plutus.WebService
 {
-    class ShoppingExpense
+    public class ShoppingExpense
     {
         public string Name { get; set; }
         public double Price { get; set; }
         public string Category { get; set; }
-        public short State { get; set; }
+        public int State { get; set; }
 
-        public ShoppingExpense(CartExpense expense, short state)
+        public ShoppingExpense()
+        {
+
+        }
+
+        public ShoppingExpense(string name, double price, string category, int state)
+        {
+            Name = name;
+            Price = price;
+            Category = category;
+            State = state;
+        }
+
+        public ShoppingExpense(CartExpense expense, int state)
         {
             Name = expense.Name;
             Price = expense.Price;
