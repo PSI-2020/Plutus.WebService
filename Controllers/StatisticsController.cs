@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Plutus.WebService.IRepos;
 
 namespace Plutus.WebService
 {
@@ -6,11 +7,16 @@ namespace Plutus.WebService
     [ApiController]
     public class StatisticsController : ControllerBase
     {
-        private readonly FileManager _fileManager = new FileManager();
-        private readonly StatisticsService _statisticsService = new StatisticsService();
+        private readonly IFileManagerRepository _fileManager;
+        private readonly IStatisticsRepository _statisticsRepository;
+        public StatisticsController(IFileManagerRepository fileManagerRepository, IStatisticsRepository statisticsRepository)
+        {
+            _fileManager = fileManagerRepository;
+            _statisticsRepository = statisticsRepository;
+        }
 
         [HttpGet]
-        public ActionResult<string> Get() => _statisticsService.GenerateExpenseStatistics(_fileManager) + "\r\n" + _statisticsService.GenerateIncomeStatistics(_fileManager);
+        public ActionResult<string> Get() => _statisticsRepository.GenerateExpenseStatistics(_fileManager) + "\r\n" + _statisticsRepository.GenerateIncomeStatistics(_fileManager);
 
     }
 }

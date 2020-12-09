@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Plutus.WebService.IRepos;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -27,9 +27,13 @@ namespace Plutus.WebService
         Carts
     }
 
-    public class FileManager
+    public class FileManagerRepository : IFileManagerRepository
     {
-        private readonly ILoggerService logger = new ILoggerService();
+        private readonly ILoggerRepository _logger;
+        public FileManagerRepository(ILoggerRepository logger)
+        {
+            _logger = logger;
+        }
         public List<T> ReadFromFile<T>(DataType type) where T : class
         {
             var serializer = new XmlSerializer(typeof(List<T>));
@@ -43,17 +47,17 @@ namespace Plutus.WebService
             }
             catch(DirectoryNotFoundException e)
             {
-                logger.Log(e.ToString());
+                _logger.Log(e.ToString());
                 return new List<T>();
             }
             catch(FileNotFoundException e)
             {
-                logger.Log(e.ToString());
+                _logger.Log(e.ToString());
                 return new List<T>();
             }
             catch(IOException e)
             {
-                logger.Log(e.ToString());
+                _logger.Log(e.ToString());
                 return new List<T>();
             }
         }

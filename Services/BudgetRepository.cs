@@ -1,12 +1,17 @@
-﻿using System;
+﻿using Plutus.WebService.IRepos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Plutus.WebService
 {
-    public class BudgetService
+    public class BudgetRepository : IBudgetRepository
     {
-        private readonly FileManager _fileManager = new FileManager();
+        private readonly IFileManagerRepository _fileManager;
+        public BudgetRepository(IFileManagerRepository fileManagerRepository)
+        {
+            _fileManager = fileManagerRepository;
+        }
 
         public void DeleteBudget(int index)
         { 

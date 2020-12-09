@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plutus.WebService", "Plutus.WebService.csproj", "{75AC68E0-C95D-46E3-A501-B67CCFF6A019}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plutus", "..\Plutus\Plutus.csproj", "{01EAB0CD-527B-40D9-8E99-46080F610DAB}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		appConfig|Any CPU = appConfig|Any CPU
@@ -20,12 +18,6 @@ Global
 		{75AC68E0-C95D-46E3-A501-B67CCFF6A019}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75AC68E0-C95D-46E3-A501-B67CCFF6A019}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75AC68E0-C95D-46E3-A501-B67CCFF6A019}.Release|Any CPU.Build.0 = Release|Any CPU
-		{01EAB0CD-527B-40D9-8E99-46080F610DAB}.appConfig|Any CPU.ActiveCfg = Debug|Any CPU
-		{01EAB0CD-527B-40D9-8E99-46080F610DAB}.appConfig|Any CPU.Build.0 = Debug|Any CPU
-		{01EAB0CD-527B-40D9-8E99-46080F610DAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{01EAB0CD-527B-40D9-8E99-46080F610DAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{01EAB0CD-527B-40D9-8E99-46080F610DAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{01EAB0CD-527B-40D9-8E99-46080F610DAB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Plutus.WebService.IRepos;
 
 namespace Plutus.WebService
 {
@@ -8,9 +9,14 @@ namespace Plutus.WebService
     [ApiController]
     public class PaymentController : ControllerBase
     {
-        private readonly FileManager _fileManager = new FileManager();
+        private readonly IFileManagerRepository _fileManager;
         public delegate void PaymentAddedHandler(Payment payment);
         public static event PaymentAddedHandler PaymentAdded;
+
+        public PaymentController(IFileManagerRepository fileManagerRepository)
+        {
+            _fileManager = fileManagerRepository;
+        }
 
         [HttpGet]
         public ActionResult<List<Payment>> Get()

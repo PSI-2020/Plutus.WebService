@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Plutus.WebService.IRepos;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Plutus.WebService
 {
@@ -13,9 +10,15 @@ namespace Plutus.WebService
     [ApiController]
     public class GoalsController : ControllerBase
     {
-        private readonly FileManager _fileManager = new FileManager();
-        private readonly GoalService _goalService = new GoalService();
+        private readonly IFileManagerRepository _fileManager;
+        private readonly IGoalsRepository _goalsRepository;
         public static event EventHandler<string> GoalDeletedEvent;
+
+        public GoalsController(IFileManagerRepository fileManagerRepository, IGoalsRepository goalsRepository)
+        {
+            _fileManager = fileManagerRepository;
+            _goalsRepository = goalsRepository;
+        }
 
         private List<Goal> ReadGoals() => _fileManager.ReadFromFile<Goal>(DataType.Goals);
 
@@ -26,7 +29,7 @@ namespace Plutus.WebService
         public string GetInsights(int id, string dailyOrMonthly)
         {
             var list = ReadGoals();
-            return _goalService.Insights(list[id], dailyOrMonthly);
+            return _goalsRepository.Insights(list[id], dailyOrMonthly);
         }
 
         [HttpPost]
@@ -36,13 +39,13 @@ namespace Plutus.WebService
         }
 
         [HttpPut]
-        public void Put([FromBody] Goal goal) => _goalService.SetMainGoal(goal);
+        public void Put([FromBody] Goal goal) => _goalsRepository.SetMainGoal(goal);
 
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
             var list = ReadGoals();
-            _goalService.DeleteGoal(list[id]);
+            _goalsRepository.DeleteGoal(list[id]);
             GoalDeletedEvent?.Invoke(this, list[id].Name);
         }
     }

@@ -1,11 +1,16 @@
-﻿using System;
+﻿using Plutus.WebService.IRepos;
+using System;
 using System.Linq;
 
 namespace Plutus.WebService
 {
-    public class GoalService
+    public class GoalsRepository : IGoalsRepository
     {
-        private readonly FileManager _fileManager = new FileManager();
+        private readonly IFileManagerRepository _fileManager;
+        public GoalsRepository(IFileManagerRepository fileManagerRepository)
+        {
+            _fileManager = fileManagerRepository;
+        }
         public void EditGoal(Goal goal, string newName, string newAmount, DateTime newDueDate)
         {
             var amount = double.Parse(newAmount);

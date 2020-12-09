@@ -1,12 +1,9 @@
 ﻿using System.IO;
+using Plutus.WebService.IRepos;
 
 namespace Plutus.WebService
 {
-    interface ILogger
-    {
-        void Log(string message);
-    }
-    public class ILoggerService : ILogger
+    public class LoggerRepository : ILoggerRepository
     {
         public void Log(string message)
         {
