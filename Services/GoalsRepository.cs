@@ -11,12 +11,10 @@ namespace Plutus.WebService
         {
             _fileManager = fileManagerRepository;
         }
-        public void EditGoal(Goal goal, string newName, string newAmount, DateTime newDueDate)
+        public void EditGoal(int id, Goal newGoal)
         {
-            var amount = double.Parse(newAmount);
             var list = _fileManager.ReadFromFile<Goal>(DataType.Goals);
-            var index = list.IndexOf(list.First(i => goal.Name == i.Name && goal.Amount == i.Amount && goal.DueDate == i.DueDate));
-            list[index] = new Goal(newName, amount, newDueDate);
+            list[id] = newGoal;
             _fileManager.UpdateGoals(list);
 
         }

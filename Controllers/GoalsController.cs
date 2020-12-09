@@ -48,5 +48,11 @@ namespace Plutus.WebService
             _goalsRepository.DeleteGoal(list[id]);
             GoalDeletedEvent?.Invoke(this, list[id].Name);
         }
+
+        [HttpPut ("edit/{id}")]
+        public void EditGoal(int id, Goal newGoal)
+        {
+            _goalsRepository.EditGoal(id, newGoal);
+        }
     }
 }
