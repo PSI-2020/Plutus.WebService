@@ -26,8 +26,8 @@ namespace Plutus.WebService
             services.AddScoped<IHistoryRepository, HistoryRepository>();
             services.AddScoped<IGoalsRepository, GoalsRepository>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
-            services.AddScoped<ICartRepository, CartRepository>();
-            services.AddScoped<IShoppingRepository, ShoppingRepository>();
+            services.AddScoped<ICartBackendRepository, CartBackendRepository>();
+            services.AddScoped<IShoppingBackendRepository, ShoppingBackendRepository>();
             services.AddScoped<IStatisticsRepository, StatisticsRepository>();
             services.AddSingleton<IVerificationRepository, VerificationRepository>();
             services.AddSingleton<ILoggerRepository, LoggerRepository>();

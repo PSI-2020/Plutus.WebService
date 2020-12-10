@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Plutus.WebService.IRepos;
 using System.Collections.Generic;
 
 namespace Plutus.WebService.Controllers
@@ -7,10 +8,12 @@ namespace Plutus.WebService.Controllers
     [ApiController]
     public class ShoppingController
     {
-        private readonly ShoppingBackendService _shoppingService = new ShoppingBackendService();
+        private readonly IShoppingBackendRepository _shoppingRepo;
+        public ShoppingController(IShoppingBackendRepository shoppingRepo)
+        {
+            _shoppingRepo = shoppingRepo;
+        }
         [HttpPost]
-        public void ChargeShopping(List<ShoppingExpense> shoppingExpenses) => _shoppingService.ChargeShopping(shoppingExpenses);
-        [HttpGet]
-        public string ReceiveShoppingResult() => _shoppingService.GiveShoppingResult();
+        public void ChargeShopping(List<ShoppingExpense> shoppingExpenses) => _shoppingRepo.ChargeShopping(shoppingExpenses);
     }
 }

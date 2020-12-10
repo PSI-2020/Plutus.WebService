@@ -1,14 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using Plutus.WebService.IRepos;
+using System.Collections.Generic;
 using System.Xml.Linq;
 
 namespace Plutus.WebService
 {
-    public class CartBackendService
+    public class CartBackendRepository : ICartBackendRepository
     {
         private readonly List<Cart> _carts;
-        private readonly FileManager _fm = new FileManager();
+        private readonly IFileManagerRepository _fm;
+        private readonly IPaymentRepository _paymentRepo;
 
-        public CartBackendService() => _carts = LoadCarts(); 
+        public CartBackendRepository(IFileManagerRepository fileManagerRepository, IPaymentRepository paymentRepository)
+        {
+            _fm = fileManagerRepository;
+            _paymentRepo = paymentRepository;
+            _carts = LoadCarts();
+        }
 
         public List<string> GiveCartNames()
         {
@@ -39,13 +46,12 @@ namespace Plutus.WebService
 
         public void ChargeCart(int index)
         {
-            var ps = new PaymentService(_fm);
             for (var i = 0; i < _carts[index].GiveElementC(); i++)
             {
                 if (_carts[index].GiveExpense(i).Active)
                 {
                     var expense = _carts[index].GiveExpense(i);
-                    ps.AddCartPayment(expense.Name, expense.Price, expense.Category);
+                    _paymentRepo.AddCartPayment(expense.Name, expense.Price, expense.Category);
                 }
 
             }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Plutus.WebService
 {
-    public class ShoppingRepository : IShoppingRepository
+    public class ShoppingRepository : IShoppingBackendRepository
     {
         private List<ShoppingExpense> _shoppingBag;
         private readonly IFileManagerRepository _fileManager;
