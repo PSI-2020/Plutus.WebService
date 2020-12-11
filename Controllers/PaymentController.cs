@@ -30,7 +30,7 @@ namespace Plutus.WebService
         [HttpPost("{type}")]
         public Payment Post(Payment payment, DataType type)
         {
-            if (Enum.IsDefined(type))
+            if (Enum.IsDefined(typeof(DataType), type))
             {
                 _fileManager.AddPayment(payment, type);
                 PaymentAdded?.Invoke(payment);
@@ -41,5 +41,11 @@ namespace Plutus.WebService
                 return null;
             }
         }
+
+        [HttpPut("{type}/{index}")]
+        public void Edit(Payment payment, int index, DataType type) => _fileManager.EditPayment(payment, index, type);
+
+        [HttpPut("{type}")]
+        public void Delete(Payment payment, DataType type) => _fileManager.DeletePayment(payment, type);
     }
 }
