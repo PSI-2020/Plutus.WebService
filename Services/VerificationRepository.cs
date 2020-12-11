@@ -2,7 +2,7 @@
 
 namespace Plutus.WebService
 {
-    class VerificationRepository : IVerificationRepository
+    public class VerificationRepository : IVerificationRepository
     {
         public string VerifyData(string name = "undefined", string amount = "0", string category = "undefined")
         {

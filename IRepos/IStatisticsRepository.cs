@@ -2,7 +2,7 @@
 {
     public interface IStatisticsRepository
     {
-        public string GenerateExpenseStatistics(IFileManagerRepository manager);
-        public string GenerateIncomeStatistics(IFileManagerRepository manager);
+        public string GenerateExpenseStatistics();
+        public string GenerateIncomeStatistics();
     }
 }

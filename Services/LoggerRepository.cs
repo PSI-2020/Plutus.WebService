@@ -5,9 +5,6 @@ namespace Plutus.WebService
 {
     public class LoggerRepository : ILoggerRepository
     {
-        public void Log(string message)
-        {
-            File.AppendAllText("Storage/Log.txt", message + "\r\n");
-        }
+        public void Log(string message) => File.AppendAllText("Storage/Log.txt", message + "\r\n");
     }
 }

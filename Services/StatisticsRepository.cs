@@ -30,9 +30,13 @@ namespace Plutus.WebService
 
     public class StatisticsRepository : IStatisticsRepository
     {
-        public string GenerateExpenseStatistics(IFileManagerRepository manager)
+        private readonly IFileManagerRepository _fileManager;
+
+        public StatisticsRepository(IFileManagerRepository fileManager) => _fileManager = fileManager; 
+
+        public string GenerateExpenseStatistics()
         {
-            var list = manager.ReadFromFile<Payment>(DataType.Expense);
+            var list = _fileManager.ReadFromFile<Payment>(DataType.Expense);
             if (!list.Any()) return "No expense data found!";
 
             var data = "Expense statistics:\r\n\r\n";
@@ -54,9 +58,9 @@ namespace Plutus.WebService
             return data;
         }
 
-        public string GenerateIncomeStatistics(IFileManagerRepository manager)
+        public string GenerateIncomeStatistics()
         {
-            var list = manager.ReadFromFile<Payment>(DataType.Income);
+            var list = _fileManager.ReadFromFile<Payment>(DataType.Income);
             if (!list.Any()) return "No income data found!";
 
             var data = "Income statistics: \r\n\r\n";

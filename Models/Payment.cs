@@ -27,7 +27,7 @@ namespace Plutus.WebService
             info.AddValue("Amount", Amount);
             info.AddValue("Category", Category);
         }
-
+        
         public bool Equals(Payment other) => (Name, Amount, Category) == (other.Name, other.Amount, other.Category);
 
         public Payment(SerializationInfo info, StreamingContext context)

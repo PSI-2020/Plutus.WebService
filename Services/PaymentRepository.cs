@@ -3,7 +3,7 @@ using System;
 
 namespace Plutus.WebService
 {
-    class PaymentRepository : IPaymentRepository
+    public class PaymentRepository : IPaymentRepository
     {
         private readonly IFileManagerRepository _fileManager;
         public PaymentRepository(IFileManagerRepository fileManagerRepository) => _fileManager = fileManagerRepository;

@@ -7,16 +7,12 @@ namespace Plutus.WebService
     public class GoalsRepository : IGoalsRepository
     {
         private readonly IFileManagerRepository _fileManager;
-        public GoalsRepository(IFileManagerRepository fileManagerRepository)
-        {
-            _fileManager = fileManagerRepository;
-        }
+        public GoalsRepository(IFileManagerRepository fileManagerRepository) => _fileManager = fileManagerRepository;
         public void EditGoal(int id, Goal newGoal)
         {
             var list = _fileManager.ReadFromFile<Goal>(DataType.Goals);
             list[id] = newGoal;
             _fileManager.UpdateGoals(list);
-
         }
        
         public void DeleteGoal(Goal goal)

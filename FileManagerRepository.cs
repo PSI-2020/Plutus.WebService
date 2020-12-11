@@ -1,7 +1,6 @@
 ﻿using Plutus.WebService.IRepos;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -33,6 +32,8 @@ namespace Plutus.WebService
         public FileManagerRepository(ILoggerRepository logger)
         {
             _logger = logger;
+            GoalsController.GoalDeletedEvent += OutputDataDeletion;
+            PaymentController.PaymentAdded += OutputDataPaymentAdded;
         }
         public List<T> ReadFromFile<T>(DataType type) where T : class
         {
@@ -104,7 +105,7 @@ namespace Plutus.WebService
         public void CheckDuplicates(List<Payment> list, Payment payment)
         {
             var duplicates = list.Where(x => payment.Equals(x));
-            if(duplicates.Any()) Debug.Print("Found " + duplicates.Count() + " duplicate payments.");
+            if(duplicates.Any()) _logger.Log("Found " + duplicates.Count() + " duplicate payments.");
         }
 
 
@@ -191,5 +192,8 @@ namespace Plutus.WebService
                 return new XElement("Corrupted", "true");
             }
         }
+
+        private void OutputDataDeletion(object o, string name) => _logger.Log(name + " was deleted");
+        private void OutputDataPaymentAdded(Payment payment) => _logger.Log(payment.Name + " was added");
     }
 }

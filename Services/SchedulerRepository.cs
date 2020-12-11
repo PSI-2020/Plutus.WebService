@@ -8,10 +8,7 @@ namespace Plutus.WebService
     class SchedulerRepository : ISchedulerRepository
     {
         private readonly IFileManagerRepository _fileManager;
-        public SchedulerRepository(IFileManagerRepository fileManagerRepository)
-        {
-            _fileManager = fileManagerRepository;
-        }
+        public SchedulerRepository(IFileManagerRepository fileManagerRepository) => _fileManager = fileManagerRepository;
         public void CheckPayments()
         {
             var incomesList = _fileManager.ReadFromFile<ScheduledPayment>(DataType.MonthlyIncome);

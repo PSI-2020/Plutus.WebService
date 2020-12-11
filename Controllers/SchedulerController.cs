@@ -42,18 +42,7 @@ namespace Plutus.WebService
             return result;
         }
         [HttpGet("{type}")]
-        public List<ScheduledPayment> Get(DataType type)
-        { 
-            if(type == DataType.MonthlyExpenses)
-            {
-                return ReadExpenses();
-            }
-            if(type == DataType.MonthlyIncome)
-            {
-                return ReadIncomes();
-            }
-            return null;
-        }
+        public List<ScheduledPayment> Get(DataType type) => type == DataType.MonthlyExpenses ? ReadExpenses() : type == DataType.MonthlyIncome ? ReadIncomes() : null;
 
         [HttpGet("{id}/{type}")]
         public string Get(int id, DataType type) => _schedulerRepository.ShowPayment(id, type);
@@ -62,10 +51,7 @@ namespace Plutus.WebService
         public void Post([FromBody] ScheduledPayment payment, DataType type) => _fileManager.AddScheduledPayment(payment, type);
 
         [HttpPut("{id}/{type}/{status}")]
-        public void Put(int id, DataType type, bool status)
-        { 
-            _schedulerRepository.ChangeStatus(id, type, status); 
-        }
+        public void Put(int id, DataType type, bool status) => _schedulerRepository.ChangeStatus(id, type, status);
 
         [HttpDelete("{id}/{type}")]
         public void Delete(int id, DataType type) => _schedulerRepository.DeletePayment(id, type);

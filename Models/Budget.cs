@@ -11,7 +11,7 @@ namespace Plutus.WebService
         public double Sum
         {
             get => _sum;
-            set => _sum = value >= 0 ? value : throw new ArgumentOutOfRangeException("The sum of budget cannot be negative");
+            set => _sum = value < 0 ? throw new ArgumentOutOfRangeException("The sum of budget cannot be negative") : value;
         }
         public int From { get; set; }
         public int To { get; set; }

@@ -7,7 +7,7 @@ namespace Plutus.WebService
 {
     public class ShoppingBackendRepository : IShoppingBackendRepository
     {
-        private IPaymentRepository _paymentRepository;
+        private readonly IPaymentRepository _paymentRepository;
         public ShoppingBackendRepository(IPaymentRepository paymentRepository) => _paymentRepository = paymentRepository;
         
 

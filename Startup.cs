@@ -10,10 +10,7 @@ namespace Plutus.WebService
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        public Startup(IConfiguration configuration) => Configuration = configuration;
 
         public IConfiguration Configuration { get; }
 
@@ -32,19 +29,9 @@ namespace Plutus.WebService
             services.AddSingleton<IVerificationRepository, VerificationRepository>();
             services.AddSingleton<ILoggerRepository, LoggerRepository>();
         }
-        private void OutputDataDeletion(object o, string name)
-        {
-            Console.WriteLine(name + " was deleted");
-        }
-        private void OutputDataPaymentAdded(Payment payment)
-        {
-            Console.WriteLine(payment.Name + " was added");
-        }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            GoalsController.GoalDeletedEvent += OutputDataDeletion;
-            PaymentController.PaymentAdded += OutputDataPaymentAdded;
 
             if (env.IsDevelopment())
             {
@@ -57,10 +44,7 @@ namespace Plutus.WebService
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }
 }

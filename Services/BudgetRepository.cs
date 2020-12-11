@@ -8,10 +8,7 @@ namespace Plutus.WebService
     public class BudgetRepository : IBudgetRepository
     {
         private readonly IFileManagerRepository _fileManager;
-        public BudgetRepository(IFileManagerRepository fileManagerRepository)
-        {
-            _fileManager = fileManagerRepository;
-        }
+        public BudgetRepository(IFileManagerRepository fileManagerRepository) => _fileManager = fileManagerRepository;
 
         public void DeleteBudget(int index)
         { 
