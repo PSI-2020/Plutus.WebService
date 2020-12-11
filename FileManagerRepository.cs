@@ -1,4 +1,5 @@
 ﻿using Plutus.WebService.IRepos;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -182,8 +183,9 @@ namespace Plutus.WebService
                 var carts = XElement.Load(DataType.Carts.ToDescriptionString());
                 return carts;
             }
-            catch
+            catch(Exception e)
             {
+                _logger.Log(e.ToString());
                 return new XElement("Corrupted", "true");
             }
         }
