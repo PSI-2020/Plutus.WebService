@@ -46,7 +46,7 @@ namespace Plutus.WebService
         [HttpPut("{type}/{index}")]
         public void Edit(Payment payment, int index, DataType type) => _fileManager.EditPayment(payment, index, type);
 
-        [HttpDelete("{type}")]
+        [HttpPut("{type}")]
         public void Delete(Payment payment, DataType type) => _fileManager.DeletePayment(payment, type);
     }
 }
