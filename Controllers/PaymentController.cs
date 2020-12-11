@@ -13,13 +13,10 @@ namespace Plutus.WebService
         public delegate void PaymentAddedHandler(Payment payment);
         public static event PaymentAddedHandler PaymentAdded;
 
-        public PaymentController(IFileManagerRepository fileManagerRepository)
-        {
-            _fileManager = fileManagerRepository;
-        }
+        public PaymentController(IFileManagerRepository fileManagerRepository) => _fileManager = fileManagerRepository;
 
         [HttpGet]
-        public ActionResult<List<Payment>> Get()
+        public List<Payment> Get()
         {
             var list = _fileManager.ReadFromFile<Payment>(DataType.Expense);
             list.AddRange(_fileManager.ReadFromFile<Payment>(DataType.Income));
@@ -27,12 +24,11 @@ namespace Plutus.WebService
             return list;
         }
         [HttpGet("{type}")]
-        public ActionResult<List<Payment>> Get(DataType type) =>
-            _fileManager.ReadFromFile<Payment>(type);
+        public List<Payment> Get(DataType type) => _fileManager.ReadFromFile<Payment>(type);
 
 
         [HttpPost("{type}")]
-        public ActionResult<Payment> Post(Payment payment, DataType type)
+        public Payment Post(Payment payment, DataType type)
         {
             if (Enum.IsDefined(type))
             {
@@ -40,7 +36,10 @@ namespace Plutus.WebService
                 PaymentAdded?.Invoke(payment);
                 return payment;
             }
-            else return null;
+            else
+            {
+                return null;
+            }
         }
     }
 }

@@ -33,10 +33,7 @@ namespace Plutus.WebService
         }
 
         [HttpPost]
-        public void Post([FromBody] Goal goal)
-        {
-            _fileManager.AddGoal(goal);
-        }
+        public void Post([FromBody] Goal goal) => _fileManager.AddGoal(goal);
 
         [HttpPut]
         public void Put([FromBody] Goal goal) => _goalsRepository.SetMainGoal(goal);
@@ -50,9 +47,6 @@ namespace Plutus.WebService
         }
 
         [HttpPut("edit/{id}")]
-        public void EditGoal(int id, [FromBody] Goal newGoal)
-        {
-            _goalsRepository.EditGoal(id, newGoal);
-        }
+        public void EditGoal(int id, [FromBody] Goal newGoal) => _goalsRepository.EditGoal(id, newGoal);
     }
 }

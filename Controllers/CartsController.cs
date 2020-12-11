@@ -10,10 +10,7 @@ namespace Plutus.WebService.Controllers
     {
 
         private readonly ICartBackendRepository _cartRepository;
-        public CartsController(ICartBackendRepository cartRepository)
-        {
-            _cartRepository = cartRepository;
-        }
+        public CartsController(ICartBackendRepository cartRepository) => _cartRepository = cartRepository;
 
         [HttpGet]
         public List<string> LoadCarts() => _cartRepository.GiveCartNames();
