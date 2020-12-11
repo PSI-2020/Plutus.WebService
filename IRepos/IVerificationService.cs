@@ -1,6 +1,6 @@
 ﻿namespace Plutus.WebService.IRepos
 {
-    public interface IVerificationRepository
+    public interface IVerificationService
     {
         public string VerifyData(string name, string amount, string category);
     }

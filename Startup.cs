@@ -26,7 +26,7 @@ namespace Plutus.WebService
             services.AddScoped<ICartBackendRepository, CartBackendRepository>();
             services.AddScoped<IShoppingBackendRepository, ShoppingBackendRepository>();
             services.AddScoped<IStatisticsRepository, StatisticsRepository>();
-            services.AddSingleton<IVerificationRepository, VerificationRepository>();
+            services.AddSingleton<IVerificationService, VerificationService>();
             services.AddSingleton<ILoggerRepository, LoggerRepository>();
         }
 
