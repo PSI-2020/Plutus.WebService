@@ -12,7 +12,6 @@ namespace Plutus.WebService
         private readonly IFileManagerRepository _fileManager;
         private readonly IBudgetRepository _budgetRepository;
 
-        // Inject IEmployeeRepository using Constructor Injection
         public BudgetsController(IBudgetRepository budgetRepository, IFileManagerRepository fileManagerRepository)
         {
             _budgetRepository = budgetRepository;
@@ -22,7 +21,7 @@ namespace Plutus.WebService
         private List<Budget> ReadBudgets() => _fileManager.ReadFromFile<Budget>(DataType.Budgets);
 
         [HttpGet]
-        public ActionResult<string> Get()
+        public string Get()
         {
             var result = "";
             var list = ReadBudgets();

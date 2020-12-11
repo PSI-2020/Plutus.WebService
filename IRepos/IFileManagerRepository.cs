@@ -6,8 +6,9 @@ namespace Plutus.WebService.IRepos
     public interface IFileManagerRepository
     {
         public List<T> ReadFromFile<T>(DataType type) where T : class;
-        public void EditPayment(Payment payment, Payment newPayment, DataType type);
+        public void EditPayment(Payment payment, int index, DataType type);
         public void AddPayment(Payment payment, DataType type);
+        public void DeletePayment(Payment payment, DataType type);
         public void AddGoal(Goal goal);
         public void UpdateGoals(List<Goal> list);
         public void AddBudget(Budget budget);

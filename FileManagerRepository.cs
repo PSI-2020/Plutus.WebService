@@ -62,11 +62,24 @@ namespace Plutus.WebService
             }
         }
 
-        public void EditPayment(Payment payment, Payment newPayment, DataType type)
+        public void EditPayment(Payment payment, int index, DataType type)
         {
             var serializer = new XmlSerializer(typeof(List<Payment>));
             var list = ReadFromFile<Payment>(type);
-            list[list.IndexOf(payment)] = newPayment;
+            list[index] = payment;
+
+            File.WriteAllText(type.ToDescriptionString(), "");
+            using (var stream = File.OpenWrite(type.ToDescriptionString()))
+            {
+                serializer.Serialize(stream, list);
+            }
+        }
+
+        public void DeletePayment(Payment payment, DataType type)
+        {
+            var serializer = new XmlSerializer(typeof(List<Payment>));
+            var list = ReadFromFile<Payment>(type);
+            list.Remove(payment);
 
             File.WriteAllText(type.ToDescriptionString(), "");
             using (var stream = File.OpenWrite(type.ToDescriptionString()))
