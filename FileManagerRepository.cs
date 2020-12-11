@@ -32,8 +32,6 @@ namespace Plutus.WebService
         public FileManagerRepository(ILoggerRepository logger)
         {
             _logger = logger;
-            GoalsController.GoalDeletedEvent += OutputDataDeletion;
-            PaymentController.PaymentAdded += OutputDataPaymentAdded;
         }
         public List<T> ReadFromFile<T>(DataType type) where T : class
         {
@@ -193,7 +191,5 @@ namespace Plutus.WebService
             }
         }
 
-        private void OutputDataDeletion(object o, string name) => _logger.Log(name + " was deleted");
-        private void OutputDataPaymentAdded(Payment payment) => _logger.Log(payment.Name + " was added");
     }
 }
