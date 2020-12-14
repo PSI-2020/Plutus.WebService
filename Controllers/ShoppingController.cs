@@ -8,9 +8,9 @@ namespace Plutus.WebService.Controllers
     [ApiController]
     public class ShoppingController
     {
-        private readonly IShoppingBackendService _shoppingRepo;
-        public ShoppingController(IShoppingBackendService shoppingRepo) => _shoppingRepo = shoppingRepo;
+        private readonly IShoppingBackendService _shoppingService;
+        public ShoppingController(IShoppingBackendService shoppingService) => _shoppingService = shoppingService;
         [HttpPost]
-        public void ChargeShopping(List<ShoppingExpense> shoppingExpenses) => _shoppingRepo.ChargeShopping(shoppingExpenses);
+        public void ChargeShopping(List<ShoppingExpense> shoppingExpenses) => _shoppingService.ChargeShopping(shoppingExpenses);
     }
 }

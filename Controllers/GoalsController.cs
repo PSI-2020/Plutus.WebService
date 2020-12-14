@@ -11,13 +11,13 @@ namespace Plutus.WebService
     public class GoalsController : ControllerBase
     {
         private readonly IFileManagerRepository _fileManager;
-        private readonly IGoalsService _goalsRepository;
+        private readonly IGoalsService _goalsService;
         public static event EventHandler<string> GoalDeletedEvent;
 
-        public GoalsController(IFileManagerRepository fileManagerRepository, IGoalsService goalsRepository)
+        public GoalsController(IFileManagerRepository fileManagerRepository, IGoalsService goalsService)
         {
             _fileManager = fileManagerRepository;
-            _goalsRepository = goalsRepository;
+            _goalsService = goalsService;
         }
 
         private List<Goal> ReadGoals() => _fileManager.ReadFromFile<Goal>(DataType.Goals);
@@ -29,24 +29,24 @@ namespace Plutus.WebService
         public string GetInsights(int id, string dailyOrMonthly)
         {
             var list = ReadGoals();
-            return _goalsRepository.Insights(list[id], dailyOrMonthly);
+            return _goalsService.Insights(list[id], dailyOrMonthly);
         }
 
         [HttpPost]
         public void Post([FromBody] Goal goal) => _fileManager.AddGoal(goal);
 
         [HttpPut]
-        public void Put([FromBody] Goal goal) => _goalsRepository.SetMainGoal(goal);
+        public void Put([FromBody] Goal goal) => _goalsService.SetMainGoal(goal);
 
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
             var list = ReadGoals();
-            _goalsRepository.DeleteGoal(list[id]);
+            _goalsService.DeleteGoal(list[id]);
             GoalDeletedEvent?.Invoke(this, list[id].Name);
         }
 
         [HttpPut("edit/{id}")]
-        public void EditGoal(int id, [FromBody] Goal newGoal) => _goalsRepository.EditGoal(id, newGoal);
+        public void EditGoal(int id, [FromBody] Goal newGoal) => _goalsService.EditGoal(id, newGoal);
     }
 }

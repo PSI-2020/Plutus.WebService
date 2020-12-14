@@ -7,11 +7,11 @@ namespace Plutus.WebService
     [ApiController]
     public class StatisticsController : ControllerBase
     {
-        private readonly IStatisticsService _statisticsRepository;
-        public StatisticsController(IStatisticsService statisticsRepository) => _statisticsRepository = statisticsRepository;
+        private readonly IStatisticsService _statisticsService;
+        public StatisticsController(IStatisticsService statisticsService) => _statisticsService = statisticsService;
 
         [HttpGet]
-        public string Get() => _statisticsRepository.GenerateExpenseStatistics() + "\r\n" + _statisticsRepository.GenerateIncomeStatistics();
+        public string Get() => _statisticsService.GenerateExpenseStatistics() + "\r\n" + _statisticsService.GenerateIncomeStatistics();
 
     }
 }

@@ -7,8 +7,8 @@ namespace Plutus.WebService
 {
     public class ShoppingBackendService : IShoppingBackendService
     {
-        private readonly IPaymentService _paymentRepository;
-        public ShoppingBackendService(IPaymentService paymentRepository) => _paymentRepository = paymentRepository;
+        private readonly IPaymentService _paymentService;
+        public ShoppingBackendService(IPaymentService paymentService) => _paymentService = paymentService;
         
 
         public void ChargeShopping(List<ShoppingExpense> bag)
@@ -17,7 +17,7 @@ namespace Plutus.WebService
             {
                 if (bag[i].State == 1)
                 {
-                    _paymentRepository.AddCartPayment(bag[i].Name, bag[i].Price, bag[i].Category);
+                    _paymentService.AddCartPayment(bag[i].Name, bag[i].Price, bag[i].Category);
                 }
             }
         }

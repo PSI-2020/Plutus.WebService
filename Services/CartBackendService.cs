@@ -8,12 +8,12 @@ namespace Plutus.WebService
     {
         private readonly List<Cart> _carts;
         private readonly IFileManagerRepository _fm;
-        private readonly IPaymentService _paymentRepo;
+        private readonly IPaymentService _paymentService;
 
-        public CartBackendService(IFileManagerRepository fileManagerRepository, IPaymentService paymentRepository)
+        public CartBackendService(IFileManagerRepository fileManagerRepository, IPaymentService paymentService)
         {
             _fm = fileManagerRepository;
-            _paymentRepo = paymentRepository;
+            _paymentService = paymentService;
             _carts = LoadCarts();
         }
 
@@ -51,7 +51,7 @@ namespace Plutus.WebService
                 if (_carts[index].GiveExpense(i).Active)
                 {
                     var expense = _carts[index].GiveExpense(i);
-                    _paymentRepo.AddCartPayment(expense.Name, expense.Price, expense.Category);
+                    _paymentService.AddCartPayment(expense.Name, expense.Price, expense.Category);
                 }
 
             }

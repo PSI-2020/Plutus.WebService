@@ -9,22 +9,22 @@ namespace Plutus.WebService.Controllers
     public class CartsController : ControllerBase
     {
 
-        private readonly ICartBackendService _cartRepository;
-        public CartsController(ICartBackendService cartRepository) => _cartRepository = cartRepository;
+        private readonly ICartBackendService _cartService;
+        public CartsController(ICartBackendService cartService) => _cartService = cartService;
 
         [HttpGet]
-        public List<string> LoadCarts() => _cartRepository.GiveCartNames();
+        public List<string> LoadCarts() => _cartService.GiveCartNames();
 
         [HttpGet("Payments/{index}")]
-        public List<CartExpense> CallCarts(int index) => _cartRepository.GiveExpenses(index);
+        public List<CartExpense> CallCarts(int index) => _cartService.GiveExpenses(index);
 
         [HttpPost("{index}/{name}")]
-        public void SaveCarts(int index, string name, List<CartExpense> cart) => _cartRepository.SaveCarts(index, name, cart);
+        public void SaveCarts(int index, string name, List<CartExpense> cart) => _cartService.SaveCarts(index, name, cart);
        
         [HttpPost("Charge/{index}")]
-        public void ChargeCart(int index) => _cartRepository.ChargeCart(index);
+        public void ChargeCart(int index) => _cartService.ChargeCart(index);
 
         [HttpDelete("{index}")]
-        public void DeleteCart(int index) => _cartRepository.DeleteCart(index);
+        public void DeleteCart(int index) => _cartService.DeleteCart(index);
     }
 }

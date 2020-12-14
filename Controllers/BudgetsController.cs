@@ -10,11 +10,11 @@ namespace Plutus.WebService
     public class BudgetsController : ControllerBase
     {
         private readonly IFileManagerRepository _fileManager;
-        private readonly IBudgetService _budgetRepository;
+        private readonly IBudgetService _budgetService;
 
-        public BudgetsController(IBudgetService budgetRepository, IFileManagerRepository fileManagerRepository)
+        public BudgetsController(IBudgetService budgetService, IFileManagerRepository fileManagerRepository)
         {
-            _budgetRepository = budgetRepository;
+            _budgetService = budgetService;
             _fileManager = fileManagerRepository;
         }
 
@@ -28,7 +28,7 @@ namespace Plutus.WebService
             if (!list.Any()) return "";
             for (var x = 0; x < list.Count; x++)
             {
-                result = result + _budgetRepository.GenerateBudget(x) + "\r\n" + "\r\n";
+                result = result + _budgetService.GenerateBudget(x) + "\r\n" + "\r\n";
             }
             return result;
         }
@@ -36,21 +36,21 @@ namespace Plutus.WebService
         public List<Budget> GetList() => ReadBudgets();
 
         [HttpGet("{id}")]
-        public string Get(int id) => _budgetRepository.GenerateBudget(id);
+        public string Get(int id) => _budgetService.GenerateBudget(id);
 
         [HttpGet("{id}/stats")]
-        public List<Payment> GetStats(int id) => _budgetRepository.ShowStats(id);
+        public List<Payment> GetStats(int id) => _budgetService.ShowStats(id);
 
         [HttpGet("{id}/spent")]
-        public double GetSpent(int id) => _budgetRepository.Spent(id);
+        public double GetSpent(int id) => _budgetService.Spent(id);
 
         [HttpGet("{id}/left")]
-        public double GetLeftToSpend(int id) => _budgetRepository.LeftToSpend(id);
+        public double GetLeftToSpend(int id) => _budgetService.LeftToSpend(id);
 
         [HttpPost]
         public void Post([FromBody] Budget budget) => _fileManager.AddBudget(budget);
 
         [HttpDelete("{id}")]
-        public void Delete(int id) => _budgetRepository.DeleteBudget(id);
+        public void Delete(int id) => _budgetService.DeleteBudget(id);
     }
 }

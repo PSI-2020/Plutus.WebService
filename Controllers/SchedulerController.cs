@@ -10,11 +10,11 @@ namespace Plutus.WebService
     public class SchedulerController : ControllerBase
     {
         private readonly IFileManagerRepository _fileManager;
-        private readonly ISchedulerService _schedulerRepository;
-        public SchedulerController(IFileManagerRepository fileManagerRepository, ISchedulerService schedulerRepository)
+        private readonly ISchedulerService _schedulerService;
+        public SchedulerController(IFileManagerRepository fileManagerRepository, ISchedulerService schedulerService)
         {
             _fileManager = fileManagerRepository;
-            _schedulerRepository = schedulerRepository;
+            _schedulerService = schedulerService;
         }
         private List<ScheduledPayment> ReadExpenses() => _fileManager.ReadFromFile<ScheduledPayment>(DataType.MonthlyExpenses);
         private List<ScheduledPayment> ReadIncomes() => _fileManager.ReadFromFile<ScheduledPayment>(DataType.MonthlyIncome);
@@ -29,14 +29,14 @@ namespace Plutus.WebService
             {
                 for (var x = 0; x < expenses.Count; x++)
                 {
-                    result = result + _schedulerRepository.ShowPayment(x, DataType.MonthlyExpenses) + "\r\n" + "\r\n";
+                    result = result + _schedulerService.ShowPayment(x, DataType.MonthlyExpenses) + "\r\n" + "\r\n";
                 }
             }
             if (incomes.Any())
             {
                 for (var x = 0; x < incomes.Count; x++)
                 {
-                    result = result + _schedulerRepository.ShowPayment(x, DataType.MonthlyIncome) + "\r\n" + "\r\n";
+                    result = result + _schedulerService.ShowPayment(x, DataType.MonthlyIncome) + "\r\n" + "\r\n";
                 }
             }
             return result;
@@ -45,18 +45,18 @@ namespace Plutus.WebService
         public List<ScheduledPayment> Get(DataType type) => type == DataType.MonthlyExpenses ? ReadExpenses() : type == DataType.MonthlyIncome ? ReadIncomes() : null;
 
         [HttpGet("{id}/{type}")]
-        public string Get(int id, DataType type) => _schedulerRepository.ShowPayment(id, type);
+        public string Get(int id, DataType type) => _schedulerService.ShowPayment(id, type);
 
         [HttpPost("{type}")]
         public void Post([FromBody] ScheduledPayment payment, DataType type) => _fileManager.AddScheduledPayment(payment, type);
 
         [HttpPut("{id}/{type}/{status}")]
-        public void Put(int id, DataType type, bool status) => _schedulerRepository.ChangeStatus(id, type, status);
+        public void Put(int id, DataType type, bool status) => _schedulerService.ChangeStatus(id, type, status);
 
         [HttpDelete("{id}/{type}")]
-        public void Delete(int id, DataType type) => _schedulerRepository.DeletePayment(id, type);
+        public void Delete(int id, DataType type) => _schedulerService.DeletePayment(id, type);
 
         [HttpPatch]
-        public void CheckPayments() => _schedulerRepository.CheckPayments();
+        public void CheckPayments() => _schedulerService.CheckPayments();
     }
 }
