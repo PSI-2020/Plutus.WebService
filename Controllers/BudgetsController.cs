@@ -41,6 +41,12 @@ namespace Plutus.WebService
         [HttpGet("{id}/stats")]
         public List<Payment> GetStats(int id) => _budgetRepository.ShowStats(id);
 
+        [HttpGet("{id}/spent")]
+        public double GetSpent(int id) => _budgetRepository.Spent(id);
+
+        [HttpGet("{id}/left")]
+        public double GetLeftToSpend(int id) => _budgetRepository.LeftToSpend(id);
+
         [HttpPost]
         public void Post([FromBody] Budget budget) => _fileManager.AddBudget(budget);
 
