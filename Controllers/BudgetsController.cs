@@ -10,9 +10,9 @@ namespace Plutus.WebService
     public class BudgetsController : ControllerBase
     {
         private readonly IFileManagerRepository _fileManager;
-        private readonly IBudgetRepository _budgetRepository;
+        private readonly IBudgetService _budgetRepository;
 
-        public BudgetsController(IBudgetRepository budgetRepository, IFileManagerRepository fileManagerRepository)
+        public BudgetsController(IBudgetService budgetRepository, IFileManagerRepository fileManagerRepository)
         {
             _budgetRepository = budgetRepository;
             _fileManager = fileManagerRepository;

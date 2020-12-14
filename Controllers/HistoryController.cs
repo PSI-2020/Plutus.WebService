@@ -8,8 +8,8 @@ namespace Plutus.WebService
     [ApiController]
     public class HistoryController : ControllerBase
     {
-        private readonly IHistoryRepository _historyRepository;
-        public HistoryController(IHistoryRepository historyRepository) => _historyRepository = historyRepository;
+        private readonly IHistoryService _historyRepository;
+        public HistoryController(IHistoryService historyRepository) => _historyRepository = historyRepository;
 
         [HttpGet]
         public List<HistoryElement> Get() => _historyRepository.LoadDataGrid(0);

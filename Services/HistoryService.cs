@@ -5,10 +5,10 @@ using System.Linq;
 
 namespace Plutus.WebService
 {
-    public class HistoryRepository : IHistoryRepository
+    public class HistoryService : IHistoryService
     {
         private readonly IFileManagerRepository _fileManager;
-        public HistoryRepository(IFileManagerRepository fileManagerRepository) => _fileManager = fileManagerRepository;
+        public HistoryService(IFileManagerRepository fileManagerRepository) => _fileManager = fileManagerRepository;
 
         public List<HistoryElement> LoadDataGrid(int index)
         {

@@ -17,17 +17,17 @@ namespace Plutus.WebService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped<IBudgetRepository, BudgetRepository>();
+            services.AddScoped<IBudgetService, BudgetService>();
             services.AddScoped<IFileManagerRepository, FileManagerRepository>();
-            services.AddScoped<ISchedulerRepository, SchedulerRepository>();
-            services.AddScoped<IHistoryRepository, HistoryRepository>();
-            services.AddScoped<IGoalsRepository, GoalsRepository>();
-            services.AddScoped<IPaymentRepository, PaymentRepository>();
-            services.AddScoped<ICartBackendRepository, CartBackendRepository>();
-            services.AddScoped<IShoppingBackendRepository, ShoppingBackendRepository>();
-            services.AddScoped<IStatisticsRepository, StatisticsRepository>();
+            services.AddScoped<ISchedulerService, SchedulerService>();
+            services.AddScoped<IHistoryService, HistoryService>();
+            services.AddScoped<IGoalsService, GoalsService>();
+            services.AddScoped<IPaymentService, PaymentService>();
+            services.AddScoped<ICartBackendService, CartBackendService>();
+            services.AddScoped<IShoppingBackendService, ShoppingBackendService>();
+            services.AddScoped<IStatisticsService, StatisticsService>();
             services.AddSingleton<IVerificationService, VerificationService>();
-            services.AddSingleton<ILoggerRepository, LoggerRepository>();
+            services.AddSingleton<ILoggerService, LoggerService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -1,6 +1,6 @@
 ﻿namespace Plutus.WebService.IRepos
 {
-    public interface ISchedulerRepository
+    public interface ISchedulerService
     {
         public void CheckPayments();
         public string ShowPayment(int index, DataType type);

@@ -3,10 +3,10 @@ using System;
 
 namespace Plutus.WebService
 {
-    public class PaymentRepository : IPaymentRepository
+    public class PaymentService : IPaymentService
     {
         private readonly IFileManagerRepository _fileManager;
-        public PaymentRepository(IFileManagerRepository fileManagerRepository) => _fileManager = fileManagerRepository;
+        public PaymentService(IFileManagerRepository fileManagerRepository) => _fileManager = fileManagerRepository;
         public void AddPayment(CurrentInfoHolder chi)
         {
             var date = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;

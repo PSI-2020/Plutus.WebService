@@ -3,9 +3,9 @@ using Plutus.WebService.IRepos;
 
 namespace Plutus.WebService
 {
-    public class LoggerRepository : ILoggerRepository
+    public class LoggerService : ILoggerService
     {
-        public LoggerRepository()
+        public LoggerService()
         {
             GoalsController.GoalDeletedEvent += OutputDataDeletion;
             PaymentController.PaymentAdded += OutputDataPaymentAdded;

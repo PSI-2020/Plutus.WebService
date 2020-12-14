@@ -28,11 +28,11 @@ namespace Plutus.WebService
         Other
     }
 
-    public class StatisticsRepository : IStatisticsRepository
+    public class StatisticsService : IStatisticsService
     {
         private readonly IFileManagerRepository _fileManager;
 
-        public StatisticsRepository(IFileManagerRepository fileManager) => _fileManager = fileManager; 
+        public StatisticsService(IFileManagerRepository fileManager) => _fileManager = fileManager; 
 
         public string GenerateExpenseStatistics()
         {

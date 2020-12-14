@@ -2,7 +2,7 @@
 
 namespace Plutus.WebService.IRepos
 {
-    public interface IShoppingBackendRepository
+    public interface IShoppingBackendService
     {
         public void ChargeShopping(List<ShoppingExpense> bag);
     }

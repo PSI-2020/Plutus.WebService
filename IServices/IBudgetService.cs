@@ -2,7 +2,7 @@
 
 namespace Plutus.WebService.IRepos
 {
-    public interface IBudgetRepository
+    public interface IBudgetService
     {
         string GenerateBudget(int index);
         void DeleteBudget(int index);

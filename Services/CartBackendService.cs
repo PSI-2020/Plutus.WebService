@@ -4,13 +4,13 @@ using System.Xml.Linq;
 
 namespace Plutus.WebService
 {
-    public class CartBackendRepository : ICartBackendRepository
+    public class CartBackendService : ICartBackendService
     {
         private readonly List<Cart> _carts;
         private readonly IFileManagerRepository _fm;
-        private readonly IPaymentRepository _paymentRepo;
+        private readonly IPaymentService _paymentRepo;
 
-        public CartBackendRepository(IFileManagerRepository fileManagerRepository, IPaymentRepository paymentRepository)
+        public CartBackendService(IFileManagerRepository fileManagerRepository, IPaymentService paymentRepository)
         {
             _fm = fileManagerRepository;
             _paymentRepo = paymentRepository;

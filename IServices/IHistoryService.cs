@@ -2,7 +2,7 @@
 
 namespace Plutus.WebService.IRepos
 {
-    public interface IHistoryRepository
+    public interface IHistoryService
     {
         public List<HistoryElement> LoadDataGrid(int index);
     }

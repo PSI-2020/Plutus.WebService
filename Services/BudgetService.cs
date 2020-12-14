@@ -5,10 +5,10 @@ using System.Linq;
 
 namespace Plutus.WebService
 {
-    public class BudgetRepository : IBudgetRepository
+    public class BudgetService : IBudgetService
     {
         private readonly IFileManagerRepository _fileManager;
-        public BudgetRepository(IFileManagerRepository fileManagerRepository) => _fileManager = fileManagerRepository;
+        public BudgetService(IFileManagerRepository fileManagerRepository) => _fileManager = fileManagerRepository;
 
         public void DeleteBudget(int index)
         { 

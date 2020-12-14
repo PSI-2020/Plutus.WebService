@@ -1,6 +1,6 @@
 ﻿namespace Plutus.WebService.IRepos
 {
-    public interface ILoggerRepository
+    public interface ILoggerService
     {
         public void Log(string message);
     }

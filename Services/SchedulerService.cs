@@ -5,10 +5,10 @@ using System.Linq;
 
 namespace Plutus.WebService
 {
-    class SchedulerRepository : ISchedulerRepository
+    class SchedulerService : ISchedulerService
     {
         private readonly IFileManagerRepository _fileManager;
-        public SchedulerRepository(IFileManagerRepository fileManagerRepository) => _fileManager = fileManagerRepository;
+        public SchedulerService(IFileManagerRepository fileManagerRepository) => _fileManager = fileManagerRepository;
         public void CheckPayments()
         {
             var incomesList = _fileManager.ReadFromFile<ScheduledPayment>(DataType.MonthlyIncome);

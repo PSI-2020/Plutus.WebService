@@ -4,10 +4,10 @@ using System.Linq;
 
 namespace Plutus.WebService
 {
-    public class GoalsRepository : IGoalsRepository
+    public class GoalsService : IGoalsService
     {
         private readonly IFileManagerRepository _fileManager;
-        public GoalsRepository(IFileManagerRepository fileManagerRepository) => _fileManager = fileManagerRepository;
+        public GoalsService(IFileManagerRepository fileManagerRepository) => _fileManager = fileManagerRepository;
         public void EditGoal(int id, Goal newGoal)
         {
             var list = _fileManager.ReadFromFile<Goal>(DataType.Goals);

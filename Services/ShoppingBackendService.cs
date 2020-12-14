@@ -5,10 +5,10 @@ using System.Text;
 
 namespace Plutus.WebService
 {
-    public class ShoppingBackendRepository : IShoppingBackendRepository
+    public class ShoppingBackendService : IShoppingBackendService
     {
-        private readonly IPaymentRepository _paymentRepository;
-        public ShoppingBackendRepository(IPaymentRepository paymentRepository) => _paymentRepository = paymentRepository;
+        private readonly IPaymentService _paymentRepository;
+        public ShoppingBackendService(IPaymentService paymentRepository) => _paymentRepository = paymentRepository;
         
 
         public void ChargeShopping(List<ShoppingExpense> bag)

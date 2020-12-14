@@ -1,6 +1,6 @@
 ﻿namespace Plutus.WebService.IRepos
 {
-    public interface IStatisticsRepository
+    public interface IStatisticsService
     {
         public string GenerateExpenseStatistics();
         public string GenerateIncomeStatistics();

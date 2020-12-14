@@ -2,7 +2,7 @@
 
 namespace Plutus.WebService.IRepos
 {
-    public interface ICartBackendRepository
+    public interface ICartBackendService
     {
         public List<string> GiveCartNames();
         public List<CartExpense> GiveExpenses(int index);

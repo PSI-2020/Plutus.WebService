@@ -11,10 +11,10 @@ namespace Plutus.WebService
     public class GoalsController : ControllerBase
     {
         private readonly IFileManagerRepository _fileManager;
-        private readonly IGoalsRepository _goalsRepository;
+        private readonly IGoalsService _goalsRepository;
         public static event EventHandler<string> GoalDeletedEvent;
 
-        public GoalsController(IFileManagerRepository fileManagerRepository, IGoalsRepository goalsRepository)
+        public GoalsController(IFileManagerRepository fileManagerRepository, IGoalsService goalsRepository)
         {
             _fileManager = fileManagerRepository;
             _goalsRepository = goalsRepository;

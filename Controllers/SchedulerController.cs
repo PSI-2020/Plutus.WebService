@@ -10,8 +10,8 @@ namespace Plutus.WebService
     public class SchedulerController : ControllerBase
     {
         private readonly IFileManagerRepository _fileManager;
-        private readonly ISchedulerRepository _schedulerRepository;
-        public SchedulerController(IFileManagerRepository fileManagerRepository, ISchedulerRepository schedulerRepository)
+        private readonly ISchedulerService _schedulerRepository;
+        public SchedulerController(IFileManagerRepository fileManagerRepository, ISchedulerService schedulerRepository)
         {
             _fileManager = fileManagerRepository;
             _schedulerRepository = schedulerRepository;
