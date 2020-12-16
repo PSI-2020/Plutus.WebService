@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plutus.WebService", "WebApi\Plutus.WebService.csproj", "{24D3184C-8A8C-431B-8464-D8F8E778914F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Db", "Db\Db\Db.csproj", "{9FFC7F6D-2C34-48BF-82E6-7BA66197B2BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Db", "Db\Db\Db.csproj", "{9FFC7F6D-2C34-48BF-82E6-7BA66197B2BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services\Services.csproj", "{3A104830-58DE-4997-8BEA-2C9BF944DF9A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{880B11D7-1E97-4239-9C01-F15548FB0FB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{9FFC7F6D-2C34-48BF-82E6-7BA66197B2BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FFC7F6D-2C34-48BF-82E6-7BA66197B2BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FFC7F6D-2C34-48BF-82E6-7BA66197B2BC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3A104830-58DE-4997-8BEA-2C9BF944DF9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3A104830-58DE-4997-8BEA-2C9BF944DF9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3A104830-58DE-4997-8BEA-2C9BF944DF9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3A104830-58DE-4997-8BEA-2C9BF944DF9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{880B11D7-1E97-4239-9C01-F15548FB0FB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{880B11D7-1E97-4239-9C01-F15548FB0FB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{880B11D7-1E97-4239-9C01-F15548FB0FB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{880B11D7-1E97-4239-9C01-F15548FB0FB3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
