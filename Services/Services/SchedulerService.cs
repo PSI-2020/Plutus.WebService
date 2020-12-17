@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Plutus.WebService
 {
-    class SchedulerService : ISchedulerService
+    public class SchedulerService : ISchedulerService
     {
         private readonly IFileManagerRepository _fileManager;
         public SchedulerService(IFileManagerRepository fileManagerRepository) => _fileManager = fileManagerRepository;
