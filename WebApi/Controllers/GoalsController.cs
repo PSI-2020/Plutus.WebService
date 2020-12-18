@@ -13,6 +13,7 @@ namespace Plutus.WebService
         private readonly IFileManagerRepository _fileManager;
         private readonly IGoalsService _goalsService;
         public static event EventHandler<string> GoalDeletedEvent;
+        
 
         public GoalsController(IFileManagerRepository fileManagerRepository, IGoalsService goalsService)
         {
