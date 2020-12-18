@@ -53,6 +53,9 @@ namespace Plutus.WebService
         [HttpPut("{id}/{type}/{status}")]
         public void Put(int id, DataType type, bool status) => _schedulerService.ChangeStatus(id, type, status);
 
+        [HttpPut("edit/{id}/{type}")]
+        public void Put([FromBody] ScheduledPayment payment, int id, DataType type) => _schedulerService.EditScheduledPayment(payment, id, type);
+
         [HttpDelete("{id}/{type}")]
         public void Delete(int id, DataType type) => _schedulerService.DeletePayment(id, type);
 

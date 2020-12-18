@@ -99,5 +99,11 @@ namespace Plutus.WebService
             };
             _fileManager.UpdateScheduledPayments(ReID(list), type);
         }
+        public void EditScheduledPayment(ScheduledPayment payment, int index, DataType type)
+        {
+            var list = _fileManager.ReadFromFile<ScheduledPayment>(type);
+            list[index] = payment;
+            _fileManager.UpdateScheduledPayments(list, type);
+        }
     }
 }
