@@ -13,5 +13,8 @@ namespace Plutus.WebService
         [HttpGet]
         public string Get() => _statisticsService.GenerateExpenseStatistics() + "\r\n" + _statisticsService.GenerateIncomeStatistics();
 
+        [HttpGet("{type}/{category}")]
+        public decimal Get(DataType type, string category) => _statisticsService.CategorySum(category, type);
+
     }
 }

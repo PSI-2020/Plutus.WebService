@@ -81,5 +81,15 @@ namespace Plutus.WebService
             }
             return data;
         }
+        public decimal CategorySum(string category, DataType type)
+        {
+            var sum = 0.00;
+            var list = _fileManager.ReadFromFile<Payment>(type);
+            if (!list.Any()) return (decimal)sum;
+
+            sum = list.Where(x => x.Category == category).Sum(x => x.Amount);
+
+            return (decimal)sum;
+        }
     }
 }
