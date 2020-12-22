@@ -16,5 +16,8 @@ namespace Plutus.WebService
         [HttpGet("{type}/{category}")]
         public decimal Get(DataType type, string category) => _statisticsService.CategorySum(category, type);
 
+        [HttpGet("{type}")]
+        public decimal GetAll(DataType type) => _statisticsService.AllCategoriesSum(type);
+
     }
 }
