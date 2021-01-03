@@ -1,4 +1,6 @@
-﻿namespace Db.Entities
+﻿using PlutusDb.Entities;
+
+namespace Db.Entities
 {
     public class Budget
     {
@@ -7,5 +9,6 @@
         public decimal Amount { get; set; }
         public int From { get; set; }
         public int To { get; set; }
+        public virtual Client Client { get; set; }
     }
 }

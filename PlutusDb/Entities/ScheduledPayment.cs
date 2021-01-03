@@ -1,4 +1,6 @@
-﻿namespace Db.Entities
+﻿using PlutusDb.Entities;
+
+namespace Db.Entities
 {
     public class ScheduledPayment
     {
@@ -6,8 +8,9 @@
         public string Name { get; set; }
         public double Amount { get; set; }
         public string Category { get; set; }
-        public string ScheduledPaymentId { get; set; }
+        public int ScheduledPaymentId { get; set; }
         public string Frequency { get; set; }
         public bool Active { get; set; }
+        public virtual Client Client { get; set; }
     }
 }

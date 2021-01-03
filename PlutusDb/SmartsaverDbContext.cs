@@ -1,5 +1,6 @@
 ﻿using Db.Entities;
 using Microsoft.EntityFrameworkCore;
+using PlutusDb.Entities;
 
 namespace Db
 {
@@ -14,5 +15,11 @@ namespace Db
         public DbSet<Payment> Payments { get; set; }
         public DbSet<ScheduledPayment> ScheduledPayments { get; set; }
         public DbSet<CartExpense> CartExpenses { get; set; }
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<CurrentInfoHolder> CurrentInfoHolders { get; set; }
+        public DbSet<HistoryElement> HistoryElements { get; set; }
+        public DbSet<ShoppingExpense> ShoppingExpenses { get; set; }
+
+
     }
 }

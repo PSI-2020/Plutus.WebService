@@ -1,14 +1,14 @@
-﻿using PlutusDb.Entities;
+﻿using System;
 
-namespace Db.Entities
+namespace PlutusDb.Entities
 {
-    public class Payment
+    public class HistoryElement
     {
-        public int Date { get; set; }
+        public DateTime Date { get; set; }
         public string Name { get; set; }
         public double Amount { get; set; }
         public string Category { get; set; }
-        public int PaymentId { get; set; }
+        public string Type { get; set; }
         public virtual Client Client { get; set; }
     }
 }
