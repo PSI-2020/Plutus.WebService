@@ -20,7 +20,13 @@ namespace Plutus.WebService.Controllers
 
         [HttpPost("{index}/{name}")]
         public void SaveCarts(int index, string name, List<CartExpense> cart) => _cartService.SaveCarts(index, name, cart);
-       
+
+        [HttpPost("/Xamarin/{index}/{name}")]
+        public void NewCart(int index, string name) => _cartService.SaveCarts(index, name, new List<CartExpense>());
+
+        [HttpPut("/Xamarin/{index}/{name}")]
+        public void ChangeCart(int index, string name, List<CartExpense> cart) => _cartService.SaveCarts(index, name, cart);
+
         [HttpPost("Charge/{index}")]
         public void ChargeCart(int index) => _cartService.ChargeCart(index);
 
