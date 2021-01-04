@@ -1,5 +1,7 @@
+using Db;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -18,6 +20,7 @@ namespace Plutus.WebService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddDbContext<SmartsaverDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IBudgetService, BudgetService>();
             services.AddScoped<IFileManagerRepository, FileManagerRepository>();
             services.AddScoped<ISchedulerService, SchedulerService>();

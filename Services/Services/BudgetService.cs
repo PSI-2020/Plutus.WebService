@@ -1,4 +1,5 @@
-﻿using Plutus.WebService.IRepos;
+﻿using Db;
+using Plutus.WebService.IRepos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,12 @@ namespace Plutus.WebService
     public class BudgetService : IBudgetService
     {
         private readonly IFileManagerRepository _fileManager;
-        public BudgetService(IFileManagerRepository fileManagerRepository) => _fileManager = fileManagerRepository;
+        private readonly SmartsaverDbContext _context;
+        public BudgetService(IFileManagerRepository fileManagerRepository, SmartsaverDbContext context)
+        {
+            _fileManager = fileManagerRepository;
+            _context = context;
+        }
 
         public void DeleteBudget(int index)
         { 
@@ -17,6 +23,12 @@ namespace Plutus.WebService
             Func<List<Budget>, List<Budget>> Rename = delegate (List<Budget> list) { list.ForEach(x => x.Name = "budget" + list.IndexOf(x)); return list; };
 
             _fileManager.UpdateBudgets(Rename(list));
+        }
+
+        public void AddBudget(Db.Entities.Budget budget)
+        {
+            _context.Budgets.Add(budget);
+            _context.SaveChanges();
         }
 
 

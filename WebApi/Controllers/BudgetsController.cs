@@ -48,7 +48,7 @@ namespace Plutus.WebService
         public double GetLeftToSpend(int id) => _budgetService.LeftToSpend(id);
 
         [HttpPost]
-        public void Post([FromBody] Budget budget) => _fileManager.AddBudget(budget);
+        public void Post([FromBody] Db.Entities.Budget budget) => _budgetService.AddBudget(budget);
 
         [HttpDelete("{id}")]
         public void Delete(int id) => _budgetService.DeleteBudget(id);

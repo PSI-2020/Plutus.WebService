@@ -9,5 +9,6 @@ namespace Plutus.WebService.IRepos
         List<Payment> ShowStats(int index);
         double Spent(int index);
         double LeftToSpend(int index);
+        void AddBudget(Db.Entities.Budget budget);
     }
 }

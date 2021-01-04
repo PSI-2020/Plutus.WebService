@@ -16,7 +16,6 @@ namespace Db
         public DbSet<ScheduledPayment> ScheduledPayments { get; set; }
         public DbSet<CartExpense> CartExpenses { get; set; }
         public DbSet<Client> Clients { get; set; }
-        public DbSet<CurrentInfoHolder> CurrentInfoHolders { get; set; }
         public DbSet<HistoryElement> HistoryElements { get; set; }
         public DbSet<ShoppingExpense> ShoppingExpenses { get; set; }
 
