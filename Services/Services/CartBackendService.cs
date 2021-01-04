@@ -1,4 +1,5 @@
-﻿using Plutus.WebService.IRepos;
+﻿using Newtonsoft.Json;
+using Plutus.WebService.IRepos;
 using System.Collections.Generic;
 using System.Xml.Linq;
 
@@ -48,7 +49,7 @@ namespace Plutus.WebService
         {
             for (var i = 0; i < _carts[index].GiveElementC(); i++)
             {
-                if (_carts[index].GiveExpense(i).Active)
+                if (_carts[index].GiveExpense(i).State)
                 {
                     var expense = _carts[index].GiveExpense(i);
                     _paymentService.AddCartPayment(expense.Name, expense.Price, expense.Category.ToString());
@@ -70,7 +71,7 @@ namespace Plutus.WebService
                         new XElement("Name", expense.Name),
                         new XElement("Amount", expense.Price),
                         new XElement("Category", expense.Category),
-                        new XElement("Active", expense.Active));
+                        new XElement("State", expense.State));
 
                     expenseXml.Add(expenseX);
                 }
@@ -125,7 +126,7 @@ namespace Plutus.WebService
                         (string)expense.Element("Name"),
                         (double)expense.Element("Amount"),
                         (string)expense.Element("Category"),
-                        (bool)expense.Element("Active")
+                        (bool)expense.Element("State")
                         );
                      specificCart.AddExpense(cartExpense);
                 }
