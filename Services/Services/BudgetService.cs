@@ -27,7 +27,14 @@ namespace Plutus.WebService
 
         public void AddBudget(Db.Entities.Budget budget)
         {
-            _context.Budgets.Add(budget);
+            var b = new Db.Entities.Budget();
+            b.Amount = 500;
+            b.Category = "Groceries";
+            b.ClientId = 1;
+            b.From = 1598918400;
+            b.To = 1607990400;
+            b.BudgetId = 1;
+            _context.Budgets.Add(b);
             _context.SaveChanges();
         }
 
