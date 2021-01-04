@@ -125,7 +125,7 @@ namespace Plutus.WebService
                         (string)expense.Element("Name"),
                         (double)expense.Element("Amount"),
                         (string)expense.Element("Category"),
-                        (bool)expense.Element("Active")
+                        (bool)expense.Element("Activity")
                         );
                      specificCart.AddExpense(cartExpense);
                 }
