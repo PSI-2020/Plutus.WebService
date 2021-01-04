@@ -37,7 +37,7 @@ namespace Plutus.WebService
 
         }
         private void OutputDataDeletion(object o, string name) => _logger.Log(name + " was deleted");
-        private void OutputDataPaymentAdded(Payment payment) => _logger.Log(payment.Name + " was added");
+        private void OutputDataPaymentAdded(Db.Entities.Payment payment) => _logger.Log(payment.Name + " was added");
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
