@@ -177,6 +177,7 @@ namespace Plutus.WebService
 
         public XElement LoadCarts()
         {
+            File.Delete(DataType.Carts.ToDescriptionString());
             if (!File.Exists(DataType.Carts.ToDescriptionString())) return null;
             try
             {
