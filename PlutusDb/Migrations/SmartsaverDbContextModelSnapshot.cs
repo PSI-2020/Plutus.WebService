@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace PlutusDb.Migrations
 {
-    [DbContext(typeof(SmartsaverDbContext))]
+    [DbContext(typeof(PlutusDbContext))]
     partial class SmartsaverDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

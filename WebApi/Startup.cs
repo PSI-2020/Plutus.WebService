@@ -20,7 +20,7 @@ namespace Plutus.WebService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddDbContext<SmartsaverDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<PlutusDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IBudgetService, BudgetService>();
             services.AddScoped<IFileManagerRepository, FileManagerRepository>();
             services.AddScoped<ISchedulerService, SchedulerService>();
