@@ -51,7 +51,7 @@ namespace Plutus.WebService
                 if (_carts[index].GiveExpense(i).Active)
                 {
                     var expense = _carts[index].GiveExpense(i);
-                    _paymentService.AddCartPayment(expense.Name, expense.Price, expense.Category);
+                    _paymentService.AddCartPayment(expense.Name, expense.Price, expense.Category.ToString());
                 }
 
             }
@@ -124,7 +124,8 @@ namespace Plutus.WebService
                     var cartExpense = new CartExpense(
                         (string)expense.Element("Name"),
                         (double)expense.Element("Amount"),
-                        (string)expense.Element("Category")
+                        (string)expense.Element("Category"),
+                        (bool)expense.Element("Active")
                         );
                      specificCart.AddExpense(cartExpense);
                 }
