@@ -33,7 +33,7 @@ namespace Plutus.WebService
 
 
         [HttpPost("{type}")]
-        public Db.Entities.Payment Post(Db.Entities.Payment payment, DataType type)
+        public Db.Entities.Payment Post([FromBody] Db.Entities.Payment payment, DataType type)
         {
             if (Enum.IsDefined(typeof(DataType), type))
             {
