@@ -9,6 +9,7 @@ namespace Db.Entities
         public decimal Amount { get; set; }
         public int From { get; set; }
         public int To { get; set; }
-        //public virtual Client Client { get; set; }
+        public int ClientId { get; set; }
+        public virtual Client Client { get; set; }
     }
 }

@@ -62,7 +62,7 @@ namespace PlutusDb.Migrations
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     From = table.Column<int>(type: "int", nullable: false),
                     To = table.Column<int>(type: "int", nullable: false),
-                    ClientId = table.Column<int>(type: "int", nullable: true)
+                    ClientId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -72,7 +72,7 @@ namespace PlutusDb.Migrations
                         column: x => x.ClientId,
                         principalTable: "Clients",
                         principalColumn: "ClientId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

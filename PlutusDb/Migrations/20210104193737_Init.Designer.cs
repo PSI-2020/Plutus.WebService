@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace PlutusDb.Migrations
 {
     [DbContext(typeof(SmartsaverDbContext))]
-    [Migration("20210104193045_Budgets")]
-    partial class Budgets
+    [Migration("20210104193737_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,7 +34,7 @@ namespace PlutusDb.Migrations
                     b.Property<string>("Category")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ClientId")
+                    b.Property<int>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<int>("From")
@@ -237,9 +237,13 @@ namespace PlutusDb.Migrations
 
             modelBuilder.Entity("Db.Entities.Budget", b =>
                 {
-                    b.HasOne("PlutusDb.Entities.Client", null)
+                    b.HasOne("PlutusDb.Entities.Client", "Client")
                         .WithMany("Budgets")
-                        .HasForeignKey("ClientId");
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("Db.Entities.Goal", b =>
