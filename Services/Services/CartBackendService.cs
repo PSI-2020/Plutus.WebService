@@ -70,7 +70,7 @@ namespace Plutus.WebService
                         new XElement("Name", expense.Name),
                         new XElement("Amount", expense.Price),
                         new XElement("Category", expense.Category),
-                        new XElement("Activity", expense.Active));
+                        new XElement("Active", expense.Active));
 
                     expenseXml.Add(expenseX);
                 }
@@ -125,7 +125,7 @@ namespace Plutus.WebService
                         (string)expense.Element("Name"),
                         (double)expense.Element("Amount"),
                         (string)expense.Element("Category"),
-                        (bool)expense.Element("Activity")
+                        (bool)expense.Element("Active")
                         );
                      specificCart.AddExpense(cartExpense);
                 }
