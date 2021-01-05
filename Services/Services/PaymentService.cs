@@ -78,7 +78,18 @@ namespace Plutus.WebService
                 Amount = amount,
                 Category = category
             };
-            _fileManager.AddPayment(payment, DataType.Expense);
+            var pay = new Db.Entities.Payment
+            {
+                Name = payment.Name,
+                Amount = payment.Amount,
+                Category = payment.Category,
+                Date = payment.Date,
+                PaymentType = (PlutusDb.Entities.DataType)DataType.Expense,
+                ClientId = 1
+            };
+
+            _context.Payments.Add(pay);
+            _context.SaveChanges();
         }
     }
 }
