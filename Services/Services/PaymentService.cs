@@ -64,10 +64,9 @@ namespace Plutus.WebService
                 Category = payment.Category,
                 Date = payment.Date,
                 PaymentType = (PlutusDb.Entities.DataType)type,
-                ClientId = 1
             };
 
-            _context.Payments.Remove(_context.Payments.First(x => x.Equals(pay)));
+            _context.Payments.Remove(_context.Payments.First(x => x.Date == payment.Date && x.Name == payment.Name && x.Amount == payment.Amount && x.Category == payment.Category));
             _context.SaveChanges();
         }
 
