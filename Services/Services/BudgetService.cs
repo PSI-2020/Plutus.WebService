@@ -16,7 +16,7 @@ namespace Plutus.WebService
             _context = context;
         }
 
-        public List<Db.Entities.Budget> GetBudgetsList()
+        public List<Budget> GetBudgetsList()
         {
             var list = _context.Budgets.ToList();
             var budgets = new List<Budget>();
@@ -32,7 +32,7 @@ namespace Plutus.WebService
                 };
                 budgets.Add(budget);
             }
-            return list;
+            return budgets;
         }
 
         public void DeleteBudget(int index)
@@ -73,7 +73,7 @@ namespace Plutus.WebService
             var data = "Budget for " + budget.Category;
 
             var total = Spent(index);
-            if (total == 0) return "";
+            //if (total == 0) return "";
 
             data += "\r\n" + total + "/" + budget.Amount + " €" + "\r\n" + Math.Round(total * 100 / budget.Amount, 2) + "%" + "\r\n" +
                 from.ToString("yyyy/MM/dd") + " - " + to.ToString("yyyy/MM/dd");
@@ -98,6 +98,7 @@ namespace Plutus.WebService
         {
             //var budgets = _fileManager.ReadFromFile<Budget>(DataType.Budgets);
             var budgets = _context.Budgets.ToList();
+            var budget = budgets.Where(x => x.BudgetId == index).First();
 
             var expenses = _fileManager.ReadFromFile<Payment>(DataType.Expense);
             if (!expenses.Any()) return 0.00m;
@@ -105,9 +106,9 @@ namespace Plutus.WebService
             var total = 0.00;
 
             total = expenses
-                .Where(x => x.Category == budgets[index].Category)
-                .Where(x => x.Date >= budgets[index].From)
-                .Where(x => x.Date <= budgets[index].To)
+                .Where(x => x.Category == budget.Category)
+                .Where(x => x.Date >= budget.From)
+                .Where(x => x.Date <= budget.To)
                 .Sum(x => x.Amount);
             return (decimal)total;
         }
@@ -115,7 +116,8 @@ namespace Plutus.WebService
         {
             //var list = _fileManager.ReadFromFile<Budget>(DataType.Budgets);
             var list = _context.Budgets.ToList();
-            return list[index].Amount - Spent(index);
+            var budget = list.Where(x => x.BudgetId == index).First();
+            return budget.Amount - Spent(index);
         }
 
     }
