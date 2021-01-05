@@ -48,15 +48,17 @@ namespace Plutus.WebService
             _context.SaveChanges();
         }
 
-        public void AddBudget(Db.Entities.Budget budget)
+        public void AddBudget(Budget budget)
         {
-            /*var b = new Db.Entities.Budget();
-            b.Amount = 500;
-            b.Category = "Groceries";
-            b.ClientId = 1;
-            b.From = 1598918400;
-            b.To = 1607990400;*/
-            _context.Budgets.Add(budget);
+            var b = new Db.Entities.Budget
+            {
+                Amount = budget.Sum,
+                Category = budget.Category,
+                ClientId = 1,
+                From = budget.From,
+                To = budget.To
+            };
+            _context.Budgets.Add(b);
             _context.SaveChanges();
         }
 
