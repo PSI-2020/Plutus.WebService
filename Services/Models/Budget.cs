@@ -43,7 +43,7 @@ namespace Plutus.WebService
             From = (int)info.GetValue("From", typeof(int));
             To = (int)info.GetValue("To", typeof(int));
             Name = (string)info.GetValue("Name", typeof(string));
-            Sum = (double)info.GetValue("Sum", typeof(double));
+            Sum = (decimal)info.GetValue("Sum", typeof(decimal));
             Category = (string)info.GetValue("Category", typeof(string));
         }
     }

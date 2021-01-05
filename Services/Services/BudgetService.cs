@@ -22,12 +22,14 @@ namespace Plutus.WebService
             List<Budget> budgets = null;
             foreach(var bud in list)
             {
-                var budget = new Budget();
-                budget.Name = "budget" + bud.BudgetId;
-                budget.Category = bud.Category;
-                budget.Sum = bud.Amount;
-                budget.From = bud.From;
-                budget.To = bud.To;
+                var budget = new Budget
+                {
+                    Name = "budget" + bud.BudgetId,
+                    Category = bud.Category,
+                    Sum = bud.Amount,
+                    From = bud.From,
+                    To = bud.To
+                };
                 budgets.Add(budget);
             }
             return budgets;
@@ -112,7 +114,7 @@ namespace Plutus.WebService
         {
             //var list = _fileManager.ReadFromFile<Budget>(DataType.Budgets);
             var list = _context.Budgets.ToList();
-            return list[index].Amount - (decimal)Spent(index);
+            return list[index].Amount - Spent(index);
         }
 
     }
