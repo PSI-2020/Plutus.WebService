@@ -38,7 +38,8 @@ namespace Plutus.WebService
                 Amount = payment.Amount,
                 Category = payment.Category,
                 Date = payment.Date,
-                PaymentType = (PlutusDb.Entities.DataType) type
+                PaymentType = (PlutusDb.Entities.DataType) type,
+                ClientId = 1
             };
 
             _context.Payments.Add(pay);
