@@ -10,6 +10,7 @@ namespace PlutusDb.Entities
         public double Amount { get; set; }
         public string Category { get; set; }
         public string Type { get; set; }
+        public int ClientId { get; set; }
         public virtual Client Client { get; set; }
     }
 }

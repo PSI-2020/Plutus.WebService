@@ -9,6 +9,7 @@ namespace Db.Entities
         public string Name { get; set; }
         public double Amount { get; set; }
         public int GoalId { get; set; }
+        public int ClientId { get; set; }
         public virtual Client Client { get; set; }
     }
 }

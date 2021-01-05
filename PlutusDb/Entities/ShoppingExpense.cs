@@ -7,5 +7,7 @@
         public string Category { get; set; }
         public int State { get; set; }
         public int ShoppingExpenseId { get; set; }
+        public int ClientId { get; set; }
+        public virtual Client Client { get; set; }
     }
 }

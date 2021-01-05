@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace PlutusDb.Migrations
 {
     [DbContext(typeof(PlutusDbContext))]
-    partial class SmartsaverDbContextModelSnapshot : ModelSnapshot
+    partial class PlutusDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -61,6 +61,9 @@ namespace PlutusDb.Migrations
                     b.Property<string>("Category")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -69,7 +72,38 @@ namespace PlutusDb.Migrations
 
                     b.HasKey("CartExpenseId");
 
+                    b.HasIndex("ClientId");
+
                     b.ToTable("CartExpenses");
+                });
+
+            modelBuilder.Entity("Db.Entities.Expense", b =>
+                {
+                    b.Property<int>("ExpenseId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<double>("Amount")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Category")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Date")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ExpenseId");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("Db.Entities.Goal", b =>
@@ -82,7 +116,7 @@ namespace PlutusDb.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
-                    b.Property<int?>("ClientId")
+                    b.Property<int>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DueDate")
@@ -96,35 +130,6 @@ namespace PlutusDb.Migrations
                     b.HasIndex("ClientId");
 
                     b.ToTable("Goals");
-                });
-
-            modelBuilder.Entity("Db.Entities.Payment", b =>
-                {
-                    b.Property<int>("PaymentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Category")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ClientId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Date")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("PaymentId");
-
-                    b.HasIndex("ClientId");
-
-                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("Db.Entities.ScheduledPayment", b =>
@@ -143,7 +148,7 @@ namespace PlutusDb.Migrations
                     b.Property<string>("Category")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ClientId")
+                    b.Property<int>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<int>("Date")
@@ -190,7 +195,7 @@ namespace PlutusDb.Migrations
                     b.Property<string>("Category")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ClientId")
+                    b.Property<int>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
@@ -219,6 +224,9 @@ namespace PlutusDb.Migrations
                     b.Property<string>("Category")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -229,6 +237,8 @@ namespace PlutusDb.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ShoppingExpenseId");
+
+                    b.HasIndex("ClientId");
 
                     b.ToTable("ShoppingExpenses");
                 });
@@ -244,20 +254,35 @@ namespace PlutusDb.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("Db.Entities.Goal", b =>
+            modelBuilder.Entity("Db.Entities.CartExpense", b =>
                 {
                     b.HasOne("PlutusDb.Entities.Client", "Client")
-                        .WithMany("Goals")
-                        .HasForeignKey("ClientId");
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("Db.Entities.Payment", b =>
+            modelBuilder.Entity("Db.Entities.Expense", b =>
                 {
                     b.HasOne("PlutusDb.Entities.Client", "Client")
                         .WithMany("Payments")
-                        .HasForeignKey("ClientId");
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("Db.Entities.Goal", b =>
+                {
+                    b.HasOne("PlutusDb.Entities.Client", "Client")
+                        .WithMany("Goals")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Client");
                 });
@@ -266,7 +291,9 @@ namespace PlutusDb.Migrations
                 {
                     b.HasOne("PlutusDb.Entities.Client", "Client")
                         .WithMany("ScheduledPayments")
-                        .HasForeignKey("ClientId");
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Client");
                 });
@@ -275,7 +302,20 @@ namespace PlutusDb.Migrations
                 {
                     b.HasOne("PlutusDb.Entities.Client", "Client")
                         .WithMany()
-                        .HasForeignKey("ClientId");
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("PlutusDb.Entities.ShoppingExpense", b =>
+                {
+                    b.HasOne("PlutusDb.Entities.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Client");
                 });
