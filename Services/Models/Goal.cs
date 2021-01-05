@@ -8,6 +8,7 @@ namespace Plutus.WebService
         public DateTime DueDate { get; set; }
         public string Name { get; set; }
         public double Amount { get; set; }
+        public int Id { get; set; }
 
         public Goal() { }
         public Goal(string name, double amount, DateTime date)
