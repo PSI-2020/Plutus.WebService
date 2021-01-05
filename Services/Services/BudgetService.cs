@@ -78,12 +78,13 @@ namespace Plutus.WebService
         {
             var expenses = _fileManager.ReadFromFile<Payment>(DataType.Expense);
             var budgets = _context.Budgets.ToList();
+            var budget = budgets.Where(x => x.BudgetId == index).First();
 
             var list =
                 (from exp in expenses
-                 where exp.Category == budgets[index].Category
-                 where exp.Date >= budgets[index].From
-                 where exp.Date <= budgets[index].To
+                 where exp.Category == budget.Category
+                 where exp.Date >= budget.From
+                 where exp.Date <= budget.To
                  select exp).ToList();
             return !list.Any() ? null : list;
         }
