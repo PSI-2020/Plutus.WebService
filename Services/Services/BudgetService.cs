@@ -16,7 +16,7 @@ namespace Plutus.WebService
             _context = context;
         }
 
-        public List<Budget> GetBudgetsList()
+        public List<Db.Entities.Budget> GetBudgetsList()
         {
             var list = _context.Budgets.ToList();
             List<Budget> budgets = null;
@@ -32,7 +32,7 @@ namespace Plutus.WebService
                 };
                 budgets.Add(budget);
             }
-            return budgets;
+            return list;
         }
 
         public void DeleteBudget(int index)

@@ -10,6 +10,6 @@ namespace Plutus.WebService.IRepos
         decimal Spent(int index);
         decimal LeftToSpend(int index);
         void AddBudget(Db.Entities.Budget budget);
-        List<Budget> GetBudgetsList();
+        List<Db.Entities.Budget> GetBudgetsList();
     }
 }
