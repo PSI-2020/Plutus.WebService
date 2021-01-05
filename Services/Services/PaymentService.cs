@@ -67,7 +67,7 @@ namespace Plutus.WebService
                 ClientId = 1
             };
 
-            _context.Payments.Remove(pay);
+            _context.Payments.Remove(_context.Payments.First(x => x.Equals(pay)));
             _context.SaveChanges();
         }
 
