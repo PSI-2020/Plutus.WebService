@@ -19,7 +19,7 @@ namespace Plutus.WebService
         public List<Db.Entities.Budget> GetBudgetsList()
         {
             var list = _context.Budgets.ToList();
-            List<Budget> budgets = null;
+            var budgets = new List<Budget>();
             foreach(var bud in list)
             {
                 var budget = new Budget
