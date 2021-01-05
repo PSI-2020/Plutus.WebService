@@ -57,16 +57,7 @@ namespace Plutus.WebService
 
         public void DeletePayment(Payment payment, DataType type)
         {
-            var pay = new Db.Entities.Payment
-            {
-                Name = payment.Name,
-                Amount = payment.Amount,
-                Category = payment.Category,
-                Date = payment.Date,
-                PaymentType = (PlutusDb.Entities.DataType)type,
-            };
-
-            _context.Payments.Remove(_context.Payments.First(x => x.Date == payment.Date && x.Name == payment.Name && x.Amount == payment.Amount && x.Category == payment.Category));
+            _context.Payments.Remove(_context.Payments.First(x => x.Date == payment.Date && x.Name == payment.Name && x.Amount == payment.Amount && x.Category == payment.Category && x.PaymentType == (PlutusDb.Entities.DataType)type));
             _context.SaveChanges();
         }
 
