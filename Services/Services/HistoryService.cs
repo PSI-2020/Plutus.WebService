@@ -7,8 +7,11 @@ namespace Plutus.WebService
 {
     public class HistoryService : IHistoryService
     {
-        private readonly IFileManagerRepository _fileManager;
-        public HistoryService(IFileManagerRepository fileManagerRepository) => _fileManager = fileManagerRepository;
+        private readonly IPaymentService _paymentService;
+        public HistoryService(IPaymentService paymentService)
+        {
+            _paymentService = paymentService;
+        }
 
         public List<HistoryElement> LoadDataGrid(int index)
         {
@@ -16,8 +19,8 @@ namespace Plutus.WebService
             {
                 case 0:
                 {
-                        var list = _fileManager.ReadFromFile<Payment>(DataType.Expense).Select(x => new HistoryElement { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = "Exp." }).ToList();
-                        var incomeList = _fileManager.ReadFromFile<Payment>(DataType.Income).Select(x => new HistoryElement { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = "Inc." }).ToList();
+                        var list = _paymentService.GetPayments(DataType.Expense).Select(x => new HistoryElement { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = "Exp." }).ToList();
+                        var incomeList = _paymentService.GetPayments(DataType.Income).Select(x => new HistoryElement { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = "Inc." }).ToList();
 
                         list.AddRange(incomeList);
 
@@ -25,13 +28,13 @@ namespace Plutus.WebService
                 }
                 case 1:
                 {
-                        var list = _fileManager.ReadFromFile<Payment>(DataType.Expense).Select(x => new HistoryElement { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = "Exp." }).OrderByDescending(x => x.Date).ToList();
+                        var list = _paymentService.GetPayments(DataType.Expense).Select(x => new HistoryElement { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = "Exp." }).OrderByDescending(x => x.Date).ToList();
 
                         return !list.Any() ? null : list;
                 }
                 case 2:
                 {
-                        var list = _fileManager.ReadFromFile<Payment>(DataType.Income).Select(x => new HistoryElement { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = "Inc." }).OrderByDescending(x => x.Date).ToList();
+                        var list = _paymentService.GetPayments(DataType.Income).Select(x => new HistoryElement { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = "Inc." }).OrderByDescending(x => x.Date).ToList();
 
                         return !list.Any() ? null : list;
                 }
