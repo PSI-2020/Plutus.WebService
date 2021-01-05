@@ -9,7 +9,7 @@ namespace Db.Entities
         public string Name { get; set; }
         public double Amount { get; set; }
         public string Category { get; set; }
-        public string PaymentType { get; set; }
+        public DataType PaymentType { get; set; }
         public int ClientId { get; set; }
         public virtual Client Client { get; set; }
     }

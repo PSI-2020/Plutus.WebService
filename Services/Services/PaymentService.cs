@@ -30,9 +30,18 @@ namespace Plutus.WebService
             _fileManager.AddPayment(payment, chi.CurrentType);
         }
 
-        public void AddPaymentToDatabase(Db.Entities.Payment payment, DataType type)
+        public void AddPaymentToDatabase(Payment payment, DataType type)
         {
-            _context.Payments.Add(payment);
+            var pay = new Db.Entities.Payment
+            {
+                Name = payment.Name,
+                Amount = payment.Amount,
+                Category = payment.Category,
+                Date = payment.Date,
+                PaymentType = (PlutusDb.Entities.DataType) type
+            };
+
+            _context.Payments.Add(pay);
             _context.SaveChanges();
         }
 
