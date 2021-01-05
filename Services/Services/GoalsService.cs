@@ -1,4 +1,5 @@
-﻿using Plutus.WebService.IRepos;
+﻿using Db;
+using Plutus.WebService.IRepos;
 using System;
 using System.Linq;
 
@@ -7,28 +8,57 @@ namespace Plutus.WebService
     public class GoalsService : IGoalsService
     {
         private readonly IFileManagerRepository _fileManager;
-        public GoalsService(IFileManagerRepository fileManagerRepository) => _fileManager = fileManagerRepository;
+        private readonly PlutusDbContext _context;
+        public GoalsService(IFileManagerRepository fileManagerRepository, PlutusDbContext context)
+        {
+            _fileManager = fileManagerRepository;
+            _context = context;
+        }
         public void EditGoal(int id, Goal newGoal)
         {
-            var list = _fileManager.ReadFromFile<Goal>(DataType.Goals);
-            list[id] = newGoal;
-            _fileManager.UpdateGoals(list);
+            //var list = _fileManager.ReadFromFile<Goal>(DataType.Goals);
+            //list[id] = newGoal;
+            var goal = _context.Goals.Where(x => x.GoalId == id).First();
+            goal.Name = newGoal.Name;
+            goal.DueDate = newGoal.DueDate;
+            goal.Amount = newGoal.Amount;
+            goal.ClientId = 1;
+            //_fileManager.UpdateGoals(list);
+            _context.Goals.Update(goal);
+            _context.SaveChanges();
         }
        
         public void DeleteGoal(Goal goal)
         {
-            var list = _fileManager.ReadFromFile<Goal>(DataType.Goals);
-            list.Remove(list.First(i => goal.Name == i.Name && goal.Amount == i.Amount && goal.DueDate == i.DueDate));
-            _fileManager.UpdateGoals(list);
+            var g = new Db.Entities.Goal
+            {
+                Name = goal.Name,
+                DueDate = goal.DueDate,
+                Amount = goal.Amount,
+                ClientId = 1
+            };
+            _context.Goals.Remove(g);
+            _context.SaveChanges();
         }
 
 
         public void SetMainGoal(Goal goal)
         {
-            DeleteGoal(goal);
+            /*DeleteGoal(goal);
             var list = _fileManager.ReadFromFile<Goal>(DataType.Goals);
             list.Insert(0, goal);
-            _fileManager.UpdateGoals(list);
+            _fileManager.UpdateGoals(list);*/
+
+            DeleteGoal(goal);
+            var ng = new Db.Entities.Goal
+            {
+                Name = goal.Name,
+                DueDate = goal.DueDate,
+                Amount = goal.Amount,
+                ClientId = 1
+            };
+            _context.Goals.Add(ng);
+            _context.SaveChanges();
         }
 
         public string Insights(Goal goal, string dailyOrMonthly)
