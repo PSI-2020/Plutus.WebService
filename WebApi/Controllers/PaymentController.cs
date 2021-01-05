@@ -13,9 +13,8 @@ namespace Plutus.WebService
         public delegate void PaymentAddedHandler(Payment payment);
         public static event PaymentAddedHandler PaymentAdded;
 
-        public PaymentController(IFileManagerRepository fileManagerRepository, IPaymentService paymentService) 
+        public PaymentController(IPaymentService paymentService) 
         {
-            _fileManager = fileManagerRepository;
             _paymentService = paymentService;
          }
 
