@@ -31,7 +31,7 @@ namespace Plutus.WebService
             return result;
         }
         [HttpGet("list")]
-        public List<Budget> GetList() => ReadBudgets();
+        public List<Budget> GetList() => _budgetService.GetBudgetsList();
 
         [HttpGet("{id}")]
         public string Get(int id) => _budgetService.GenerateBudget(id);
