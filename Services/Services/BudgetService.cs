@@ -37,12 +37,6 @@ namespace Plutus.WebService
 
         public void DeleteBudget(int index)
         { 
-            /*var list = _fileManager.ReadFromFile<Budget>(DataType.Budgets);
-            list.Remove(list[index]);
-            Func<List<Budget>, List<Budget>> Rename = delegate (List<Budget> list) { list.ForEach(x => x.Name = "budget" + list.IndexOf(x)); return list; };
-
-            _fileManager.UpdateBudgets(Rename(list));*/
-
             var budget = _context.Budgets.Where(x => x.BudgetId == index).First();
             _context.Budgets.Remove(budget);
             _context.SaveChanges();
@@ -65,7 +59,6 @@ namespace Plutus.WebService
 
         public string GenerateBudget(int index)
         {
-            //var list = _fileManager.ReadFromFile<Budget>(DataType.Budgets);
             var list = _context.Budgets.ToList();
             var budget = list.Where(x => x.BudgetId == index).First();
 
@@ -75,7 +68,6 @@ namespace Plutus.WebService
             var data = "Budget for " + budget.Category;
 
             var total = Spent(index);
-            //if (total == 0) return "";
 
             data += "\r\n" + total + "/" + budget.Amount + " €" + "\r\n" + Math.Round(total * 100 / budget.Amount, 2) + "%" + "\r\n" +
                 from.ToString("yyyy/MM/dd") + " - " + to.ToString("yyyy/MM/dd");
@@ -84,7 +76,6 @@ namespace Plutus.WebService
         }
         public List<Payment> ShowStats(int index)
         {
-            //var budgets = _fileManager.ReadFromFile<Budget>(DataType.Budgets);
             var expenses = _fileManager.ReadFromFile<Payment>(DataType.Expense);
             var budgets = _context.Budgets.ToList();
 
@@ -98,7 +89,6 @@ namespace Plutus.WebService
         }
         public decimal Spent(int index)
         {
-            //var budgets = _fileManager.ReadFromFile<Budget>(DataType.Budgets);
             var budgets = _context.Budgets.ToList();
             var budget = budgets.Where(x => x.BudgetId == index).First();
 
@@ -116,7 +106,6 @@ namespace Plutus.WebService
         }
         public decimal LeftToSpend(int index)
         {
-            //var list = _fileManager.ReadFromFile<Budget>(DataType.Budgets);
             var list = _context.Budgets.ToList();
             var budget = list.Where(x => x.BudgetId == index).First();
             return budget.Amount - Spent(index);
