@@ -65,16 +65,17 @@ namespace Plutus.WebService
         {
             //var list = _fileManager.ReadFromFile<Budget>(DataType.Budgets);
             var list = _context.Budgets.ToList();
+            var budget = list.Where(x => x.BudgetId == index).First();
 
-            var from = list[index].From.ConvertToDate();
-            var to = list[index].To.ConvertToDate();
+            var from = budget.From.ConvertToDate();
+            var to = budget.To.ConvertToDate();
 
-            var data = "Budget for " + list[index].Category;
+            var data = "Budget for " + budget.Category;
 
             var total = Spent(index);
             if (total == 0) return "";
 
-            data += "\r\n" + total + "/" + list[index].Amount + " €" + "\r\n" + Math.Round(total * 100 / list[index].Amount, 2) + "%" + "\r\n" +
+            data += "\r\n" + total + "/" + budget.Amount + " €" + "\r\n" + Math.Round(total * 100 / budget.Amount, 2) + "%" + "\r\n" +
                 from.ToString("yyyy/MM/dd") + " - " + to.ToString("yyyy/MM/dd");
 
             return data;
