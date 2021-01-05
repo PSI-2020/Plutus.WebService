@@ -9,15 +9,13 @@ namespace Plutus.WebService
     [ApiController]
     public class SchedulerController : ControllerBase
     {
-        private readonly IFileManagerRepository _fileManager;
         private readonly ISchedulerService _schedulerService;
-        public SchedulerController(IFileManagerRepository fileManagerRepository, ISchedulerService schedulerService)
+        public SchedulerController(ISchedulerService schedulerService)
         {
-            _fileManager = fileManagerRepository;
             _schedulerService = schedulerService;
         }
-        private List<ScheduledPayment> ReadExpenses() => _fileManager.ReadFromFile<ScheduledPayment>(DataType.MonthlyExpenses);
-        private List<ScheduledPayment> ReadIncomes() => _fileManager.ReadFromFile<ScheduledPayment>(DataType.MonthlyIncome);
+        private List<ScheduledPayment> ReadExpenses() => _schedulerService.GetScheduledExpenses();
+        private List<ScheduledPayment> ReadIncomes() => _schedulerService.GetScheduledIncomes();
 
         [HttpGet]
         public string Get()
@@ -48,7 +46,7 @@ namespace Plutus.WebService
         public string Get(int id, DataType type) => _schedulerService.ShowPayment(id, type);
 
         [HttpPost("{type}")]
-        public void Post([FromBody] ScheduledPayment payment, DataType type) => _fileManager.AddScheduledPayment(payment, type);
+        public void Post([FromBody] ScheduledPayment payment, DataType type) => _schedulerService.AddPayment(payment, type);
 
         [HttpPut("{id}/{type}/{status}")]
         public void Put(int id, DataType type, bool status) => _schedulerService.ChangeStatus(id, type, status);
@@ -59,7 +57,7 @@ namespace Plutus.WebService
         [HttpDelete("{id}/{type}")]
         public void Delete(int id, DataType type) => _schedulerService.DeletePayment(id, type);
 
-        [HttpPatch]
-        public void CheckPayments() => _schedulerService.CheckPayments();
+        //[HttpPatch]
+        //public void CheckPayments() => _schedulerService.CheckPayments();
     }
 }

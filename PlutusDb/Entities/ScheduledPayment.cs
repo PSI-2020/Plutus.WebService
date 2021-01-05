@@ -11,6 +11,7 @@ namespace Db.Entities
         public int ScheduledPaymentId { get; set; }
         public string Frequency { get; set; }
         public bool Active { get; set; }
+        public DataType PaymentType { get; set; }
         public int ClientId { get; set; }
         public virtual Client Client { get; set; }
     }

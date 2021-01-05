@@ -1,4 +1,5 @@
-﻿using Plutus.WebService.IRepos;
+﻿using Db;
+using Plutus.WebService.IRepos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +8,9 @@ namespace Plutus.WebService
 {
     public class SchedulerService : ISchedulerService
     {
-        private readonly IFileManagerRepository _fileManager;
-        public SchedulerService(IFileManagerRepository fileManagerRepository) => _fileManager = fileManagerRepository;
-        public void CheckPayments()
+        private readonly PlutusDbContext _context;
+        public SchedulerService(PlutusDbContext context) => _context = context;
+        /*public void CheckPayments()
         {
             var incomesList = _fileManager.ReadFromFile<ScheduledPayment>(DataType.MonthlyIncome);
             var expensesList = _fileManager.ReadFromFile<ScheduledPayment>(DataType.MonthlyExpenses);
@@ -71,39 +72,99 @@ namespace Plutus.WebService
                 }
             }
             _fileManager.UpdateScheduledPayments(expensesList, DataType.MonthlyExpenses);
-        }
+        }*/
         public string ShowPayment(int index, DataType type)
         {
-            var list = _fileManager.ReadFromFile<ScheduledPayment>(type);
+            var list = _context.ScheduledPayments.Where(x => x.PaymentType == (PlutusDb.Entities.DataType)type).ToList();
             if (!list.Any()) return "";
+            var payment = list.Where(x => x.ScheduledPaymentId == index).First();
 
-            var date = list[index].Date.ConvertToDate();
-            return list[index].Active == false
-                ? list[index].Name + " in " + list[index].Category + "\r\n" + "Inactive"
-                : list[index].Name + " in " + list[index].Category + "\r\n" + "Next payment: " + date.ToString("yyyy/MM/dd");
+            var date = payment.Date.ConvertToDate();
+            return payment.Active == false
+                ? list[index].Name + " in " + payment.Category + "\r\n" + "Inactive"
+                : list[index].Name + " in " + payment.Category + "\r\n" + "Next payment: " + date.ToString("yyyy/MM/dd");
         }
         public void ChangeStatus(int index, DataType type, bool status)
         {
-            var list = _fileManager.ReadFromFile<ScheduledPayment>(type);
-            list[index].Active = status;
-            _fileManager.UpdateScheduledPayments(list, type);
+            var list = _context.ScheduledPayments.Where(x => x.PaymentType == (PlutusDb.Entities.DataType)type).ToList();
+            var payment = list.Where(x => x.ScheduledPaymentId == index).First();
+            payment.Active = status;
+            _context.ScheduledPayments.Update(payment);
+            _context.SaveChanges();
+        }
+        public void AddPayment(ScheduledPayment payment, DataType type)
+        {
+            var newPayment = new Db.Entities.ScheduledPayment
+            {
+                Name = payment.Name,
+                ClientId = 1,
+                Active = payment.Active,
+                Amount = payment.Amount,
+                PaymentType = (PlutusDb.Entities.DataType)type,
+                Date = payment.Date,
+                Category = payment.Category,
+                Frequency = payment.Frequency
+            };
+            _context.Add(newPayment);
+            _context.SaveChanges();
         }
         public void DeletePayment(int index, DataType type)
         {
-            var list = _fileManager.ReadFromFile<ScheduledPayment>(type);
-            list.Remove(list[index]);
-            Func<List<ScheduledPayment>, List<ScheduledPayment>> ReID = delegate (List<ScheduledPayment> list)
-            {
-                list.ForEach(x => x.Id = type.ToString() + list.IndexOf(x));
-                return list;
-            };
-            _fileManager.UpdateScheduledPayments(ReID(list), type);
+            var list =_context.ScheduledPayments.Where(x => x.PaymentType == (PlutusDb.Entities.DataType)type).ToList();
+            _context.ScheduledPayments.Remove(list.Where(x => x.ScheduledPaymentId == index).First());
+            _context.SaveChanges();
         }
         public void EditScheduledPayment(ScheduledPayment payment, int index, DataType type)
         {
-            var list = _fileManager.ReadFromFile<ScheduledPayment>(type);
-            list[index] = payment;
-            _fileManager.UpdateScheduledPayments(list, type);
+            var list = _context.ScheduledPayments.Where(x => x.PaymentType == (PlutusDb.Entities.DataType)type).ToList();
+            var pay = list.Where(x => x.ScheduledPaymentId == index).First();
+            pay.Name = payment.Name;
+            pay.Active = payment.Active;
+            pay.Amount = payment.Amount;
+            pay.Date = payment.Date;
+            pay.Frequency = payment.Frequency;
+            pay.Category = payment.Category;
+            _context.ScheduledPayments.Update(pay);
+            _context.SaveChanges();
+        }
+
+        public List<ScheduledPayment> GetScheduledExpenses()
+        {
+            var list = _context.ScheduledPayments.Where(x => x.PaymentType == PlutusDb.Entities.DataType.MonthlyExpenses).ToList();
+            var result = new List<ScheduledPayment>();
+            foreach(var item in list)
+            {
+                var payment = new ScheduledPayment
+                {
+                    Date = item.Date,
+                    Active = item.Active,
+                    Amount = item.Amount,
+                    Frequency = item.Frequency,
+                    Id = item.ScheduledPaymentId,
+                    Name = item.Name
+                };
+                result.Add(payment);
+            }
+            return result;
+        }
+        public List<ScheduledPayment> GetScheduledIncomes()
+        {
+            var list = _context.ScheduledPayments.Where(x => x.PaymentType == PlutusDb.Entities.DataType.MonthlyIncome).ToList();
+            var result = new List<ScheduledPayment>();
+            foreach (var item in list)
+            {
+                var payment = new ScheduledPayment
+                {
+                    Date = item.Date,
+                    Active = item.Active,
+                    Amount = item.Amount,
+                    Frequency = item.Frequency,
+                    Id = item.ScheduledPaymentId,
+                    Name = item.Name
+                };
+                result.Add(payment);
+            }
+            return result;
         }
     }
 }
