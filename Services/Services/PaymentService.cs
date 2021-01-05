@@ -2,6 +2,7 @@
 using Plutus.WebService.IRepos;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Plutus.WebService
@@ -55,6 +56,14 @@ namespace Plutus.WebService
             return list;
         }
 
+        public void EditPayment() => Debug.Print("lel");
+
+        public void DeletePayment(Payment payment, DataType type)
+        {
+            _context.Payments.Remove(_context.Payments.First(x => x.Name == payment.Name && x.Amount == payment.Amount && x.Category == payment.Category && x.PaymentType == (PlutusDb.Entities.DataType) type));
+            _context.SaveChanges();
+        }
+
         public List<Payment> GetPayments(DataType type)
         {
             var payList = _context.Payments.Where(x => x.PaymentType == (PlutusDb.Entities.DataType) type).ToList();
@@ -72,7 +81,18 @@ namespace Plutus.WebService
                 Amount = amount,
                 Category = category
             };
-            _fileManager.AddPayment(payment, DataType.Expense);
+            var pay = new Db.Entities.Payment
+            {
+                Name = payment.Name,
+                Amount = payment.Amount,
+                Category = payment.Category,
+                Date = payment.Date,
+                PaymentType = (PlutusDb.Entities.DataType)DataType.Expense,
+                ClientId = 1
+            };
+
+            _context.Payments.Add(pay);
+            _context.SaveChanges();
         }
     }
 }

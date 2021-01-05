@@ -9,14 +9,12 @@ namespace Plutus.WebService
     [ApiController]
     public class PaymentController : ControllerBase
     {
-        private readonly IFileManagerRepository _fileManager;
         private readonly IPaymentService _paymentService;
         public delegate void PaymentAddedHandler(Payment payment);
         public static event PaymentAddedHandler PaymentAdded;
 
-        public PaymentController(IFileManagerRepository fileManagerRepository, IPaymentService paymentService) 
+        public PaymentController(IPaymentService paymentService) 
         {
-            _fileManager = fileManagerRepository;
             _paymentService = paymentService;
          }
 
@@ -43,9 +41,9 @@ namespace Plutus.WebService
         }
 
         [HttpPut("{type}/{index}")]
-        public void Edit(Payment payment, int index, DataType type) => _fileManager.EditPayment(payment, index, type);
+        public void Edit(Payment payment, int index, DataType type) => _paymentService.EditPayment();
 
         [HttpPut("{type}")]
-        public void Delete(Payment payment, DataType type) => _fileManager.DeletePayment(payment, type);
+        public void Delete(Payment payment, DataType type) => _paymentService.DeletePayment(payment, type);
     }
 }
