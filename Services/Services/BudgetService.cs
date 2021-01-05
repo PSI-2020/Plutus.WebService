@@ -9,8 +9,8 @@ namespace Plutus.WebService
     public class BudgetService : IBudgetService
     {
         private readonly IFileManagerRepository _fileManager;
-        private readonly SmartsaverDbContext _context;
-        public BudgetService(IFileManagerRepository fileManagerRepository, SmartsaverDbContext context)
+        private readonly PlutusDbContext _context;
+        public BudgetService(IFileManagerRepository fileManagerRepository, PlutusDbContext context)
         {
             _fileManager = fileManagerRepository;
             _context = context;

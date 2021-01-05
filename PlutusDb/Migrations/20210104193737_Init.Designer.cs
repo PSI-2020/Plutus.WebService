@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace PlutusDb.Migrations
 {
-    [DbContext(typeof(SmartsaverDbContext))]
+    [DbContext(typeof(PlutusDbContext))]
     [Migration("20210104193737_Init")]
     partial class Init
     {

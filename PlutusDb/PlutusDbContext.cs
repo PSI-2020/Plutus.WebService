@@ -4,9 +4,9 @@ using PlutusDb.Entities;
 
 namespace Db
 {
-    public class SmartsaverDbContext : DbContext
+    public class PlutusDbContext : DbContext
     {
-        public SmartsaverDbContext(DbContextOptions<SmartsaverDbContext> options) : base(options)
+        public PlutusDbContext(DbContextOptions<PlutusDbContext> options) : base(options)
         {
         }
 

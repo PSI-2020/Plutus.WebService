@@ -20,7 +20,7 @@ namespace Plutus.WebService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddDbContext<SmartsaverDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<PlutusDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IBudgetService, BudgetService>();
             services.AddScoped<IFileManagerRepository, FileManagerRepository>();
             services.AddScoped<ISchedulerService, SchedulerService>();
@@ -37,7 +37,7 @@ namespace Plutus.WebService
 
         }
         private void OutputDataDeletion(object o, string name) => _logger.Log(name + " was deleted");
-        private void OutputDataPaymentAdded(Payment payment) => _logger.Log(payment.Name + " was added");
+        private void OutputDataPaymentAdded(Db.Entities.Payment payment) => _logger.Log(payment.Name + " was added");
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
