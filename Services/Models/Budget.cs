@@ -7,15 +7,15 @@ namespace Plutus.WebService
     {
         public string Name { get; set; }
         public string Category { get; set; }
-        private double _sum;
-        public double Sum
+        private decimal _sum;
+        public decimal Sum
         {
             get => _sum;
             set => _sum = value < 0 ? throw new ArgumentOutOfRangeException("The sum of budget cannot be negative") : value;
         }
         public int From { get; set; }
         public int To { get; set; }
-        public Budget(string name, string category, double sum, DateTime from, DateTime to)
+        public Budget(string name, string category, decimal sum, DateTime from, DateTime to)
         {
             Name = name;
             Category = category;

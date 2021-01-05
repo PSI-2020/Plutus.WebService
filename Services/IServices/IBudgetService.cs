@@ -7,8 +7,9 @@ namespace Plutus.WebService.IRepos
         string GenerateBudget(int index);
         void DeleteBudget(int index);
         List<Payment> ShowStats(int index);
-        double Spent(int index);
-        double LeftToSpend(int index);
+        decimal Spent(int index);
+        decimal LeftToSpend(int index);
         void AddBudget(Db.Entities.Budget budget);
+        List<Budget> GetBudgetsList();
     }
 }

@@ -16,13 +16,34 @@ namespace Plutus.WebService
             _context = context;
         }
 
+        public List<Budget> GetBudgetsList()
+        {
+            var list = _context.Budgets.ToList();
+            List<Budget> budgets = null;
+            foreach(var bud in list)
+            {
+                var budget = new Budget();
+                budget.Name = "budget" + bud.BudgetId;
+                budget.Category = bud.Category;
+                budget.Sum = bud.Amount;
+                budget.From = bud.From;
+                budget.To = bud.To;
+                budgets.Add(budget);
+            }
+            return budgets;
+        }
+
         public void DeleteBudget(int index)
         { 
-            var list = _fileManager.ReadFromFile<Budget>(DataType.Budgets);
+            /*var list = _fileManager.ReadFromFile<Budget>(DataType.Budgets);
             list.Remove(list[index]);
             Func<List<Budget>, List<Budget>> Rename = delegate (List<Budget> list) { list.ForEach(x => x.Name = "budget" + list.IndexOf(x)); return list; };
 
-            _fileManager.UpdateBudgets(Rename(list));
+            _fileManager.UpdateBudgets(Rename(list));*/
+
+            var budget = _context.Budgets.Where(x => x.BudgetId == index).First();
+            _context.Budgets.Remove(budget);
+            _context.SaveChanges();
         }
 
         public void AddBudget(Db.Entities.Budget budget)
@@ -40,7 +61,8 @@ namespace Plutus.WebService
 
         public string GenerateBudget(int index)
         {
-            var list = _fileManager.ReadFromFile<Budget>(DataType.Budgets);
+            //var list = _fileManager.ReadFromFile<Budget>(DataType.Budgets);
+            var list = _context.Budgets.ToList();
 
             var from = list[index].From.ConvertToDate();
             var to = list[index].To.ConvertToDate();
@@ -50,15 +72,16 @@ namespace Plutus.WebService
             var total = Spent(index);
             if (total == 0) return "";
 
-            data += "\r\n" + total + "/" + list[index].Sum + " €" + "\r\n" + Math.Round(total * 100 / list[index].Sum, 2) + "%" + "\r\n" +
+            data += "\r\n" + total + "/" + list[index].Amount + " €" + "\r\n" + Math.Round(total * 100 / list[index].Amount, 2) + "%" + "\r\n" +
                 from.ToString("yyyy/MM/dd") + " - " + to.ToString("yyyy/MM/dd");
 
             return data;
         }
         public List<Payment> ShowStats(int index)
         {
-            var budgets = _fileManager.ReadFromFile<Budget>(DataType.Budgets);
+            //var budgets = _fileManager.ReadFromFile<Budget>(DataType.Budgets);
             var expenses = _fileManager.ReadFromFile<Payment>(DataType.Expense);
+            var budgets = _context.Budgets.ToList();
 
             var list =
                 (from exp in expenses
@@ -68,26 +91,28 @@ namespace Plutus.WebService
                  select exp).ToList();
             return !list.Any() ? null : list;
         }
-        public double Spent(int index)
+        public decimal Spent(int index)
         {
-            var list = _fileManager.ReadFromFile<Budget>(DataType.Budgets);
+            //var budgets = _fileManager.ReadFromFile<Budget>(DataType.Budgets);
+            var budgets = _context.Budgets.ToList();
 
             var expenses = _fileManager.ReadFromFile<Payment>(DataType.Expense);
-            if (!expenses.Any()) return 0.00;
+            if (!expenses.Any()) return 0.00m;
 
             var total = 0.00;
 
             total = expenses
-                .Where(x => x.Category == list[index].Category)
-                .Where(x => x.Date >= list[index].From)
-                .Where(x => x.Date <= list[index].To)
+                .Where(x => x.Category == budgets[index].Category)
+                .Where(x => x.Date >= budgets[index].From)
+                .Where(x => x.Date <= budgets[index].To)
                 .Sum(x => x.Amount);
-            return total;
+            return (decimal)total;
         }
-        public double LeftToSpend(int index)
+        public decimal LeftToSpend(int index)
         {
-            var list = _fileManager.ReadFromFile<Budget>(DataType.Budgets);
-            return list[index].Sum - Spent(index);
+            //var list = _fileManager.ReadFromFile<Budget>(DataType.Budgets);
+            var list = _context.Budgets.ToList();
+            return list[index].Amount - (decimal)Spent(index);
         }
 
     }

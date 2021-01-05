@@ -9,16 +9,14 @@ namespace Plutus.WebService
     [ApiController]
     public class BudgetsController : ControllerBase
     {
-        private readonly IFileManagerRepository _fileManager;
         private readonly IBudgetService _budgetService;
 
-        public BudgetsController(IBudgetService budgetService, IFileManagerRepository fileManagerRepository)
+        public BudgetsController(IBudgetService budgetService)
         {
             _budgetService = budgetService;
-            _fileManager = fileManagerRepository;
         }
 
-        private List<Budget> ReadBudgets() => _fileManager.ReadFromFile<Budget>(DataType.Budgets);
+        private List<Budget> ReadBudgets() => _budgetService.GetBudgetsList();
 
         [HttpGet]
         public string Get()
@@ -42,10 +40,10 @@ namespace Plutus.WebService
         public List<Payment> GetStats(int id) => _budgetService.ShowStats(id);
 
         [HttpGet("{id}/spent")]
-        public double GetSpent(int id) => _budgetService.Spent(id);
+        public decimal GetSpent(int id) => _budgetService.Spent(id);
 
         [HttpGet("{id}/left")]
-        public double GetLeftToSpend(int id) => _budgetService.LeftToSpend(id);
+        public decimal GetLeftToSpend(int id) => _budgetService.LeftToSpend(id);
 
         [HttpPost]
         public void Post([FromBody] Db.Entities.Budget budget) => _budgetService.AddBudget(budget);
