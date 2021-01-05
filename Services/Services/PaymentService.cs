@@ -55,6 +55,13 @@ namespace Plutus.WebService
             return list;
         }
 
+        public List<Payment> GetPayments(DataType type)
+        {
+            var payList = _context.Payments.Where(x => x.PaymentType == (PlutusDb.Entities.DataType) type).ToList();
+            var list = payList.Select(x => new Payment { Date = x.Date, Name = x.Name, Amount = x.Amount, Category = x.Category }).ToList();
+            return list;
+        }
+
         public void AddCartPayment(string name, double amount, string category)
         {
             var date = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
