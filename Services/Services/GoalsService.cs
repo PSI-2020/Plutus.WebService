@@ -26,7 +26,8 @@ namespace Plutus.WebService
                 { 
                     Name = item.Name,
                     Amount = item.Amount,
-                    DueDate = item.DueDate
+                    DueDate = item.DueDate,
+                    Id = item.GoalId
                 };
                 goals.Add(g);
             }
@@ -58,28 +59,22 @@ namespace Plutus.WebService
             _context.SaveChanges();
         }
        
-        public void DeleteGoal(Goal goal)
+        public void DeleteGoal(int id)
         {
-            var g = new Db.Entities.Goal
-            {
-                Name = goal.Name,
-                DueDate = goal.DueDate,
-                Amount = goal.Amount,
-                ClientId = 1
-            };
+            var g = _context.Goals.Where(x => x.GoalId == id).First();
             _context.Goals.Remove(g);
             _context.SaveChanges();
         }
 
 
-        public void SetMainGoal(Goal goal)
+        public void SetMainGoal(int id)
         {
             /*DeleteGoal(goal);
             var list = _fileManager.ReadFromFile<Goal>(DataType.Goals);
             list.Insert(0, goal);
             _fileManager.UpdateGoals(list);*/
 
-            DeleteGoal(goal);
+            var goal = _context.Goals.Where(x => x.GoalId == id).First();
             var ng = new Db.Entities.Goal
             {
                 Name = goal.Name,
@@ -87,6 +82,7 @@ namespace Plutus.WebService
                 Amount = goal.Amount,
                 ClientId = 1
             };
+            DeleteGoal(id);
             _context.Goals.Add(ng);
             _context.SaveChanges();
         }

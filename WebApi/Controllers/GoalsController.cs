@@ -35,14 +35,12 @@ namespace Plutus.WebService
         public void Post([FromBody] Goal goal) => _goalsService.AddGoal(goal);
 
         [HttpPut]
-        public void Put([FromBody] Goal goal) => _goalsService.SetMainGoal(goal);
+        public void Put([FromBody] int id) => _goalsService.SetMainGoal(id);
 
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-            var list = ReadGoals();
-            _goalsService.DeleteGoal(list[id]);
-            GoalDeletedEvent?.Invoke(this, list[id].Name);
+            _goalsService.DeleteGoal(id);
         }
 
         [HttpPut("edit/{id}")]
