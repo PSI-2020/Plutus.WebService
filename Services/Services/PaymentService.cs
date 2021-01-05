@@ -2,6 +2,7 @@
 using Plutus.WebService.IRepos;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Plutus.WebService
@@ -54,6 +55,9 @@ namespace Plutus.WebService
             var list = payList.Select(x => new Payment { Date = x.Date, Name = x.Name, Amount = x.Amount, Category = x.Category }).ToList();
             return list;
         }
+
+        public void EditPayment() => Debug.Print("lel");
+
         public void DeletePayment(Payment payment, DataType type)
         {
             _context.Payments.Remove(_context.Payments.First(x => x.Name == payment.Name && x.Amount == payment.Amount && x.Category == payment.Category && x.PaymentType == (PlutusDb.Entities.DataType) type));

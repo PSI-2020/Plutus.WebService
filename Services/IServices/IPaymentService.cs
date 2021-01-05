@@ -10,5 +10,6 @@ namespace Plutus.WebService.IRepos
         public List<Payment> GetPayments();
         public List<Payment> GetPayments(DataType type);
         public void DeletePayment(Payment payment, DataType type);
+        public void EditPayment();
     }
 }
