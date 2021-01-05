@@ -76,17 +76,29 @@ namespace Plutus.WebService
         }
         public List<Payment> ShowStats(int index)
         {
-            var expenses = _fileManager.ReadFromFile<Payment>(DataType.Expense);
+            var list = _context.Payments.Where(x => x.PaymentType == PlutusDb.Entities.DataType.Expense).ToList();
+            var expenses = new List<Payment>();
+            foreach(var item in list)
+            {
+                var payment = new Payment
+                {
+                    Name = item.Name,
+                    Amount = item.Amount,
+                    Date = item.Date,
+                    Category = item.Category
+                };
+                expenses.Add(payment);
+            }
             var budgets = _context.Budgets.ToList();
             var budget = budgets.Where(x => x.BudgetId == index).First();
 
-            var list =
+            var result =
                 (from exp in expenses
                  where exp.Category == budget.Category
                  where exp.Date >= budget.From
                  where exp.Date <= budget.To
                  select exp).ToList();
-            return !list.Any() ? null : list;
+            return !result.Any() ? null : result;
         }
         public decimal Spent(int index)
         {
