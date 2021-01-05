@@ -11,7 +11,7 @@ namespace Plutus.WebService
     {
         private readonly IFileManagerRepository _fileManager;
         private readonly IPaymentService _paymentService;
-        public delegate void PaymentAddedHandler(Db.Entities.Expense payment);
+        public delegate void PaymentAddedHandler(Db.Entities.Payment payment);
         public static event PaymentAddedHandler PaymentAdded;
 
         public PaymentController(IFileManagerRepository fileManagerRepository, IPaymentService paymentService) 
@@ -33,7 +33,7 @@ namespace Plutus.WebService
 
 
         [HttpPost("{type}")]
-        public Db.Entities.Expense Post([FromBody] Db.Entities.Expense payment, DataType type)
+        public Db.Entities.Payment Post([FromBody] Db.Entities.Payment payment, DataType type)
         {
             if (Enum.IsDefined(typeof(DataType), type))
             {

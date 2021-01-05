@@ -9,7 +9,7 @@ namespace PlutusDb.Entities
         public string Email { get; set; }
         public virtual List<Budget> Budgets { get; set; }
         public virtual List<Goal> Goals { get; set; }
-        public virtual List<Expense> Payments { get; set; }
+        public virtual List<Payment> Payments { get; set; }
         public virtual List<ScheduledPayment> ScheduledPayments { get; set; }
     }
 }
