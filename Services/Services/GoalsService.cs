@@ -87,12 +87,17 @@ namespace Plutus.WebService
             _context.SaveChanges();
         }
 
-        public string Insights(Goal goal, string dailyOrMonthly)
+        public string Insights(int id, string dailyOrMonthly)
         {
-            var scheduledIncome = _fileManager.ReadFromFile<ScheduledPayment>(DataType.MonthlyIncome);
+            /*var scheduledIncome = _fileManager.ReadFromFile<ScheduledPayment>(DataType.MonthlyIncome);
             var scheduledExpenses = _fileManager.ReadFromFile<ScheduledPayment>(DataType.MonthlyExpenses);
             var allIncome = _fileManager.ReadFromFile<Payment>(DataType.Income);
-            var allExpenses = _fileManager.ReadFromFile<Payment>(DataType.Expense);
+            var allExpenses = _fileManager.ReadFromFile<Payment>(DataType.Expense);*/
+            var scheduledIncome = _context.ScheduledPayments.Where(x => x.PaymentType == PlutusDb.Entities.DataType.MonthlyIncome).ToList();
+            var scheduledExpenses = _context.ScheduledPayments.Where(x => x.PaymentType == PlutusDb.Entities.DataType.MonthlyExpenses).ToList();
+            var allIncome = _context.Payments.Where(x => x.PaymentType == PlutusDb.Entities.DataType.Income).ToList();
+            var allExpenses = _context.Payments.Where(x => x.PaymentType == PlutusDb.Entities.DataType.Expense).ToList();
+            var goal = _context.Goals.Where(x => x.GoalId == id).First();
 
             var months = goal.DueDate.Month - DateTime.Now.Month + (12 * (goal.DueDate.Year - DateTime.Now.Year));
             var weeks = (int)(goal.DueDate - DateTime.Now).TotalDays / 7;

@@ -27,8 +27,7 @@ namespace Plutus.WebService
         [HttpGet("{id}/{dailyOrMonthly}")]
         public string GetInsights(int id, string dailyOrMonthly)
         {
-            var list = ReadGoals();
-            return _goalsService.Insights(list[id], dailyOrMonthly);
+            return _goalsService.Insights(id, dailyOrMonthly);
         }
 
         [HttpPost]
