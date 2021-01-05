@@ -1,6 +1,8 @@
 ﻿using Db;
 using Plutus.WebService.IRepos;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Plutus.WebService
 {
@@ -44,6 +46,13 @@ namespace Plutus.WebService
 
             _context.Payments.Add(pay);
             _context.SaveChanges();
+        }
+
+        public List<Payment> GetPayments()
+        {
+            var payList = _context.Payments.ToList();
+            var list = payList.Select(x => new Payment { Date = x.Date, Name = x.Name, Amount = x.Amount, Category = x.Category }).ToList();
+            return list;
         }
 
         public void AddCartPayment(string name, double amount, string category)
