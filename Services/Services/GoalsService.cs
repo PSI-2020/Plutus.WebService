@@ -1,6 +1,7 @@
 ﻿using Db;
 using Plutus.WebService.IRepos;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Plutus.WebService
@@ -13,6 +14,35 @@ namespace Plutus.WebService
         {
             _fileManager = fileManagerRepository;
             _context = context;
+        }
+
+        public List<Goal> GetGoalsList()
+        {
+            var list = _context.Goals.ToList();
+            var goals = new List<Goal>();
+            foreach(var item in list)
+            {
+                var g = new Goal
+                { 
+                    Name = item.Name,
+                    Amount = item.Amount,
+                    DueDate = item.DueDate
+                };
+                goals.Add(g);
+            }
+            return goals;
+        }
+        public void AddGoal(Goal goal)
+        {
+            var g = new Db.Entities.Goal
+            {
+                Name = goal.Name,
+                DueDate = goal.DueDate,
+                Amount = goal.Amount,
+                ClientId = 1
+            };
+            _context.Goals.Add(g);
+            _context.SaveChanges();
         }
         public void EditGoal(int id, Goal newGoal)
         {

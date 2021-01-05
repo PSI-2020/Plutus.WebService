@@ -10,18 +10,16 @@ namespace Plutus.WebService
     [ApiController]
     public class GoalsController : ControllerBase
     {
-        private readonly IFileManagerRepository _fileManager;
         private readonly IGoalsService _goalsService;
         public static event EventHandler<string> GoalDeletedEvent;
         
 
-        public GoalsController(IFileManagerRepository fileManagerRepository, IGoalsService goalsService)
+        public GoalsController(IGoalsService goalsService)
         {
-            _fileManager = fileManagerRepository;
             _goalsService = goalsService;
         }
 
-        private List<Goal> ReadGoals() => _fileManager.ReadFromFile<Goal>(DataType.Goals);
+        private List<Goal> ReadGoals() => _goalsService.GetGoalsList();
 
         [HttpGet]
         public IEnumerable<Goal> Get() => ReadGoals();
@@ -34,7 +32,7 @@ namespace Plutus.WebService
         }
 
         [HttpPost]
-        public void Post([FromBody] Goal goal) => _fileManager.AddGoal(goal);
+        public void Post([FromBody] Goal goal) => _goalsService.AddGoal(goal);
 
         [HttpPut]
         public void Put([FromBody] Goal goal) => _goalsService.SetMainGoal(goal);
