@@ -8,11 +8,9 @@ namespace Plutus.WebService
 {
     public class GoalsService : IGoalsService
     {
-        private readonly IFileManagerRepository _fileManager;
         private readonly PlutusDbContext _context;
-        public GoalsService(IFileManagerRepository fileManagerRepository, PlutusDbContext context)
+        public GoalsService(PlutusDbContext context)
         {
-            _fileManager = fileManagerRepository;
             _context = context;
         }
 
@@ -47,14 +45,11 @@ namespace Plutus.WebService
         }
         public void EditGoal(int id, Goal newGoal)
         {
-            //var list = _fileManager.ReadFromFile<Goal>(DataType.Goals);
-            //list[id] = newGoal;
             var goal = _context.Goals.Where(x => x.GoalId == id).First();
             goal.Name = newGoal.Name;
             goal.DueDate = newGoal.DueDate;
             goal.Amount = newGoal.Amount;
             goal.ClientId = 1;
-            //_fileManager.UpdateGoals(list);
             _context.Goals.Update(goal);
             _context.SaveChanges();
         }
@@ -69,11 +64,6 @@ namespace Plutus.WebService
 
         public void SetMainGoal(int id)
         {
-            /*DeleteGoal(goal);
-            var list = _fileManager.ReadFromFile<Goal>(DataType.Goals);
-            list.Insert(0, goal);
-            _fileManager.UpdateGoals(list);*/
-
             var goal = _context.Goals.Where(x => x.GoalId == id).First();
             var ng = new Db.Entities.Goal
             {
@@ -89,10 +79,6 @@ namespace Plutus.WebService
 
         public string Insights(int id, string dailyOrMonthly)
         {
-            /*var scheduledIncome = _fileManager.ReadFromFile<ScheduledPayment>(DataType.MonthlyIncome);
-            var scheduledExpenses = _fileManager.ReadFromFile<ScheduledPayment>(DataType.MonthlyExpenses);
-            var allIncome = _fileManager.ReadFromFile<Payment>(DataType.Income);
-            var allExpenses = _fileManager.ReadFromFile<Payment>(DataType.Expense);*/
             var scheduledIncome = _context.ScheduledPayments.Where(x => x.PaymentType == PlutusDb.Entities.DataType.MonthlyIncome).ToList();
             var scheduledExpenses = _context.ScheduledPayments.Where(x => x.PaymentType == PlutusDb.Entities.DataType.MonthlyExpenses).ToList();
             var allIncome = _context.Payments.Where(x => x.PaymentType == PlutusDb.Entities.DataType.Income).ToList();
