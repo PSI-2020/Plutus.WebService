@@ -55,6 +55,22 @@ namespace Plutus.WebService
             return list;
         }
 
+        public void DeletePayment(Payment payment, DataType type)
+        {
+            var pay = new Db.Entities.Payment
+            {
+                Name = payment.Name,
+                Amount = payment.Amount,
+                Category = payment.Category,
+                Date = payment.Date,
+                PaymentType = (PlutusDb.Entities.DataType)type,
+                ClientId = 1
+            };
+
+            _context.Payments.Remove(pay);
+            _context.SaveChanges();
+        }
+
         public List<Payment> GetPayments(DataType type)
         {
             var payList = _context.Payments.Where(x => x.PaymentType == (PlutusDb.Entities.DataType) type).ToList();

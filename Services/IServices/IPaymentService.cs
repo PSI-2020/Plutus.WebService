@@ -9,5 +9,6 @@ namespace Plutus.WebService.IRepos
         public void AddCartPayment(string name, double amount, string category);
         public List<Payment> GetPayments();
         public List<Payment> GetPayments(DataType type);
+        public void DeletePayment(Payment payment, DataType type);
     }
 }
