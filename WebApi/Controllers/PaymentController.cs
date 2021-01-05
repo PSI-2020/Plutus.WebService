@@ -23,10 +23,10 @@ namespace Plutus.WebService
         [HttpGet]
         public List<Payment> Get()
         {
-            var list = _fileManager.ReadFromFile<Payment>(DataType.Expense);
-            list.AddRange(_fileManager.ReadFromFile<Payment>(DataType.Income));
+            //var list = _fileManager.ReadFromFile<Payment>(DataType.Expense);
+            //list.AddRange(_fileManager.ReadFromFile<Payment>(DataType.Income));
 
-            return list;
+            return _paymentService.GetPayments();
         }
         [HttpGet("{type}")]
         public List<Payment> Get(DataType type) => _fileManager.ReadFromFile<Payment>(type);
