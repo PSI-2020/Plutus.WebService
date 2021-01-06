@@ -24,19 +24,19 @@ namespace Plutus.WebService
                     list = AddingToList(list, "Exp.");
                     list = AddingToList(list, "Inc.");
                     list = PagingList(list, page, perPage);
-                    return !list.Any() ? null : list;
+                    return list.OrderByDescending(x => x.Date).ToList();
                 }
                 case 1:
                 {
                     list = AddingToList(list, "Exp.");
                     list = PagingList(list, page, perPage);
-                    return !list.Any() ? null : list;
+                    return list.OrderByDescending(x => x.Date).ToList();
                 }
                 case 2:
                 {
                     list = AddingToList(list, "Inc.");
                     list = PagingList(list, page, perPage);
-                    return !list.Any() ? null : list;
+                    return list.OrderByDescending(x => x.Date).ToList();
                 }
                 default: return null;
             }
@@ -53,7 +53,6 @@ namespace Plutus.WebService
             var dt = (type == "Inc.") ? DataType.Income : DataType.Expense;
             var list = _paymentService.GetPayments(dt).Select(x => new HistoryElement { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = type }).ToList();
             prevlist.AddRange(list);
-            prevlist.OrderByDescending(x => x.Date).ToList();
             return prevlist;
         }
         private List<HistoryElement> PagingList(List<HistoryElement> prevlist, int page, int perPage)
