@@ -77,7 +77,7 @@ namespace Plutus.WebService
             var finall = new List<HistoryElement>();
             finall.AddRange(lexp);
             finall.AddRange(linc);
-            prevlist = finall;
+            if(!((filter.ExpFlag == 0) && (filter.IncFlag == 0))) prevlist = finall;
             if (filter.AmountFilter != 0) prevlist = FilterAmount(prevlist, filter.AmountFilter, filter.AmountFrom, filter.AmountTo);
             if (filter.DateFilter) prevlist = FilterDate(prevlist, filter.DateFrom, filter.DateTo);
             return prevlist;
