@@ -14,13 +14,14 @@ namespace Plutus.WebService
         [HttpGet]
         public List<HistoryElement> Get() => _historyService.LoadDataGrid(0, 0, int.MaxValue, new Filters());
 
-        [HttpGet("{index}/{page}/{perpage}/{used}/{Name}/{expFlag}/{incFlag}/{amountFilter}/{amfrom}/{amto}/{dFilter}/{dateF}/{dateto}")]
-        public List<HistoryElement> Get(int index, int page, int perpage, bool used, string name, int expFlag, int incFlag, int amountFilter, int amFrom, int amTo, bool dFilter, int dateF, int dateto)
+        [HttpGet("{index}/{page}/{perpage}/{used}/{namefilter}/{Name}/{expFlag}/{incFlag}/{amountFilter}/{amfrom}/{amto}/{dFilter}/{dateF}/{dateto}")]
+        public List<HistoryElement> Get(int index, int page, int perpage, bool used, bool namefilter, string name, int expFlag, int incFlag, int amountFilter, int amFrom, int amTo, bool dFilter, int dateF, int dateto)
         {
             var filter = new Filters
             {
                 Used = used,
-                NameFiter = name,
+                NameFiter = namefilter,
+                NameFiterString = name,
                 ExpFlag = expFlag,
                 IncFlag = incFlag,
                 AmountFilter = amountFilter,
@@ -34,13 +35,14 @@ namespace Plutus.WebService
         }
 
 
-        [HttpGet("{index}/{perpage}/{used}/{Name}/{expFlag}/{incFlag}/{amountFilter}/{amfrom}/{amto}/{dFilter}/{dateF}/{dateto}")]
-        public int Get(int index, int perpage, bool used, string name, int expFlag, int incFlag, int amountFilter, int amFrom, int amTo, bool dFilter, int dateF, int dateto)
+        [HttpGet("{index}/{perpage}/{used}/{namefilter}/{Name}/{expFlag}/{incFlag}/{amountFilter}/{amfrom}/{amto}/{dFilter}/{dateF}/{dateto}")]
+        public int Get(int index, int perpage, bool used, bool namefilter, string name, int expFlag, int incFlag, int amountFilter, int amFrom, int amTo, bool dFilter, int dateF, int dateto)
         {
             var filter = new Filters
             {
                 Used = used,
-                NameFiter = name,
+                NameFiter = namefilter,
+                NameFiterString = name,
                 ExpFlag = expFlag,
                 IncFlag = incFlag,
                 AmountFilter = amountFilter,

@@ -3,7 +3,8 @@
     public class Filters
     {
         public bool Used { get; set; }
-        public string NameFiter { get; set; }
+        public bool NameFiter { get; set; }
+        public string NameFiterString { get; set; }
         public int ExpFlag { get; set; }
         public int IncFlag {get; set;}
         public int AmountFilter { get; set; }

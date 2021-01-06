@@ -68,7 +68,7 @@ namespace Plutus.WebService
         }
         private List<HistoryElement> FilteringList(List<HistoryElement> prevlist, Filters filter)
         {
-            if (filter.NameFiter != "#") prevlist = FilterName(prevlist, filter.NameFiter);
+            if (filter.NameFiter) prevlist = FilterName(prevlist, filter.NameFiterString);
             if (filter.ExpFlag != 0) { } prevlist = FilterExp(prevlist, filter.ExpFlag);
             if (filter.IncFlag != 0) { } prevlist = FilterInc(prevlist, filter.IncFlag);
             if (filter.AmountFilter != 0) prevlist = FilterAmount(prevlist, filter.AmountFilter, filter.AmountFrom, filter.AmountTo);
