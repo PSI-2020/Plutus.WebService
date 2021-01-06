@@ -1,4 +1,5 @@
 ﻿using Plutus.WebService.IRepos;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -56,7 +57,7 @@ namespace Plutus.WebService
             var dt = (type == "Inc.") ? DataType.Income : DataType.Expense;
             var list = _paymentService.GetPayments(dt).Select(x => new HistoryElement { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = type }).ToList();
             prevlist.AddRange(list);
-            prevlist.OrderByDescending(x => x.Date).ToList();
+            prevlist.OrderByDescending(x => x.Date.ConvertToInt()).ToList();
             return prevlist;
         }
         private List<HistoryElement> PagingList(List<HistoryElement> prevlist, int page, int perPage)
@@ -69,8 +70,14 @@ namespace Plutus.WebService
         private List<HistoryElement> FilteringList(List<HistoryElement> prevlist, Filters filter)
         {
             if (filter.NameFiter) prevlist = FilterName(prevlist, filter.NameFiterString);
-            if (filter.ExpFlag != 0) prevlist = FilterExp(prevlist, filter.ExpFlag);
-            if (filter.IncFlag != 0) prevlist = FilterInc(prevlist, filter.IncFlag);
+            var lexp = new List<HistoryElement>();
+            var linc = new List<HistoryElement>();
+            if (filter.ExpFlag != 0) lexp = FilterExp(prevlist, filter.ExpFlag);
+            if (filter.IncFlag != 0) linc = FilterInc(prevlist, filter.IncFlag);
+            var finall = new List<HistoryElement>();
+            finall.AddRange(lexp);
+            finall.AddRange(linc);
+            prevlist = finall;
             if (filter.AmountFilter != 0) prevlist = FilterAmount(prevlist, filter.AmountFilter, filter.AmountFrom, filter.AmountTo);
             if (filter.DateFilter) prevlist = FilterDate(prevlist, filter.DateFrom, filter.DateTo);
             return prevlist;
@@ -92,6 +99,7 @@ namespace Plutus.WebService
 
         private List<HistoryElement> FilterDate(List<HistoryElement> prevlist, int from, int to)
         {
+            to += 86399;
             return prevlist.Where(x => x.Date <= from.ConvertToDate())
                        .Where(x => x.Date >= to.ConvertToDate())
                        .ToList();
@@ -129,7 +137,7 @@ namespace Plutus.WebService
             {
                 foreach(var category in selectedICategories)
                 {
-                    if((payment.Category == category) || (payment.Type == "Exp."))
+                    if((payment.Category == category) && (payment.Type == "Inc."))
                     {
                         list.Add(payment);
                     }
@@ -190,7 +198,7 @@ namespace Plutus.WebService
             {
                 foreach (var category in selectedICategories)
                 {
-                    if ((payment.Category == category) || (payment.Type == "Inc."))
+                    if ((payment.Category == category) && (payment.Type == "Exp."))
                     {
                         list.Add(payment);
                     }
