@@ -69,8 +69,8 @@ namespace Plutus.WebService
         private List<HistoryElement> FilteringList(List<HistoryElement> prevlist, Filters filter)
         {
             if (filter.NameFiter) prevlist = FilterName(prevlist, filter.NameFiterString);
-            if (filter.ExpFlag != 0) { } prevlist = FilterExp(prevlist, filter.ExpFlag);
-            if (filter.IncFlag != 0) { } prevlist = FilterInc(prevlist, filter.IncFlag);
+            if (filter.ExpFlag != 0) prevlist = FilterExp(prevlist, filter.ExpFlag);
+            if (filter.IncFlag != 0) prevlist = FilterInc(prevlist, filter.IncFlag);
             if (filter.AmountFilter != 0) prevlist = FilterAmount(prevlist, filter.AmountFilter, filter.AmountFrom, filter.AmountTo);
             if (filter.DateFilter) prevlist = FilterDate(prevlist, filter.DateFrom, filter.DateTo);
             return prevlist;
@@ -92,8 +92,8 @@ namespace Plutus.WebService
 
         private List<HistoryElement> FilterDate(List<HistoryElement> prevlist, int from, int to)
         {
-            return prevlist.Where(x => x.Date.ConvertToInt() <= from)
-                       .Where(x => x.Date.ConvertToInt() >= to)
+            return prevlist.Where(x => x.Date <= from.ConvertToDate())
+                       .Where(x => x.Date >= to.ConvertToDate())
                        .ToList();
         }
 
