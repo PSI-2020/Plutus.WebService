@@ -23,21 +23,21 @@ namespace Plutus.WebService
                 {
                     list = AddingToList(list, "Exp.");
                     list = AddingToList(list, "Inc.");
-                    list = FilteringList(list, filter);
+                    list = (filter.Used) ? FilteringList(list, filter) : list;
                     list = PagingList(list, page, perPage);
                     return list;
                 }
                 case 1:
                 {
                     list = AddingToList(list, "Exp.");
-                    list = FilteringList(list, filter);
+                    list = (filter.Used) ? FilteringList(list, filter) : list;
                     list = PagingList(list, page, perPage);
                     return list;
                 }
                 case 2:
                 {
                     list = AddingToList(list, "Inc.");
-                    list = FilteringList(list, filter);
+                    list = (filter.Used) ? FilteringList(list, filter) : list;
                     list = PagingList(list, page, perPage);
                     return list;
                 }
