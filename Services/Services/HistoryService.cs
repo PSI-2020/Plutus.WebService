@@ -43,6 +43,7 @@ namespace Plutus.WebService
         }
         public int GivePageCount(int index, int perPage)
         {
+            perPage = (perPage == 0) ? 1 : perPage;
             var list = LoadDataGrid(index, 0, int.MaxValue);
             var count = list.Count / perPage;
             return count++;
