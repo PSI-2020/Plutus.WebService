@@ -13,7 +13,7 @@ namespace Plutus.WebService
             _paymentService = paymentService;
         }
 
-        public List<HistoryElement> LoadDataGrid(int index, int page, int perPage)
+        public List<HistoryElement> LoadDataGrid(int index, int page, int perPage, Filters filter)
         {
             var list = new List<HistoryElement>();
 
@@ -23,28 +23,31 @@ namespace Plutus.WebService
                 {
                     list = AddingToList(list, "Exp.");
                     list = AddingToList(list, "Inc.");
+                    list = FilteringList(list, filter);
                     list = PagingList(list, page, perPage);
                     return list;
                 }
                 case 1:
                 {
                     list = AddingToList(list, "Exp.");
+                    list = FilteringList(list, filter);
                     list = PagingList(list, page, perPage);
                     return list;
                 }
                 case 2:
                 {
                     list = AddingToList(list, "Inc.");
+                    list = FilteringList(list, filter);
                     list = PagingList(list, page, perPage);
                     return list;
                 }
                 default: return null;
             }
         }
-        public int GivePageCount(int index, int perPage)
+        public int GivePageCount(int index, int perPage, Filters filter)
         {
             perPage = (perPage == 0) ? 1 : perPage;
-            var list = LoadDataGrid(index, 0, int.MaxValue);
+            var list = LoadDataGrid(index, 0, int.MaxValue, filter);
             var count = list.Count / perPage;
             return count++;
         }
@@ -63,5 +66,139 @@ namespace Plutus.WebService
             var listTake = listSkip.Take(perPage).ToList();
             return listTake;
         }
+        private List<HistoryElement> FilteringList(List<HistoryElement> prevlist, Filters filter)
+        {
+            if (filter.NameFiter != "") prevlist = FilterName(prevlist, filter.NameFiter);
+            if (filter.ExpFlag != 0) { } prevlist = FilterExp(prevlist, filter.ExpFlag);
+            if (filter.IncFlag != 0) { } prevlist = FilterInc(prevlist, filter.IncFlag);
+            if (filter.AmountFilter != 0) prevlist = FilterAmount(prevlist, filter.AmountFilter, filter.AmountFrom, filter.AmountTo);
+            if (filter.DateFilter) prevlist = FilterDate(prevlist, filter.DateFrom, filter.DateTo);
+            return prevlist;
+        }
+
+        private List<HistoryElement> FilterName(List<HistoryElement> prevlist, string name) => prevlist.Where(x => x.Name.ToLower() == name.ToLower()).ToList();
+
+        private List<HistoryElement> FilterAmount(List<HistoryElement> prevlist, int flag, double from, double to)
+        {
+            var t = (flag == 1) ? to : double.MaxValue;
+            var f = (flag == 2) ? from : -1;
+            if (flag == 3)
+            {
+                t = to;
+                f = from;
+            }
+            return prevlist.Where(x => x.Amount <= t).Where(x => x.Amount >= f).ToList();
+        }
+
+        private List<HistoryElement> FilterDate(List<HistoryElement> prevlist, int from, int to)
+        {
+            return prevlist.Where(x => x.Date.ConvertToInt() <= from)
+                       .Where(x => x.Date.ConvertToInt() >= to)
+                       .ToList();
+        }
+
+        private List<HistoryElement> FilterInc(List<HistoryElement> prevlist, int incFlag)
+        {
+            var list = new List<HistoryElement>();
+            var selectedICategories = new List<string>();
+            if (incFlag >= 16)
+            {
+                selectedICategories.Add("Rent");
+                incFlag -= 16;
+            }
+            if (incFlag >= 8)
+            {
+                selectedICategories.Add("Sale");
+                incFlag -= 8;
+            }
+            if (incFlag >= 4)
+            {
+                selectedICategories.Add("Sale");
+                incFlag -= 4;
+            }
+            if (incFlag >= 2)
+            {
+                selectedICategories.Add("Gift");
+                incFlag -= 2;
+            }
+            if (incFlag >= 1)
+            {
+                selectedICategories.Add("Salary");
+            }
+            foreach (var payment in prevlist)
+            {
+                foreach(var category in selectedICategories)
+                {
+                    if((payment.Category == category) || (payment.Type == "Exp."))
+                    {
+                        list.Add(payment);
+                    }
+                }
+            }
+            return list;
+        }
+
+        private List<HistoryElement> FilterExp(List<HistoryElement> prevlist, int expFlag)
+        {
+            var list = new List<HistoryElement>();
+            var selectedICategories = new List<string>();
+            if (expFlag >= 256)
+            {
+                selectedICategories.Add("Transport");
+                expFlag -= 256;
+            }
+            if (expFlag >= 128)
+            {
+                selectedICategories.Add("Other");
+                expFlag -= 128;
+            }
+            if (expFlag >= 64)
+            {
+                selectedICategories.Add("Entertainment");
+                expFlag -= 64;
+            }
+            if (expFlag >= 32)
+            {
+                selectedICategories.Add("School");
+                expFlag -= 32;
+            }
+            if (expFlag >= 16)
+            {
+                selectedICategories.Add("Health");
+                expFlag -= 16;
+            }
+            if (expFlag >= 8)
+            {
+                selectedICategories.Add("Clothes");
+                expFlag -= 8;
+            }
+            if (expFlag >= 4)
+            {
+                selectedICategories.Add("Restaurant");
+                expFlag -= 4;
+            }
+            if (expFlag >= 2)
+            {
+                selectedICategories.Add("Bills");
+                expFlag -= 2;
+            }
+            if (expFlag >= 1)
+            {
+                selectedICategories.Add("Groceries");
+            }
+            foreach (var payment in prevlist)
+            {
+                foreach (var category in selectedICategories)
+                {
+                    if ((payment.Category == category) || (payment.Type == "Inc."))
+                    {
+                        list.Add(payment);
+                    }
+                }
+            }
+            return list;
+        }
+
+
     }
 }
