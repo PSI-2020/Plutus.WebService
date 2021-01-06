@@ -100,8 +100,8 @@ namespace Plutus.WebService
         private List<HistoryElement> FilterDate(List<HistoryElement> prevlist, int from, int to)
         {
             to += 86399;
-            return prevlist.Where(x => x.Date <= from.ConvertToDate())
-                       .Where(x => x.Date >= to.ConvertToDate())
+            return prevlist.Where(x => x.Date.ConvertToInt() <= from)
+                       .Where(x => x.Date.ConvertToInt() >= to)
                        .ToList();
         }
 
