@@ -41,9 +41,16 @@ namespace Plutus.WebService
                 default: return null;
             }
         }
+        public int GivePageCount(int index, int perPage)
+        {
+            var list = LoadDataGrid(index, 0, int.MaxValue);
+            var count = list.Count / perPage;
+            return count++;
+        }
         private List<HistoryElement> AddingToList(List<HistoryElement> prevlist, string type)
         {
-            var list = _paymentService.GetPayments(DataType.Expense).Select(x => new HistoryElement { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = type }).ToList();
+            var dt = (type == "Inc.") ? DataType.Income : DataType.Expense;
+            var list = _paymentService.GetPayments(dt).Select(x => new HistoryElement { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = type }).ToList();
             prevlist.AddRange(list);
             prevlist.OrderByDescending(x => x.Date).ToList();
             return prevlist;

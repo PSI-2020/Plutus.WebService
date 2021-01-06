@@ -17,5 +17,8 @@ namespace Plutus.WebService
         [HttpGet("{index}/{page}/{perpage}")]
         public List<HistoryElement> Get(int index, int page, int perpage) => _historyService.LoadDataGrid(index, page, perpage);
 
+        [HttpGet("{index}/{perpage}")]
+        public int Get(int index, int perpage) => _historyService.GivePageCount(index, perpage);
+
     }
 }
