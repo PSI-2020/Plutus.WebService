@@ -13,33 +13,47 @@ namespace Plutus.WebService
             _paymentService = paymentService;
         }
 
-        public List<HistoryElement> LoadDataGrid(int index)
+        public List<HistoryElement> LoadDataGrid(int index, int page, int perPage)
         {
+            var list = new List<HistoryElement>();
+
             switch (index)
             {
                 case 0:
                 {
-                        var list = _paymentService.GetPayments(DataType.Expense).Select(x => new HistoryElement { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = "Exp." }).ToList();
-                        var incomeList = _paymentService.GetPayments(DataType.Income).Select(x => new HistoryElement { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = "Inc." }).ToList();
-
-                        list.AddRange(incomeList);
-
-                    return !list.Any() ? null : list.OrderByDescending(x => x.Date).ToList();
+                    list = AddingToList(list, "Exp.");
+                    list = AddingToList(list, "Inc.");
+                    list = PagingList(list, page, perPage);
+                    return !list.Any() ? null : list;
                 }
                 case 1:
                 {
-                        var list = _paymentService.GetPayments(DataType.Expense).Select(x => new HistoryElement { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = "Exp." }).OrderByDescending(x => x.Date).ToList();
-
-                        return !list.Any() ? null : list;
+                    list = AddingToList(list, "Exp.");
+                    list = PagingList(list, page, perPage);
+                    return !list.Any() ? null : list;
                 }
                 case 2:
                 {
-                        var list = _paymentService.GetPayments(DataType.Income).Select(x => new HistoryElement { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = "Inc." }).OrderByDescending(x => x.Date).ToList();
-
-                        return !list.Any() ? null : list;
+                    list = AddingToList(list, "Inc.");
+                    list = PagingList(list, page, perPage);
+                    return !list.Any() ? null : list;
                 }
                 default: return null;
             }
+        }
+        private List<HistoryElement> AddingToList(List<HistoryElement> prevlist, string type)
+        {
+            var list = _paymentService.GetPayments(DataType.Expense).Select(x => new HistoryElement { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = type }).ToList();
+            prevlist.AddRange(list);
+            prevlist.OrderByDescending(x => x.Date).ToList();
+            return prevlist;
+        }
+        private List<HistoryElement> PagingList(List<HistoryElement> prevlist, int page, int perPage)
+        {
+            page--;
+            var listSkip = prevlist.Skip(page * perPage).ToList();
+            var listTake = listSkip.Take(perPage).ToList();
+            return listTake;
         }
     }
 }

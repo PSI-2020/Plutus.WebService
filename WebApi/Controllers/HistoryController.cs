@@ -12,10 +12,10 @@ namespace Plutus.WebService
         public HistoryController(IHistoryService historyService) => _historyService = historyService;
 
         [HttpGet]
-        public List<HistoryElement> Get() => _historyService.LoadDataGrid(0);
+        public List<HistoryElement> Get() => _historyService.LoadDataGrid(0,0,int.MaxValue);
 
-        [HttpGet("{index}")]
-        public List<HistoryElement> Get(int index) => _historyService.LoadDataGrid(index);
+        [HttpGet("{index}/{page}/{perpage}")]
+        public List<HistoryElement> Get(int index, int page, int perpage) => _historyService.LoadDataGrid(index, page, perpage);
 
     }
 }
