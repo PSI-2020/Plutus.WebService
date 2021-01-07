@@ -5,6 +5,7 @@ namespace Plutus.WebService
 {
     public class HistoryElement : ISerializable
     {
+        public int PaymentID { get; set; }
         public DateTime Date { get; set; }
         public string Name { get; set; }
         public double Amount { get; set; }
