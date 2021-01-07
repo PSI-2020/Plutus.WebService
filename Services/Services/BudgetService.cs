@@ -1,24 +1,27 @@
 ﻿using Db;
+using Microsoft.Data.SqlClient;
 using Plutus.WebService.IRepos;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Plutus.WebService
 {
     public class BudgetService : IBudgetService
     {
-        private readonly IFileManagerRepository _fileManager;
         private readonly PlutusDbContext _context;
-        public BudgetService(IFileManagerRepository fileManagerRepository, PlutusDbContext context)
+        private readonly ILoggerService _logger;
+        public BudgetService(PlutusDbContext context, ILoggerService logger)
         {
-            _fileManager = fileManagerRepository;
             _context = context;
+            _logger = logger;
         }
 
         public List<Budget> GetBudgetsList()
         {
-            var list = _context.Budgets.ToList();
+            /*var list = _context.Budgets.ToList();
             var budgets = new List<Budget>();
             foreach(var bud in list)
             {
@@ -32,7 +35,44 @@ namespace Plutus.WebService
                 };
                 budgets.Add(budget);
             }
-            return budgets;
+            return budgets;*/
+            var list = new List<Budget>();
+            using (var cn = new SqlConnection())
+            {
+                cn.ConnectionString = "Server=tcp:plutus-psi.database.windows.net,1433;Initial Catalog=Plutus;Persist Security Info=False;User ID=plutus;Password=2s2E9SRCC@4q;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+                try
+                {
+                    cn.Open();
+                    SqlDataAdapter da = new SqlDataAdapter("SELECT BudgetId, Category, Amount, From, To FROM Budget", cn);
+                    DataSet ds = new DataSet();
+                    da.Fill(ds, "Budget");
+
+                    list = ds.Tables[0].AsEnumerable().Select(x => new Budget
+                    {
+                        Name = "budget" + x.Field<int>("BudgetId"),
+                        Category = x.Field<string>("Category"),
+                        Sum = x.Field<decimal>("Amount"),
+                        From = x.Field<int>("From"),
+                        To = x.Field<int>("To")
+                    }).ToList();
+
+
+                    da.Dispose();
+                }
+                catch(SqlException ex)
+                {
+                    _logger.Log("SQLException:" + ex.ToString());
+                }
+                catch(Exception e)
+                {
+                    _logger.Log("Exception:" + e.ToString());
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+            return list;
         }
 
         public void DeleteBudget(int index)
@@ -105,7 +145,7 @@ namespace Plutus.WebService
             var budgets = _context.Budgets.ToList();
             var budget = budgets.Where(x => x.BudgetId == index).First();
 
-            var expenses = _fileManager.ReadFromFile<Payment>(DataType.Expense);
+            var expenses = _context.Payments.Where(x => (DataType)x.PaymentType == DataType.Expense).ToList();
             if (!expenses.Any()) return 0.00m;
 
             var total = 0.00;
