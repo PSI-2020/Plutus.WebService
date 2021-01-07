@@ -56,11 +56,19 @@ namespace Plutus.WebService
             return list;
         }
 
-        public void EditPayment() => Debug.Print("lel");
-
-        public void DeletePayment(Payment payment, DataType type)
+        public void EditPayment(Payment newPayment, int paymentID) 
         {
-            _context.Payments.Remove(_context.Payments.First(x => x.Name == payment.Name && x.Amount == payment.Amount && x.Category == payment.Category && x.PaymentType == (PlutusDb.Entities.DataType) type));
+            var payment = _context.Payments.First(x => x.PaymentId == paymentID);
+            payment.Name = newPayment.Name;
+            payment.Amount = newPayment.Amount;
+            payment.Category = newPayment.Category;
+            _context.Payments.Update(payment);
+            _context.SaveChanges();
+        }
+
+        public void DeletePayment(int id)
+        {
+            _context.Payments.Remove(_context.Payments.First(x => x.PaymentId == id));
             _context.SaveChanges();
         }
 
