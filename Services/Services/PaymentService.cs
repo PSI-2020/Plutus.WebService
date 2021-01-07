@@ -67,7 +67,7 @@ namespace Plutus.WebService
         public List<Payment> GetPayments(DataType type)
         {
             var payList = _context.Payments.Where(x => x.PaymentType == (PlutusDb.Entities.DataType) type).ToList();
-            var list = payList.Select(x => new Payment { Date = x.Date, Name = x.Name, Amount = x.Amount, Category = x.Category }).ToList();
+            var list = payList.Select(x => new Payment { PaymentID = x.PaymentId, Date = x.Date, Name = x.Name, Amount = x.Amount, Category = x.Category }).ToList();
             return list;
         }
 
