@@ -43,7 +43,7 @@ namespace Plutus.WebService
                 try
                 {
                     cn.Open();
-                    SqlDataAdapter da = new SqlDataAdapter("SELECT BudgetId, Category, Amount, \"From\", To FROM Budgets", cn);
+                    SqlDataAdapter da = new SqlDataAdapter("SELECT BudgetId, Category, Amount, \"From\", \"To\" FROM Budgets", cn);
                     DataSet ds = new DataSet();
                     da.Fill(ds, "Budget");
 
