@@ -32,7 +32,6 @@ namespace Plutus.WebService
             services.AddScoped<IStatisticsService, StatisticsService>();
             services.AddSingleton<IVerificationService, VerificationService>();
             services.AddSingleton<ILoggerService, LoggerService>();
-            GoalsController.goalDeletedEvent += OutputDataDeletion;
             PaymentController.PaymentAdded += OutputDataPaymentAdded;
 
         }
