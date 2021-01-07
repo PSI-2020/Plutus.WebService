@@ -30,7 +30,6 @@ namespace Plutus.WebService
 
     public class StatisticsService : IStatisticsService
     {
-        private readonly IFileManagerRepository _fileManager;
         private readonly IPaymentService _paymentService;
 
         public StatisticsService(IPaymentService paymentService) => _paymentService = paymentService; 
