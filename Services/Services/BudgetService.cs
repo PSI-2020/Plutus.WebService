@@ -47,14 +47,25 @@ namespace Plutus.WebService
                     DataSet ds = new DataSet();
                     da.Fill(ds, "Budget");
 
-                    list = ds.Tables[0].AsEnumerable().Select(x => new Budget
+                    /*list = ds.Tables[0].AsEnumerable().Select(x => new Budget
                     {
                         Name = "budget" + x.Field<int>("BudgetId"),
                         Category = x.Field<string>("Category"),
                         Sum = x.Field<decimal>("Amount"),
                         From = x.Field<int>("From"),
                         To = x.Field<int>("To")
-                    }).ToList();
+                    }).ToList();*/
+                    for(var i = 0; i < ds.Tables[0].Rows.Count; i++)
+                    {
+                        list.Add(new Budget
+                        {
+                            Name = "budget" + Convert.ToInt32(ds.Tables[0].Rows[i]["BudgetId"]),
+                            Category = ds.Tables[0].Rows[i]["Category"].ToString(),
+                            Sum = Convert.ToDecimal(ds.Tables[0].Rows[i]["Amount"]),
+                            From = Convert.ToInt32(ds.Tables[0].Rows[i]["From"]),
+                            To = Convert.ToInt32(ds.Tables[0].Rows[i]["To"])
+                        });
+                    }
 
 
                     da.Dispose();
