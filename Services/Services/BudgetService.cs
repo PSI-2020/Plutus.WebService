@@ -47,15 +47,15 @@ namespace Plutus.WebService
                     DataSet ds = new DataSet();
                     da.Fill(ds, "Budget");
 
-                    /*list = ds.Tables[0].AsEnumerable().Select(x => new Budget
+                    list = ds.Tables[0].AsEnumerable().Select(x => new Budget
                     {
                         Name = "budget" + x.Field<int>("BudgetId"),
                         Category = x.Field<string>("Category"),
                         Sum = x.Field<decimal>("Amount"),
                         From = x.Field<int>("From"),
                         To = x.Field<int>("To")
-                    }).ToList();*/
-                    for(var i = 0; i < ds.Tables[0].Rows.Count; i++)
+                    }).ToList();
+                    /*for(var i = 0; i < ds.Tables[0].Rows.Count; i++)
                     {
                         list.Add(new Budget
                         {
@@ -65,7 +65,7 @@ namespace Plutus.WebService
                             From = Convert.ToInt32(ds.Tables[0].Rows[i]["From"]),
                             To = Convert.ToInt32(ds.Tables[0].Rows[i]["To"])
                         });
-                    }
+                    }*/
 
 
                     da.Dispose();
@@ -111,6 +111,7 @@ namespace Plutus.WebService
         public string GenerateBudget(int index)
         {
             var list = _context.Budgets.ToList();
+            if (!list.Any()) return "";
             var budget = list.Where(x => x.BudgetId == index).First();
 
             var from = budget.From.ConvertToDate();
