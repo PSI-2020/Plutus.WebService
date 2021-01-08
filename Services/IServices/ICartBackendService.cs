@@ -4,10 +4,12 @@ namespace Plutus.WebService.IRepos
 {
     public interface ICartBackendService
     {
-        public List<string> GiveCartNames();
-        public List<CartExpense> GiveExpenses(int index);
-        public void DeleteCart(int index);
-        public void ChargeCart(int index);
-        public void SaveCarts(int index, string name, List<CartExpense> cartExpenses);
+        public List<(string, int)> GiveCartNames();
+        public List<CartExpense> GiveExpenses(int id);
+        public void DeleteCart(int id);
+        public void ChargeCart(int id);
+        public void ChangeCart(int id, string name, List<CartExpense> cartExpenses);
+        public void NewCart(string name);
+
     }
 }

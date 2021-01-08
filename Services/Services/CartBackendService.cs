@@ -1,138 +1,144 @@
-﻿using Newtonsoft.Json;
+﻿using Db;
+using Newtonsoft.Json;
 using Plutus.WebService.IRepos;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace Plutus.WebService
 {
     public class CartBackendService : ICartBackendService
     {
-        private readonly List<Cart> _carts;
-        private readonly IFileManagerRepository _fm;
         private readonly IPaymentService _paymentService;
+        private readonly PlutusDbContext _context;
 
-        public CartBackendService(IFileManagerRepository fileManagerRepository, IPaymentService paymentService)
+        public CartBackendService(IPaymentService paymentService, PlutusDbContext context)
         {
-            _fm = fileManagerRepository;
+            _context = context;
             _paymentService = paymentService;
-            _carts = LoadCarts();
         }
 
-        public List<string> GiveCartNames()
+        public List<(string, int)> GiveCartNames()
         {
-            var names = new List<string>();
-            foreach (var cart in _carts)
+            var carts = _context.Carts.ToList();
+            var names = new List<(string, int)>();
+            foreach (var cart in carts)
             {
-                names.Add(cart.GiveName());
+                names.Add((cart.Name, cart.CartId));
             }
             return names;
         }
 
-        public List<CartExpense> GiveExpenses(int index)
+        public List<CartExpense> GiveExpenses(int id)
         {
+            var exps = _context.CartExpenses.Where(x => x.CartId == id).ToList();
             var expenses = new List<CartExpense>();
-            var count = _carts[index].GiveElementC();
-            for(var i = 0; i < count; i++)
+            foreach (var expense in exps)
             {
-                expenses.Add(_carts[index].GiveExpense(i));
+                var exp = new CartExpense(expense.Name, expense.Price, expense.Category, expense.State);
+                exp.ExpenseId = expense.CartExpenseId;
+                expenses.Add(exp);
             }
             return expenses;
         }
 
-        public void DeleteCart(int index)
+        public void DeleteCart(int id)
         {
-            _carts.RemoveAt(index);
-            SaveCarts();
+            _context.Carts.Remove(_context.Carts.First(x => x.CartId == id));
+            _context.SaveChanges();
         }
 
-        public void ChargeCart(int index)
+        public void ChargeCart(int id)
         {
-            for (var i = 0; i < _carts[index].GiveElementC(); i++)
+            var cart = _context.CartExpenses.Where(x => x.CartId == id).ToList();
+            foreach(var expense in cart)
             {
-                if (_carts[index].GiveExpense(i).State)
+                if (expense.State)
                 {
-                    var expense = _carts[index].GiveExpense(i);
                     _paymentService.AddCartPayment(expense.Name, expense.Price, expense.Category.ToString());
                 }
-
             }
         }
-        private void SaveCarts()
+
+        public void ChangeCart(int id, string name, List<CartExpense> cartExpenses)
         {
-            var cartsXml = new List<XElement>();
-            var index = 0;
-            foreach (var cart in _carts)
+
+            var cartFromDb = _context.Carts.First(x => x.CartId == id);
+            if(name != cartFromDb.Name)
             {
-                var expenseXml = new List<XElement>();
-                for (var i = 0; i < cart.GiveElementC(); i++)
+                _context.Carts.Update(cartFromDb);
+                _context.SaveChanges();
+
+            }
+            var cart = _context.CartExpenses.Where(x => x.CartId == id).ToList();
+            var exptoDel = new List<Db.Entities.CartExpense>();
+            for (var i = 0; i < cart.Count; i++)
+            {
+                exptoDel.Add(cart[i]);
+            }
+            var expToRem = 0;
+            var indextoRem = -1;
+            foreach (var exp in cartExpenses)
+            {
+                if (exp.ExpenseId == 0) AddExpense(id, exp);
+                else
                 {
-                    var expense = cart.GiveExpense(i);
-                    var expenseX = new XElement("Expense",
-                        new XElement("Name", expense.Name),
-                        new XElement("Amount", expense.Price),
-                        new XElement("Category", expense.Category),
-                        new XElement("State", expense.State));
-
-                    expenseXml.Add(expenseX);
+                    EditExpense(id, exp);
+                    expToRem = exp.ExpenseId;
+                    for (var i = 0; i < cart.Count; i++)
+                    {
+                        if (cart[i].CartExpenseId == expToRem) indextoRem = i;
+                    }
+                    if (indextoRem != -1) exptoDel.RemoveAt(indextoRem);
                 }
-                var cartXml = new XElement("Cart" + index,
-                    new XElement("CartName", cart.GiveName()),
-                    new XElement("Expenses", expenseXml));
-                cartsXml.Add(cartXml);
-                index++;
-            }
-            var cartsStored = new XElement("carts", cartsXml);
-            _fm.SaveCarts(cartsStored);
-        }
-        public void SaveCarts(int index, string name, List<CartExpense> cartExpenses)
-        {
-            var newCart = new Cart(name);
-
-            for(var i = 0; i < cartExpenses.Count; i++)
-            {
-                newCart.AddExpense(cartExpenses[i]);
-            }
-            if (index < _carts.Count)
-            {
-                _carts[index] = newCart;
-            }
-            else
-            {
-                _carts.Add(newCart);
-            }
-
-            SaveCarts();
-        }
-
-        private List<Cart> LoadCarts()
-        {
-            var cartsList = new List<Cart>();
-            var cartsStored = _fm.LoadCarts();
-            if (cartsStored == null)
-            {
-                return cartsList;
-            }
-            var cartsXml = cartsStored.Elements();
-            foreach (var cart in cartsXml)
-            {
-                var specificCart = new Cart();
-                var cartName = (string)cart.Element("CartName");
-                specificCart.ChangeName(cartName);
-                var expenses = cart.Element("Expenses");
-                var allExpenses = expenses.Elements();
-                foreach (var expense in allExpenses)
+                foreach(var expR in exptoDel)
                 {
-                    var cartExpense = new CartExpense(
-                        (string)expense.Element("Name"),
-                        (double)expense.Element("Amount"),
-                        (string)expense.Element("Category"),
-                        (bool)expense.Element("State")
-                        );
-                     specificCart.AddExpense(cartExpense);
+                    RemoveExpense(id, expR);
                 }
-                cartsList.Add(specificCart);
             }
-            return cartsList;
+        }
+
+        private void AddExpense(int cartId, CartExpense expense)
+        {
+            var exp = new Db.Entities.CartExpense
+            {
+                Name = expense.Name,
+                Price = expense.Price,
+                Category = expense.Category,
+                State = expense.State,
+                CartId = cartId
+            };
+
+            _context.CartExpenses.Add(exp);
+            _context.SaveChanges(); 
+        }
+        private void EditExpense(int cartId, CartExpense expense)
+        {
+            var exp = _context.CartExpenses.First(x => ((x.CartId == cartId) && (x.CartExpenseId == expense.ExpenseId)));
+            exp.Name = expense.Name;
+            exp.Price = expense.Price;
+            exp.State = expense.State;
+            exp.Category = expense.Category;
+            _context.CartExpenses.Update(exp);
+            _context.SaveChanges();
+
+        }
+
+        private void RemoveExpense(int cartId, Db.Entities.CartExpense expense)
+        {
+            _context.CartExpenses.Remove(_context.CartExpenses.First(x => ((x.CartId == cartId) && (x.CartExpenseId == expense.CartExpenseId))));
+            _context.SaveChanges();
+        }
+        public void NewCart(string name)
+        {
+            var cart = new Db.Entities.Cart
+            {
+                Name = name,
+                ClientId = 1
+            };
+
+            _context.Carts.Add(cart);
+            _context.SaveChanges();
         }
 
     }

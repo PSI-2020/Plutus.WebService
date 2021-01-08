@@ -13,13 +13,15 @@ namespace Plutus.WebService.Controllers
         public CartsController(ICartBackendService cartService) => _cartService = cartService;
 
         [HttpGet]
-        public List<string> LoadCarts() => _cartService.GiveCartNames();
+        public List<(string, int)> LoadCarts() => _cartService.GiveCartNames();
 
         [HttpGet("Payments/{index}")]
-        public List<CartExpense> CallCarts(int index) => _cartService.GiveExpenses(index);
+        public List<CartExpense> CallCarts(int id) => _cartService.GiveExpenses(id);
 
-        [HttpPost("{index}/{name}")]
-        public void SaveCarts(int index, string name, [FromBody] List<CartExpense> cart) => _cartService.SaveCarts(index, name, cart);
+        [HttpPost("{id}/{name}")]
+        public void SaveCarts(int id, string name, [FromBody] List<CartExpense> cart) => _cartService.ChangeCart(id, name, cart);
+        [HttpPost("{name}")]
+        public void PostNew(string name) => _cartService.NewCart(name);
 
         [HttpPost("Charge/{index}")]
         public void ChargeCart(int index) => _cartService.ChargeCart(index);
