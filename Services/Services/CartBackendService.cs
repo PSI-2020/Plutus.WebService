@@ -78,29 +78,24 @@ namespace Plutus.WebService
 
             }
             var cart = _context.CartExpenses.Where(x => x.CartId == id).ToList();
-            var exptoDel = new List<Db.Entities.CartExpense>();
-            for (var i = 0; i < cart.Count; i++)
-            {
-                exptoDel.Add(cart[i]);
-            }
-            var expToRem = 0;
-            var indextoRem = -1;
+            var used = new List<int>();
+            bool toDel;
             foreach (var exp in cartExpenses)
             {
                 if (exp.ExpenseId == 0) AddExpense(id, exp);
                 else
                 {
                     EditExpense(id, exp);
-                    expToRem = exp.ExpenseId;
-                    for (var i = 0; i < cart.Count; i++)
-                    {
-                        if (cart[i].CartExpenseId == expToRem) indextoRem = i;
-                    }
-                    if (indextoRem != -1) exptoDel.RemoveAt(indextoRem);
+                    used.Add(exp.ExpenseId);
                 }
-                foreach(var expR in exptoDel)
+                foreach(var pExp in cart)
                 {
-                    RemoveExpense(id, expR);
+                    toDel = true;
+                    foreach(var pId in used)
+                    {
+                        if (pExp.CartExpenseId == pId) toDel = false;
+                    }
+                    if (toDel) RemoveExpense(id ,pExp);
                 }
             }
         }
@@ -121,7 +116,7 @@ namespace Plutus.WebService
         }
         private void EditExpense(int cartId, CartExpense expense)
         {
-            var exp = _context.CartExpenses.First(x => x.CartExpenseId == expense.ExpenseId);
+            var exp = _context.CartExpenses.First(x => ((x.CartId == cartId) && (x.CartExpenseId == expense.ExpenseId)));
             exp.Name = expense.Name;
             exp.Price = expense.Price;
             exp.State = expense.State;
@@ -133,7 +128,7 @@ namespace Plutus.WebService
 
         private void RemoveExpense(int cartId, Db.Entities.CartExpense expense)
         {
-            _context.CartExpenses.Remove(_context.CartExpenses.First(x => x.CartExpenseId == expense.CartExpenseId));
+            _context.CartExpenses.Remove(_context.CartExpenses.First(x => ((x.CartId == cartId) && (x.CartExpenseId == expense.CartExpenseId))));
             _context.SaveChanges();
         }
         public void NewCart(string name)
