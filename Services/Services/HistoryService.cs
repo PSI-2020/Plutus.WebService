@@ -57,8 +57,7 @@ namespace Plutus.WebService
             var dt = (type == "Inc.") ? DataType.Income : DataType.Expense;
             var list = _paymentService.GetPayments(dt).Select(x => new HistoryElement { PaymentID = x.PaymentID, Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = type }).ToList();
             prevlist.AddRange(list);
-            prevlist.OrderByDescending(x => x.Date.ConvertToInt()).ToList();
-            return prevlist;
+            return prevlist.OrderByDescending(x => x.Date.ConvertToInt()).ToList();
         }
         private List<HistoryElement> PagingList(List<HistoryElement> prevlist, int page, int perPage)
         {
