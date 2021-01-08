@@ -69,6 +69,7 @@ namespace Plutus.WebService
         }
         private List<HistoryElement> FilteringList(List<HistoryElement> prevlist, Filters filter)
         {
+            if (filter.DateFilter) prevlist = FilterDate(prevlist, filter.DateFrom, filter.DateTo);
             if (filter.NameFiter) prevlist = FilterName(prevlist, filter.NameFiterString);
             var lexp = new List<HistoryElement>();
             var linc = new List<HistoryElement>();
@@ -79,7 +80,7 @@ namespace Plutus.WebService
             finall.AddRange(linc);
             if(!((filter.ExpFlag == 0) && (filter.IncFlag == 0))) prevlist = finall;
             if (filter.AmountFilter != 0) prevlist = FilterAmount(prevlist, filter.AmountFilter, filter.AmountFrom, filter.AmountTo);
-            if (filter.DateFilter) prevlist = FilterDate(prevlist, filter.DateFrom, filter.DateTo);
+            prevlist.OrderByDescending(x => x.Date.ConvertToInt()).ToList();
             return prevlist;
         }
 
