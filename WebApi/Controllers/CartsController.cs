@@ -15,7 +15,7 @@ namespace Plutus.WebService.Controllers
         [HttpGet]
         public List<Services.Models.CartInfo> LoadCarts() => _cartService.GiveCartNames();
 
-        [HttpGet("Payments/{index}")]
+        [HttpGet("Payments/{id}")]
         public List<CartExpense> CallCarts(int id) => _cartService.GiveExpenses(id);
 
         [HttpPost("{id}/{name}")]
@@ -23,10 +23,10 @@ namespace Plutus.WebService.Controllers
         [HttpPost("{name}")]
         public void PostNew(string name) => _cartService.NewCart(name);
 
-        [HttpPost("Charge/{index}")]
+        [HttpPost("Charge/{id}")]
         public void ChargeCart(int index) => _cartService.ChargeCart(index);
 
-        [HttpDelete("{index}")]
-        public void DeleteCart(int index) => _cartService.DeleteCart(index);
+        [HttpDelete("{id}")]
+        public void DeleteCart(int id) => _cartService.DeleteCart(id);
     }
 }
