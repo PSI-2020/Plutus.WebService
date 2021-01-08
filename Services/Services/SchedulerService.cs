@@ -10,69 +10,65 @@ namespace Plutus.WebService
     {
         private readonly PlutusDbContext _context;
         public SchedulerService(PlutusDbContext context) => _context = context;
-        /*public void CheckPayments()
+        public void CheckPayments()
         {
-            var incomesList = _fileManager.ReadFromFile<ScheduledPayment>(DataType.MonthlyIncome);
-            var expensesList = _fileManager.ReadFromFile<ScheduledPayment>(DataType.MonthlyExpenses);
+            var incomesList = _context.ScheduledPayments.Where(x => (DataType)x.PaymentType == DataType.MonthlyIncome).ToList();
+            var expensesList = _context.ScheduledPayments.Where(x => (DataType)x.PaymentType == DataType.MonthlyExpenses).ToList();
 
-            for(var x = 0; x < incomesList.Count; x++)
+            RunCycle(incomesList, DataType.Income);
+            RunCycle(expensesList, DataType.Expense);
+        }
+
+        public void RunCycle(List<Db.Entities.ScheduledPayment> list, DataType type)
+        {
+            for (var x = 0; x < list.Count; x++)
             {
-                var date = incomesList[x].Date.ConvertToDate();
-                if (DateTime.Now.ConvertToInt() >= incomesList[x].Date && incomesList[x].Active == true)
+                var date = list[x].Date.ConvertToDate();
+                if (DateTime.Now.ConvertToInt() >= list[x].Date && list[x].Active == true)
                 {
-                    if(incomesList[x].Frequency == "Monthly")
+                    if (list[x].Frequency == "Monthly")
                     {
-                        var months = (int)Math.Ceiling((DateTime.Now.ConvertToInt() - incomesList[x].Date) / (30.44 * 24 * 60 * 60));
+                        var months = (int)Math.Ceiling((DateTime.Now.ConvertToInt() - list[x].Date) / (30.44 * 24 * 60 * 60));
                         for (var i = 0; i < months; i++)
                         {
-                            _fileManager.AddPayment(new Payment(incomesList[x].Date, incomesList[x].Name, incomesList[x].Amount, incomesList[x].Category), DataType.Income);
+                            _context.Payments.Add(new Db.Entities.Payment
+                            {
+                                Amount = list[x].Amount,
+                                Category = list[x].Category,
+                                ClientId = 1,
+                                Date = list[x].Date,
+                                Name = list[x].Name,
+                                PaymentType = (PlutusDb.Entities.DataType)type
+                            });
                         }
                         var newDate = date.AddMonths(months);
-                        incomesList[x].Date = newDate.ConvertToInt();
+                        list[x].Date = newDate.ConvertToInt();
+                        _context.ScheduledPayments.Update(list[x]);
+                        _context.SaveChanges();
                     }
-                    else if(incomesList[x].Frequency == "Weekly")
+                    else if (list[x].Frequency == "Weekly")
                     {
-                        var weeks = (int)Math.Floor(((double)DateTime.Now.ConvertToInt() - incomesList[x].Date) / (7 * 24 * 60 * 60));
+                        var weeks = (int)Math.Floor(((double)DateTime.Now.ConvertToInt() - list[x].Date) / (7 * 24 * 60 * 60));
                         for (var i = 0; i < weeks; i++)
                         {
-                            _fileManager.AddPayment(new Payment(incomesList[x].Date, incomesList[x].Name, incomesList[x].Amount, incomesList[x].Category), DataType.Income);
+                            _context.Payments.Add(new Db.Entities.Payment
+                            {
+                                Amount = list[x].Amount,
+                                Category = list[x].Category,
+                                ClientId = 1,
+                                Date = list[x].Date,
+                                Name = list[x].Name,
+                                PaymentType = (PlutusDb.Entities.DataType)type
+                            });
                         }
                         var newDate = date.AddDays(weeks * 7);
-                        incomesList[x].Date = newDate.ConvertToInt();
+                        list[x].Date = newDate.ConvertToInt();
+                        _context.ScheduledPayments.Update(list[x]);
+                        _context.SaveChanges();
                     }
                 }
             }
-            _fileManager.UpdateScheduledPayments(incomesList, DataType.MonthlyIncome);
-
-            for (var x = 0; x < expensesList.Count; x++)
-            {
-                var date = expensesList[x].Date.ConvertToDate();
-                if (DateTime.Now >= date && expensesList[x].Active == true)
-                {
-                    if (expensesList[x].Frequency == "Monthly")
-                    {
-                        var months = (int)Math.Ceiling((DateTime.Now.ConvertToInt() - expensesList[x].Date) / (30.44 * 24 * 60 * 60));
-                        for (var i = 0; i < months; i++)
-                        {
-                            _fileManager.AddPayment(new Payment(expensesList[x].Date, expensesList[x].Name, expensesList[x].Amount, expensesList[x].Category), DataType.Expense);
-                        }
-                        var newDate = date.AddMonths(months);
-                        expensesList[x].Date = newDate.ConvertToInt();
-                    }
-                    else if (expensesList[x].Frequency == "Weekly")
-                    {
-                        var weeks = (int)Math.Ceiling(((double)DateTime.Now.ConvertToInt() - expensesList[x].Date) / (7 * 24 * 60 * 60));
-                        for (var i = 0; i < weeks; i++)
-                        {
-                            _fileManager.AddPayment(new Payment(expensesList[x].Date, expensesList[x].Name, expensesList[x].Amount, expensesList[x].Category), DataType.Expense);
-                        }
-                        var newDate = date.AddDays(weeks * 7);
-                        expensesList[x].Date = newDate.ConvertToInt();
-                    }
-                }
-            }
-            _fileManager.UpdateScheduledPayments(expensesList, DataType.MonthlyExpenses);
-        }*/
+        }
         public string ShowPayment(int index, DataType type)
         {
             var list = _context.ScheduledPayments.Where(x => x.PaymentType == (PlutusDb.Entities.DataType)type).ToList();

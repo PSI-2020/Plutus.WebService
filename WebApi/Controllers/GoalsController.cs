@@ -11,8 +11,6 @@ namespace Plutus.WebService
     public class GoalsController : ControllerBase
     {
         private readonly IGoalsService _goalsService;
-        public static event EventHandler<string> GoalDeletedEvent;
-        
 
         public GoalsController(IGoalsService goalsService)
         {

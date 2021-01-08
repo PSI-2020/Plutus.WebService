@@ -40,10 +40,10 @@ namespace Plutus.WebService
             }
         }
 
-        [HttpPut("{type}/{index}")]
-        public void Edit(Payment payment, int index, DataType type) => _paymentService.EditPayment();
+        [HttpPut("{id}")]
+        public void Edit(Payment payment, int id) => _paymentService.EditPayment(payment, id);
 
-        [HttpPut("{type}")]
-        public void Delete(Payment payment, DataType type) => _paymentService.DeletePayment(payment, type);
+        [HttpDelete("{id}")]
+        public void Delete(int id) => _paymentService.DeletePayment(id);
     }
 }

@@ -16,20 +16,7 @@ namespace Plutus.WebService
             _budgetService = budgetService;
         }
 
-        private List<Budget> ReadBudgets() => _budgetService.GetBudgetsList();
 
-        [HttpGet]
-        public string Get()
-        {
-            var result = "";
-            var list = ReadBudgets();
-            if (!list.Any()) return "";
-            for (var x = 0; x < list.Count; x++)
-            {
-                result = result + _budgetService.GenerateBudget(x) + "\r\n" + "\r\n";
-            }
-            return result;
-        }
         [HttpGet("list")]
         public List<Budget> GetList() => _budgetService.GetBudgetsList();
 

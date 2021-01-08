@@ -9,7 +9,7 @@ namespace Plutus.WebService
         {
             
         }
-        public void Log(string message) { } //File.AppendAllText("Storage/Log.txt", message + "\r\n");
+        public void Log(string message) { File.AppendAllText("Storage/Log.txt", message + "\r\n"); }
 
         private void OutputDataDeletion(object o, string name) => Log(name + " was deleted");
         

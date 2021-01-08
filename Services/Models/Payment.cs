@@ -5,6 +5,7 @@ namespace Plutus.WebService
 {
     public class Payment : ISerializable, IEquatable<Payment>
     {
+        public int PaymentID { get; set; }
         public int Date { get; set; }
         public string Name { get; set; }
         public double Amount { get; set; }

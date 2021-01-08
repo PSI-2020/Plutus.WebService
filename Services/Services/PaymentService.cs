@@ -52,22 +52,30 @@ namespace Plutus.WebService
         public List<Payment> GetPayments()
         {
             var payList = _context.Payments.ToList();
-            var list = payList.Select(x => new Payment { Date = x.Date, Name = x.Name, Amount = x.Amount, Category = x.Category }).ToList();
+            var list = payList.Select(x => new Payment { PaymentID = x.PaymentId, Date = x.Date, Name = x.Name, Amount = x.Amount, Category = x.Category }).ToList();
             return list;
         }
 
-        public void EditPayment() => Debug.Print("lel");
-
-        public void DeletePayment(Payment payment, DataType type)
+        public void EditPayment(Payment newPayment, int paymentID) 
         {
-            _context.Payments.Remove(_context.Payments.First(x => x.Name == payment.Name && x.Amount == payment.Amount && x.Category == payment.Category && x.PaymentType == (PlutusDb.Entities.DataType) type));
+            var payment = _context.Payments.First(x => x.PaymentId == paymentID);
+            payment.Name = newPayment.Name;
+            payment.Amount = newPayment.Amount;
+            payment.Category = newPayment.Category;
+            _context.Payments.Update(payment);
+            _context.SaveChanges();
+        }
+
+        public void DeletePayment(int id)
+        {
+            _context.Payments.Remove(_context.Payments.First(x => x.PaymentId == id));
             _context.SaveChanges();
         }
 
         public List<Payment> GetPayments(DataType type)
         {
             var payList = _context.Payments.Where(x => x.PaymentType == (PlutusDb.Entities.DataType) type).ToList();
-            var list = payList.Select(x => new Payment { Date = x.Date, Name = x.Name, Amount = x.Amount, Category = x.Category }).ToList();
+            var list = payList.Select(x => new Payment { PaymentID = x.PaymentId, Date = x.Date, Name = x.Name, Amount = x.Amount, Category = x.Category }).ToList();
             return list;
         }
 

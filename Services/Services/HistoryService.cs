@@ -55,7 +55,7 @@ namespace Plutus.WebService
         private List<HistoryElement> AddingToList(List<HistoryElement> prevlist, string type)
         {
             var dt = (type == "Inc.") ? DataType.Income : DataType.Expense;
-            var list = _paymentService.GetPayments(dt).Select(x => new HistoryElement { Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = type }).ToList();
+            var list = _paymentService.GetPayments(dt).Select(x => new HistoryElement { PaymentID = x.PaymentID, Date = x.Date.ConvertToDate(), Name = x.Name, Amount = x.Amount, Category = x.Category, Type = type }).ToList();
             prevlist.AddRange(list);
             prevlist.OrderByDescending(x => x.Date.ConvertToInt()).ToList();
             return prevlist;
