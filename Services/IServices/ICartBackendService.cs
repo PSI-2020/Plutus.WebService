@@ -4,7 +4,7 @@ namespace Plutus.WebService.IRepos
 {
     public interface ICartBackendService
     {
-        public List<(string, int)> GiveCartNames();
+        public List<Db.Entities.Cart> GiveCartNames();
         public List<CartExpense> GiveExpenses(int id);
         public void DeleteCart(int id);
         public void ChargeCart(int id);

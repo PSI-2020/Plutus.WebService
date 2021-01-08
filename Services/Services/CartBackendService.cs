@@ -18,16 +18,7 @@ namespace Plutus.WebService
             _paymentService = paymentService;
         }
 
-        public List<(string, int)> GiveCartNames()
-        {
-            var carts = _context.Carts.ToList();
-            var names = new List<(string, int)>();
-            foreach (var cart in carts)
-            {
-                names.Add((cart.Name, cart.CartId));
-            }
-            return names;
-        }
+        public List<Db.Entities.Cart> GiveCartNames() => _context.Carts.ToList();
 
         public List<CartExpense> GiveExpenses(int id)
         {
