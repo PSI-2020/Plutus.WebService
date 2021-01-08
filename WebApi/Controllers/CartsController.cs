@@ -19,9 +19,15 @@ namespace Plutus.WebService.Controllers
         public List<CartExpense> CallCarts(int id) => _cartService.GiveExpenses(id);
 
         [HttpPost("{id}/{name}")]
-        public void SaveCarts(int id, string name, [FromBody] List<CartExpense> cart) => _cartService.ChangeCart(id, name, cart);
+        public void SaveCarts(int id, string name) => _cartService.RenameCart(id, name);
         [HttpPost("{name}")]
         public void PostNew(string name) => _cartService.NewCart(name);
+        [HttpPost("{id}/edit")]
+        public void UpdateExpense(int id, [FromBody] CartExpense exp) => _cartService.EditExpense(id, exp);
+        [HttpPost("{id}/add")]
+        public void AddExpense(int id, [FromBody] CartExpense exp) => _cartService.AddExpense(id, exp);
+        [HttpDelete("{id}/{expid}")]
+        public void DeleteExpense(int id, int expid) => _cartService.RemoveExpense(id, expid);
 
         [HttpPost("Charge/{id}")]
         public void ChargeCart(int index) => _cartService.ChargeCart(index);

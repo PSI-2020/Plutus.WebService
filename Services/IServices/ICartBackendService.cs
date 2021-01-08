@@ -8,7 +8,10 @@ namespace Plutus.WebService.IRepos
         public List<CartExpense> GiveExpenses(int id);
         public void DeleteCart(int id);
         public void ChargeCart(int id);
-        public void ChangeCart(int id, string name, List<CartExpense> cartExpenses);
+        public void RenameCart(int id, string name);
+        public void AddExpense(int cartId, CartExpense expense);
+        public void EditExpense(int cartId, CartExpense expense);
+        public void RemoveExpense(int cartId, int expenseId);
         public void NewCart(string name);
 
     }
