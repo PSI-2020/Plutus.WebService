@@ -20,21 +20,6 @@ namespace Plutus.WebService
 
         public List<Budget> GetBudgetsList()
         {
-            /*var list = _context.Budgets.ToList();
-            var budgets = new List<Budget>();
-            foreach(var bud in list)
-            {
-                var budget = new Budget
-                {
-                    Name = "budget" + bud.BudgetId,
-                    Category = bud.Category,
-                    Sum = bud.Amount,
-                    From = bud.From,
-                    To = bud.To
-                };
-                budgets.Add(budget);
-            }
-            return budgets;*/
             var list = new List<Budget>();
             using (var cn = new SqlConnection())
             {
@@ -54,18 +39,6 @@ namespace Plutus.WebService
                         From = x.Field<int>("From"),
                         To = x.Field<int>("To")
                     }).ToList();
-                    /*for(var i = 0; i < ds.Tables[0].Rows.Count; i++)
-                    {
-                        list.Add(new Budget
-                        {
-                            Name = "budget" + Convert.ToInt32(ds.Tables[0].Rows[i]["BudgetId"]),
-                            Category = ds.Tables[0].Rows[i]["Category"].ToString(),
-                            Sum = Convert.ToDecimal(ds.Tables[0].Rows[i]["Amount"]),
-                            From = Convert.ToInt32(ds.Tables[0].Rows[i]["From"]),
-                            To = Convert.ToInt32(ds.Tables[0].Rows[i]["To"])
-                        });
-                    }*/
-
 
                     da.Dispose();
                 }
