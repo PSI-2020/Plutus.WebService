@@ -13,7 +13,7 @@ namespace Plutus.WebService.Controllers
         public CartsController(ICartBackendService cartService) => _cartService = cartService;
 
         [HttpGet]
-        public List<Db.Entities.Cart> LoadCarts() => _cartService.GiveCartNames();
+        public List<Services.Models.CartInfo> LoadCarts() => _cartService.GiveCartNames();
 
         [HttpGet("Payments/{index}")]
         public List<CartExpense> CallCarts(int id) => _cartService.GiveExpenses(id);

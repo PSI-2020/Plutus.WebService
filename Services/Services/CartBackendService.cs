@@ -1,9 +1,8 @@
 ﻿using Db;
-using Newtonsoft.Json;
 using Plutus.WebService.IRepos;
+using Services.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 
 namespace Plutus.WebService
 {
@@ -18,7 +17,19 @@ namespace Plutus.WebService
             _paymentService = paymentService;
         }
 
-        public List<Db.Entities.Cart> GiveCartNames() => _context.Carts.ToList();
+        public List<CartInfo> GiveCartNames()
+        {
+            var carts = _context.Carts.ToList();
+            var names = new List<CartInfo>();
+            foreach (var cart in carts)
+            {
+                var ci = new CartInfo();
+                ci.CartId = cart.CartId;
+                ci.Name = cart.Name;
+                names.Add(ci);
+            }
+            return names;
+        }
 
         public List<CartExpense> GiveExpenses(int id)
         {
