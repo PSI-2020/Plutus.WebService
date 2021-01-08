@@ -72,6 +72,7 @@ namespace Plutus.WebService
             var cartFromDb = _context.Carts.First(x => x.CartId == id);
             if(name != cartFromDb.Name)
             {
+                cartFromDb.Name = name;
                 _context.Carts.Update(cartFromDb);
                 _context.SaveChanges();
 
@@ -120,7 +121,7 @@ namespace Plutus.WebService
         }
         private void EditExpense(int cartId, CartExpense expense)
         {
-            var exp = _context.CartExpenses.First(x => ((x.CartId == cartId) && (x.CartExpenseId == expense.ExpenseId)));
+            var exp = _context.CartExpenses.First(x => x.CartExpenseId == expense.ExpenseId);
             exp.Name = expense.Name;
             exp.Price = expense.Price;
             exp.State = expense.State;
@@ -132,7 +133,7 @@ namespace Plutus.WebService
 
         private void RemoveExpense(int cartId, Db.Entities.CartExpense expense)
         {
-            _context.CartExpenses.Remove(_context.CartExpenses.First(x => ((x.CartId == cartId) && (x.CartExpenseId == expense.CartExpenseId))));
+            _context.CartExpenses.Remove(_context.CartExpenses.First(x => x.CartExpenseId == expense.CartExpenseId));
             _context.SaveChanges();
         }
         public void NewCart(string name)
