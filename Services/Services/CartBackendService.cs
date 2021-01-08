@@ -61,7 +61,7 @@ namespace Plutus.WebService
             {
                 if (expense.State)
                 {
-                    _paymentService.AddCartPayment(expense.Name, expense.Price, expense.Category.ToString());
+                    _paymentService.AddCartPayment(expense.Name, expense.Price, expense.Category);
                 }
             }
         }

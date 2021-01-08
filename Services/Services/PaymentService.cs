@@ -60,7 +60,7 @@ namespace Plutus.WebService
 
         public void AddCartPayment(string name, double amount, string category)
         {
-            var date = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            var date = DateTime.UtcNow.ConvertToInt();
             var pay = new Db.Entities.Payment
             {
                 Name = name,
