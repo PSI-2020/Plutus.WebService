@@ -23,9 +23,11 @@ namespace Plutus.WebService
             var names = new List<CartInfo>();
             foreach (var cart in carts)
             {
-                var ci = new CartInfo();
-                ci.CartId = cart.CartId;
-                ci.Name = cart.Name;
+                var ci = new CartInfo
+                {
+                    CartId = cart.CartId,
+                    Name = cart.Name
+                };
                 names.Add(ci);
             }
             return names;
@@ -37,8 +39,10 @@ namespace Plutus.WebService
             var expenses = new List<CartExpense>();
             foreach (var expense in exps)
             {
-                var exp = new CartExpense(expense.Name, expense.Price, expense.Category, expense.State);
-                exp.ExpenseId = expense.CartExpenseId;
+                var exp = new CartExpense(expense.Name, expense.Price, expense.Category, expense.State)
+                {
+                    ExpenseId = expense.CartExpenseId
+                };
                 expenses.Add(exp);
             }
             return expenses;

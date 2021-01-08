@@ -13,10 +13,7 @@ namespace Plutus.WebService
         public delegate void PaymentAddedHandler(Payment payment);
         public static event PaymentAddedHandler PaymentAdded;
 
-        public PaymentController(IPaymentService paymentService) 
-        {
-            _paymentService = paymentService;
-         }
+        public PaymentController(IPaymentService paymentService) => _paymentService = paymentService;
 
         [HttpGet]
         public List<Payment> Get() => _paymentService.GetPayments();

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Plutus.WebService.IRepos;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Plutus.WebService
 {

@@ -22,7 +22,6 @@ namespace Plutus.WebService
             services.AddControllers();
             services.AddDbContext<PlutusDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IBudgetService, BudgetService>();
-            services.AddScoped<IFileManagerRepository, FileManagerRepository>();
             services.AddScoped<ISchedulerService, SchedulerService>();
             services.AddScoped<IHistoryService, HistoryService>();
             services.AddScoped<IGoalsService, GoalsService>();
@@ -30,7 +29,6 @@ namespace Plutus.WebService
             services.AddScoped<ICartBackendService, CartBackendService>();
             services.AddScoped<IShoppingBackendService, ShoppingBackendService>();
             services.AddScoped<IStatisticsService, StatisticsService>();
-            services.AddSingleton<IVerificationService, VerificationService>();
             services.AddSingleton<ILoggerService, LoggerService>();
             PaymentController.PaymentAdded += OutputDataPaymentAdded;
 

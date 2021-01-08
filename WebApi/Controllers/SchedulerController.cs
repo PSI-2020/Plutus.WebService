@@ -10,35 +10,11 @@ namespace Plutus.WebService
     public class SchedulerController : ControllerBase
     {
         private readonly ISchedulerService _schedulerService;
-        public SchedulerController(ISchedulerService schedulerService)
-        {
-            _schedulerService = schedulerService;
-        }
+        public SchedulerController(ISchedulerService schedulerService) => _schedulerService = schedulerService;
         private List<ScheduledPayment> ReadExpenses() => _schedulerService.GetScheduledExpenses();
         private List<ScheduledPayment> ReadIncomes() => _schedulerService.GetScheduledIncomes();
 
-        [HttpGet]
-        public string Get()
-        {
-            var result = "";
-            var expenses = ReadExpenses();
-            var incomes = ReadIncomes();
-            if (expenses.Any())
-            {
-                for (var x = 0; x < expenses.Count; x++)
-                {
-                    result = result + _schedulerService.ShowPayment(x, DataType.MonthlyExpenses) + "\r\n" + "\r\n";
-                }
-            }
-            if (incomes.Any())
-            {
-                for (var x = 0; x < incomes.Count; x++)
-                {
-                    result = result + _schedulerService.ShowPayment(x, DataType.MonthlyIncome) + "\r\n" + "\r\n";
-                }
-            }
-            return result;
-        }
+
         [HttpGet("{type}")]
         public List<ScheduledPayment> Get(DataType type) => type == DataType.MonthlyExpenses ? ReadExpenses() : type == DataType.MonthlyIncome ? ReadIncomes() : null;
 

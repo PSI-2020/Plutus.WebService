@@ -1,5 +1,7 @@
-﻿
-namespace PlutusDb.Entities
+﻿using Plutus.WebService.IRepos;
+using System;
+
+namespace Plutus.WebService
 {
     public enum DataType
     {

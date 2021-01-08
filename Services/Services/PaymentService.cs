@@ -2,36 +2,15 @@
 using Plutus.WebService.IRepos;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace Plutus.WebService
 {
     public class PaymentService : IPaymentService
     {
-        private readonly IFileManagerRepository _fileManager;
         private readonly PlutusDbContext _context;
 
-        public PaymentService(IFileManagerRepository fileManagerRepository, PlutusDbContext context)
-        {
-            _fileManager = fileManagerRepository;
-            _context = context;
-
-        }
-        public void AddPayment(CurrentInfoHolder chi)
-        {
-            var date = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-
-            var payment = new Payment
-            {
-                Date = date,
-                Name = chi.CurrentName,
-                Amount = double.Parse(chi.CurrentAmout),
-                Category = chi.CurrentCategory
-            };
-
-            _fileManager.AddPayment(payment, chi.CurrentType);
-        }
+        public PaymentService(PlutusDbContext context) => _context = context;
 
         public void AddPaymentToDatabase(Payment payment, DataType type)
         {
@@ -82,19 +61,12 @@ namespace Plutus.WebService
         public void AddCartPayment(string name, double amount, string category)
         {
             var date = (int)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-            var payment = new Payment
-            {
-                Date = date,
-                Name = name,
-                Amount = amount,
-                Category = category
-            };
             var pay = new Db.Entities.Payment
             {
-                Name = payment.Name,
-                Amount = payment.Amount,
-                Category = payment.Category,
-                Date = payment.Date,
+                Name = name,
+                Amount = amount,
+                Category = category,
+                Date = date,
                 PaymentType = (PlutusDb.Entities.DataType)DataType.Expense,
                 ClientId = 1
             };
