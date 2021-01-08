@@ -12,10 +12,7 @@ namespace Plutus.WebService
     {
         private readonly IGoalsService _goalsService;
 
-        public GoalsController(IGoalsService goalsService)
-        {
-            _goalsService = goalsService;
-        }
+        public GoalsController(IGoalsService goalsService) => _goalsService = goalsService;
 
         private List<Goal> ReadGoals() => _goalsService.GetGoalsList();
 
@@ -23,10 +20,7 @@ namespace Plutus.WebService
         public IEnumerable<Goal> Get() => ReadGoals();
 
         [HttpGet("{id}/{dailyOrMonthly}")]
-        public string GetInsights(int id, string dailyOrMonthly)
-        {
-            return _goalsService.Insights(id, dailyOrMonthly);
-        }
+        public string GetInsights(int id, string dailyOrMonthly) => _goalsService.Insights(id, dailyOrMonthly);
 
         [HttpPost]
         public void Post([FromBody] Goal goal) => _goalsService.AddGoal(goal);
@@ -35,10 +29,7 @@ namespace Plutus.WebService
         public void Put([FromBody] int id) => _goalsService.SetMainGoal(id);
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            _goalsService.DeleteGoal(id);
-        }
+        public void Delete(int id) => _goalsService.DeleteGoal(id);
 
         [HttpPut("edit/{id}")]
         public void EditGoal(int id, [FromBody] Goal newGoal) => _goalsService.EditGoal(id, newGoal);
